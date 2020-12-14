@@ -77,6 +77,12 @@ export const RadioButtonText = styled(PTSansText)`
     props.selected ? `${styles.themecolor}` : `${styles.formContentColor}`};
 `;
 
+export const NavigationButtonText = styled(PTSansText)`
+  font-weight: bold;
+  font-size: 38px;
+  line-height: 10px;
+`;
+
 export const ButtonText = styled(SacramentoText)`
   font-size: 36px;
   color: ${styles.buttonTextColor};

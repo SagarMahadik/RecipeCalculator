@@ -9,6 +9,7 @@ import DMenuAddProductMainComponent from 'components/Singularity/OwnerView/CafeM
 import DmenuDisplay from 'components/Singularity/OwnerView/CafeManagement/DIgitizedMenu/DisplayMenu/Components/DmenuDisplay.js';
 import ImageGallery from 'components/Singularity/ApplicationView/ImageGallery';
 import DMenuProductMain from 'components/Singularity/OwnerView/CafeManagement/DIgitizedMenu/DisplayMenu/Components/DMenuProductMain.js';
+import Navigation from 'components/Singularity/OwnerView/CafeManagement/Navigation/Navigation';
 
 export default function Routes() {
   return (
@@ -45,6 +46,7 @@ export default function Routes() {
           path="/cafeMenuProducts/:category"
           component={DMenuProductMain}
         />
+        <Route exact path="/ownerDashboard" component={Navigation} />
         <Route exact="/digitalCafeMenu" component={DmenuDisplay} />
         <Route exact path="/gallery" component={ImageGallery} />
       </Switch>

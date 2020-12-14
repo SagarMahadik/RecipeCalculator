@@ -116,7 +116,7 @@ const LandingPage = () => {
             ref={el => {
               contentRef.current[2] = el;
             }}
-            to="/digitalCafeMenu"
+            to="/ownerDashboard"
           >
             Lets go!
           </Button>
