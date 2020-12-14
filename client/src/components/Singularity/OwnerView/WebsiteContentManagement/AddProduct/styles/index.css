@@ -1,0 +1,33 @@
+.slideInRight {
+  animation: slideInRight 1.4s cubic-bezier(0.16, 1, 0.3, 1) alternate backwards;
+}
+
+@keyframes slideInRight {
+  0% {
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slideInLeft {
+  animation: slideInLeft 1.6s cubic-bezier(0.16, 1, 0.3, 1) alternate backwards;
+}
+
+@keyframes slideInLeft {
+  0% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
