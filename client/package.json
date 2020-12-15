@@ -7,6 +7,7 @@
     "axios": "^0.19.2",
     "babel-plugin-macros": "^2.8.0",
     "framer": "^1.2.5",
+    "framer-motion": "^2.9.5",
     "gsap": "^3.4.2",
     "immer": "^7.0.7",
     "lodash": "^4.17.19",
@@ -59,6 +60,7 @@
   },
   "proxy": "http://127.0.0.1:5000",
   "devDependencies": {
+    "@testing-library/react": "^11.2.2",
     "babel-plugin-styled-components": "^1.10.7"
   }
 }

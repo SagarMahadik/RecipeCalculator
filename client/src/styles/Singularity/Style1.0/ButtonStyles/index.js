@@ -25,7 +25,7 @@ export const NavigationButton = styled(Link)`
   border-radius: 20px;
   margin-top: 30px;
   padding: 5px;
-  background: ${props => props.backgroundColor};
+  background: ${props => props.backgroundcolor};
   color: white;
   text-decoration: none;
 `;

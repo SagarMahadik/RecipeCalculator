@@ -19,11 +19,9 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
-import { Frame, Scroll } from 'framer';
-import { Swiper, SwiperSlide } from 'swiper/react';
+
 import SwiperCore, { EffectFade, Pagination, Navigation, Thumbs } from 'swiper';
-import { motion, useAnimation } from 'framer-motion';
-import Track from 'components/Singularity/ApplicationView/MotionSlider/Track.js';
+
 import { Draggable } from 'gsap/Draggable';
 
 import 'swiper/swiper-bundle.css';

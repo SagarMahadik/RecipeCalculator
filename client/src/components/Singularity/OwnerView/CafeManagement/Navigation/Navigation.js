@@ -10,9 +10,10 @@ const Navigation = () => {
       {navigationDetails.map(detail => {
         return (
           <NavigationCard
-            backgroundColor={detail.backgroundGradient}
+            backgroundcolor={detail.backgroundGradient}
             component={detail.component}
             route={detail.route}
+            key={detail.route}
           />
         );
       })}

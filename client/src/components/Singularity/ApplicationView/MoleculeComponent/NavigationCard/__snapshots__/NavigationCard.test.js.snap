@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should match a snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 iNvbvA"
+  >
+    <a
+      class="sc-EHOje jdvhpy"
+      href="/undefined"
+    >
+      <text
+        class="TextStyles__PTSansText-sc-151f9kh-0 TextStyles__NavigationButtonText-sc-151f9kh-11 fdQvsx"
+      />
+    </a>
+  </div>
+</DocumentFragment>
+`;
