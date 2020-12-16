@@ -6,9 +6,16 @@ import {
   UPDATE_FIELD,
   REGISTRATION_SUCCESS,
   REGISTRATION_FAIL,
+  LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOAD_USER,
-  SET_AUTHTOKEN
+  SET_AUTHTOKEN,
+  REMOVE_AUTHERROR,
+  SET_FRONTENDERROR,
+  REMOVE_FRONTENDERROR,
+  SET_VALIDATIONERROR,
+  REMOVE_VALIDATIONERROR,
+  SET_FORMVALIDATIONCOMPLETE
 } from 'Context/ApplicationContext/types.js';
 import { useHttpClient } from 'Hooks/httpsHooks';
 import { useAuthRequest } from './APIrequests/login';
@@ -25,7 +32,7 @@ const ApplicationState = props => {
     password: '',
     passwordConfirm: '',
     loginEmail: '',
-    loginpassword: '',
+    loginPassword: '',
     categoryData: [],
     dMenuProductData: [],
     selectedCategory: '',
@@ -34,7 +41,17 @@ const ApplicationState = props => {
     isAuthenticated: false,
     user: null,
     authComplete: false,
-    authTokenFlag: false
+    authTokenFlag: false,
+    authError: false,
+    errorMessage: '',
+    frontEndError: {
+      loginEmail: false,
+      loginPassword: false
+    },
+    validationError: {
+      loginEmail: false
+    },
+    formValidated: false
   };
 
   const [state, dispatch] = useReducer(applicationReducer, initialState);
@@ -54,7 +71,12 @@ const ApplicationState = props => {
     isAuthenticated,
     user,
     authComplete,
-    authTokenFlag
+    authTokenFlag,
+    authError,
+    errorMessage,
+    frontEndError,
+    validationError,
+    formValidated
   } = state;
 
   useEffect(() => {
@@ -140,6 +162,12 @@ const ApplicationState = props => {
       });
     } catch (err) {
       console.log(err.response);
+      dispatch({
+        type: LOGIN_FAIL,
+        message: err.response.data.message
+      });
+
+      setTimeout(() => dispatch({ type: REMOVE_AUTHERROR }), 2000);
     }
   };
 
@@ -152,13 +180,51 @@ const ApplicationState = props => {
     }
   };
 
+  const validateFields = (loginEmail, loginPassword) => {
+    console.log('in validate');
+    if (loginPassword == '') {
+      dispatch({
+        type: SET_FRONTENDERROR,
+        field: 'loginPassword'
+      });
+    }
+    if (loginEmail == '') {
+      dispatch({
+        type: SET_FRONTENDERROR,
+        field: 'loginEmail'
+      });
+    }
+
+    var pattern = new RegExp(
+      /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+    );
+
+    if (!pattern.test(loginEmail) && loginEmail !== '') {
+      dispatch({
+        type: SET_VALIDATIONERROR,
+        field: 'loginEmail'
+      });
+    }
+
+    if (loginPassword !== '' && loginEmail !== '' && pattern.test(loginEmail)) {
+      dispatch({
+        type: SET_FORMVALIDATIONCOMPLETE
+      });
+    }
+    setTimeout(() => dispatch({ type: REMOVE_FRONTENDERROR }), 1500);
+    setTimeout(() => dispatch({ type: REMOVE_VALIDATIONERROR }), 1500);
+  };
+
   const registerUser = e => {
     addUserToDB(brandName, mobileNumber, email, password, passwordConfirm);
   };
 
   const loginUser = e => {
     setLoading();
-    makeLoginRequest(loginEmail, loginPassword);
+    validateFields(loginEmail, loginPassword);
+    if (formValidated) {
+      makeLoginRequest(loginEmail, loginPassword);
+    }
   };
 
   const loadUser = async () => {
@@ -197,6 +263,10 @@ const ApplicationState = props => {
         user,
         authComplete,
         authTokenFlag,
+        authError,
+        errorMessage,
+        frontEndError,
+        validationError,
         handleChangeFor,
         registerUser,
         loginUser,

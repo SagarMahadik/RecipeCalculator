@@ -2,11 +2,14 @@ export const loginFields = [
   {
     fieldLabel: 'Email',
     type: 'Email',
-    name: 'loginEmail'
+    name: 'loginEmail',
+    requiredErrorMessage: 'Please enter email',
+    validationErrorMessage: "Doesn't look like email"
   },
   {
     fieldLabel: 'Password',
     type: 'password',
-    name: 'loginPassword'
+    name: 'loginPassword',
+    requiredErrorMessage: 'Please enter password'
   }
 ];

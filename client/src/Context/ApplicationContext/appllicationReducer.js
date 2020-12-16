@@ -7,7 +7,14 @@ import {
   REGISTRATION_SUCCESS,
   LOGIN_SUCCESS,
   LOAD_USER,
-  SET_AUTHTOKEN
+  SET_AUTHTOKEN,
+  LOGIN_FAIL,
+  REMOVE_AUTHERROR,
+  SET_FRONTENDERROR,
+  REMOVE_FRONTENDERROR,
+  SET_VALIDATIONERROR,
+  REMOVE_VALIDATIONERROR,
+  SET_FORMVALIDATIONCOMPLETE
 } from 'Context/ApplicationContext/types.js';
 
 import { produce } from 'immer';
@@ -41,6 +48,48 @@ export default (state, action) => {
         user: action.data
       };
 
+    case LOGIN_FAIL:
+      return {
+        ...state,
+        loginEmail: '',
+        loginPassword: '',
+        authError: true,
+        errorMessage: action.message
+      };
+
+    case REMOVE_AUTHERROR:
+      return {
+        ...state,
+        authError: false,
+        errorMessage: ''
+      };
+
+    case SET_FRONTENDERROR:
+      console.log(action.field);
+      return produce(state, draftState => {
+        draftState.frontEndError[action.field] = true;
+      });
+
+    case REMOVE_FRONTENDERROR:
+      return produce(state, draftState => {
+        draftState.frontEndError.loginEmail = false;
+        draftState.frontEndError.loginPassword = false;
+      });
+    case SET_VALIDATIONERROR:
+      return produce(state, draftState => {
+        draftState.validationError[action.field] = true;
+      });
+
+    case REMOVE_VALIDATIONERROR:
+      return produce(state, draftState => {
+        draftState.validationError.loginEmail = false;
+        draftState.validationError.loginPassword = false;
+      });
+
+    case SET_FORMVALIDATIONCOMPLETE:
+      return produce(state, draftState => {
+        draftState.formValidated = true;
+      });
     case LOAD_USER:
       return {
         ...state,

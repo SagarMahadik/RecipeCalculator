@@ -5,6 +5,8 @@ import {
   InputWrapper
 } from 'styles/Singularity/Style1.0/FormInputStyles/index.js';
 
+import { ErrorText } from 'styles/Singularity/OwnerView/Authentication/index.js';
+
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 const StyledTextBoxLabel = props => {
   return (
@@ -18,6 +20,12 @@ const StyledTextBoxLabel = props => {
           onChange={props.onChange}
         />
         <LabelText>{props.text}</LabelText>
+        {props.isError ? (
+          <ErrorText>{props.requiredErrorText}</ErrorText>
+        ) : null}
+        {props.isValidationError ? (
+          <ErrorText>{props.validationErrorText}</ErrorText>
+        ) : null}
       </InputWrapper>
     </CenterAlignedColumnContainer>
   );

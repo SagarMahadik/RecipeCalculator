@@ -8,10 +8,14 @@ import { loginFields } from './SeedData/login';
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 import {
   RegisterText,
-  RegisterLink
+  RegisterLink,
+  ErrorText,
+  ErrorTextContainer
 } from 'styles/Singularity/OwnerView/Authentication';
 import applicationContext from 'Context/ApplicationContext/applicationContext.js';
 import { Redirect } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+
 import AuthenticationLoader from 'components/Singularity/ApplicationView/Loaders/AuthenticationLoader';
 
 const Login = props => {
@@ -20,9 +24,9 @@ const Login = props => {
     isAuthenticated,
     handleChangeFor,
     loginUser,
-    loading,
-    authComplete,
-    user
+    authError,
+    errorMessage,
+    frontEndError
   } = ApplicationContext;
 
   if (isAuthenticated) {
@@ -32,18 +36,38 @@ const Login = props => {
   return (
     <>
       <CenterAlignedColumnContainer>
+        {authError ? (
+          <ErrorTextContainer
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              ease: 'easeIn',
+              duration: 1.0
+            }}
+            exit={{ opacity: 0 }}
+          >
+            {' '}
+            <ErrorText>{errorMessage}</ErrorText>
+          </ErrorTextContainer>
+        ) : null}
+
         {loginFields.map(field => {
           return (
             <StyledTextBoxLabel
               name={field.name}
               type={field.type}
               text={field.fieldLabel}
+              isError={ApplicationContext.frontEndError[field.name]}
+              isValidationError={ApplicationContext.validationError[field.name]}
+              requiredErrorText={field.requiredErrorMessage}
+              validationErrorText={field.validationErrorMessage}
               onChange={handleChangeFor(field.name)}
               value={ApplicationContext[field.name]}
             />
           );
         })}
         <AppStyleButton display="Login" onClick={loginUser} />
+
         <RegisterLink to="/register">
           <RegisterText>Don’t have an account yet?</RegisterText>
         </RegisterLink>

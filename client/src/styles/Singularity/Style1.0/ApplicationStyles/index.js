@@ -12,7 +12,8 @@ export const styles = {
     'radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(110, 93, 204, 0.5) 100%)',
   buttonBackgroundGradient:
     'linear-gradient(180deg, rgba(247, 136, 101, 0.49) 0%, #6E5DCC 100%)',
-  dMenuContentColor: '#CCAC00'
+  dMenuContentColor: '#CCAC00',
+  errorText: '#ff6961'
 };
 
 export const Background = styled.div`

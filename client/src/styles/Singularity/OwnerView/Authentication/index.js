@@ -13,6 +13,8 @@ import {
   ComicText
 } from 'styles/Singularity/Style1.0/TextStyles';
 
+import { motion } from 'framer-motion';
+
 export const BackgroundImage = styled.img`
   width: 100%;
   height: 426px;
@@ -32,7 +34,7 @@ export const LogoContainer = styled(CenterAlignedColumnContainer)`
 `;
 
 export const LoginContainer = styled(CenterAlignedColumnContainer)`
-  margin-top: -120px;
+  margin-top: -80px;
 `;
 
 export const RegisterText = styled(ComicText)`
@@ -44,4 +46,19 @@ export const RegisterText = styled(ComicText)`
 
 export const RegisterLink = styled(Link)`
   margin-top: 10px;
+`;
+
+export const ErrorText = styled(ComicText)`
+  font-size: 14px;
+  color: ${styles.errorText};
+  font-weight: bold;
+`;
+
+export const ErrorTextContainer = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
 `;
