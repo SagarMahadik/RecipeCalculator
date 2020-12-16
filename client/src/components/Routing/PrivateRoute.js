@@ -20,7 +20,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         loading && !authComplete ? (
           <AuthenticationLoader />
         ) : !isAuthenticated && !authComplete && !authTokenFlag ? (
-          <Redirect to="/login" />
+          <Redirect to="/" />
         ) : (
           <Component {...props} />
         )

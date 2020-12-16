@@ -18,7 +18,7 @@ export const GridContainer = styled.div`
 
 export const CenterAlignedColumnContainer = styled(ColumnContainer)`
   align-items: center;
-  background: ${props => props.backGroundcolor || 'white'};
+  background: ${props => props.backGroundcolor || 'none'};
 `;
 
 export const LeftrAlignedColumnContainer = styled(ColumnContainer)`

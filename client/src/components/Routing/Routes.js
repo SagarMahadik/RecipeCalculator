@@ -13,6 +13,7 @@ import Navigation from 'components/Singularity/OwnerView/CafeManagement/Navigati
 import Register from 'components/Singularity/OwnerView/Authentication/Components/Register.js';
 import Login from 'components/Singularity/OwnerView/Authentication/Components/Login.js';
 import PrivateRoute from 'components/Routing/PrivateRoute.js';
+import LandingPage from 'components/Singularity/OwnerView/Authentication/Components/LandingPage.js';
 
 export default function Routes() {
   return (
@@ -49,6 +50,7 @@ export default function Routes() {
           path="/cafeMenuProducts/:category"
           component={DMenuProductMain}
         />
+        <Route exact path="/" component={LandingPage} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <PrivateRoute exact path="/ownerDashboard" component={Navigation} />

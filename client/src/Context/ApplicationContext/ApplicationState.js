@@ -11,6 +11,8 @@ import {
   SET_AUTHTOKEN
 } from 'Context/ApplicationContext/types.js';
 import { useHttpClient } from 'Hooks/httpsHooks';
+import { useAuthRequest } from './APIrequests/login';
+
 import axios from 'axios';
 
 import setAuthToken from 'Utils/setAuthToken.js';
@@ -105,17 +107,15 @@ const ApplicationState = props => {
         'Content-Type': 'application/JSON'
       }
     };
-    try {
-      const res = await axios.post('/api/v1/users/signup', body, config);
 
-      localStorage.setItem('token', res.data.token);
-      dispatch({
-        type: REGISTRATION_SUCCESS,
-        data: res.data.data.user
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    const res = await axios.post('/api/v1/users/signup', body, config);
+
+    localStorage.setItem('token', res.data.token);
+
+    dispatch({
+      type: REGISTRATION_SUCCESS,
+      data: res.data.data.user
+    });
   };
 
   const makeLoginRequest = async (loginEmail, loginPassword) => {
@@ -139,7 +139,7 @@ const ApplicationState = props => {
         data: res.data.data.user
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   };
 

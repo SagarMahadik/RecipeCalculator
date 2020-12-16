@@ -8,7 +8,13 @@ import {
 
 const SvgComponent = React.forwardRef((props, ref) => {
   return (
-    <svg viewBox="0 0 1440 1440" height={110} width={110} {...props} ref={ref}>
+    <svg
+      viewBox="0 0 1440 1440"
+      height={props.height}
+      width={props.width}
+      {...props}
+      ref={ref}
+    >
       <defs>
         <clipPath id="prefix__a" clipPathUnits="userSpaceOnUse">
           <path d="M0 1080h1080V0H0z" />
