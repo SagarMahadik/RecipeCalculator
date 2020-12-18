@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.route('/').get(supplierController.getAllSuppliers);
 
+router.route('/:userID').get(supplierController.getCustomersSuppliers);
+
 router.route('/').post(supplierController.createSupplier);
 
 router.route('/:id').patch(supplierController.updateSupplier);

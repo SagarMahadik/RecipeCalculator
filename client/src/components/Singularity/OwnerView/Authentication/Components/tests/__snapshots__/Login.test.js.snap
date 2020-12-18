@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <div
+    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+  >
+    <div
+      class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+    >
+      <div
+        class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
+      >
+        <input
+          class="FormInputStyles__TextBox-sc-1x7zmpv-0 cyFYwY"
+          name="loginEmail"
+          placeholder=" "
+          type="Email"
+          value=""
+        />
+        <label
+          class="FormInputStyles__LabelText-sc-1x7zmpv-2 hwozQS"
+        >
+          Email
+        </label>
+      </div>
+    </div>
+    <div
+      class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+    >
+      <div
+        class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
+      >
+        <input
+          class="FormInputStyles__TextBox-sc-1x7zmpv-0 cyFYwY"
+          name="loginPassword"
+          placeholder=" "
+          type="password"
+          value=""
+        />
+        <label
+          class="FormInputStyles__LabelText-sc-1x7zmpv-2 hwozQS"
+        >
+          Password
+        </label>
+      </div>
+    </div>
+    <div
+      class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+      style="margin-top: 20px;"
+    >
+      <button
+        class="FormInputStyles__TextRadioButton-sc-1x7zmpv-22 dlrpYJ"
+      >
+        <text
+          class="TextStyles__PTSansText-sc-151f9kh-0 TextStyles__RadioButtonText-sc-151f9kh-10 bPeSpT"
+        >
+          <div
+            class="TextStyles__TextContainer-sc-151f9kh-6 lnhFrg"
+          >
+            Login
+          </div>
+        </text>
+      </button>
+    </div>
+    <a
+      class="Authentication__RegisterLink-sc-16b61pd-5 eoffPn"
+      href="/register"
+    >
+      <text
+        class="TextStyles__ComicText-sc-151f9kh-5 Authentication__RegisterText-sc-16b61pd-4 quGfF"
+      >
+        Don’t have an account yet?
+      </text>
+    </a>
+  </div>
+</DocumentFragment>
+`;

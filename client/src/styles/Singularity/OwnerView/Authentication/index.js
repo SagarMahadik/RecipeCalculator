@@ -1,17 +1,9 @@
 import styled from 'styled-components/macro';
 import { styles } from 'styles/Singularity/Style1.0/ApplicationStyles';
 import { Link } from 'react-router-dom';
-import {
-  CenterAlignedColumnContainer,
-  RowContainer,
-  LeftAlignedRowContainer
-} from 'styles/Singularity/Style1.0/ContainerStyles';
+import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 
-import {
-  PTSansText,
-  SacramentoText,
-  ComicText
-} from 'styles/Singularity/Style1.0/TextStyles';
+import { ComicText } from 'styles/Singularity/Style1.0/TextStyles';
 
 import { motion } from 'framer-motion';
 

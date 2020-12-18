@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const supplierSchema = new mongoose.Schema({
+  userID: {
+    type: Number
+  },
   supplierName: {
     type: String,
     required: [true, 'Please enter the supplier name']

@@ -30,6 +30,10 @@ const Register = () => {
               name={field.name}
               type={field.type}
               text={field.fieldLabel}
+              isError={ApplicationContext.frontEndError[field.name]}
+              isValidationError={ApplicationContext.validationError[field.name]}
+              requiredErrorText={field.requiredErrorMessage}
+              validationErrorText={field.validationErrorMessage}
               onChange={handleChangeFor(field.name)}
               value={ApplicationContext[field.name]}
             />

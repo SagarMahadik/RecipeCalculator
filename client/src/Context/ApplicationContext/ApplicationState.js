@@ -5,7 +5,6 @@ import {
   SET_LOADING,
   UPDATE_FIELD,
   REGISTRATION_SUCCESS,
-  REGISTRATION_FAIL,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOAD_USER,
@@ -15,18 +14,30 @@ import {
   REMOVE_FRONTENDERROR,
   SET_VALIDATIONERROR,
   REMOVE_VALIDATIONERROR,
-  SET_FORMVALIDATIONCOMPLETE
+  SET_FORMVALIDATIONCOMPLETE,
+  SET_REGISTERFORMVALIDATIONCOMPLETE,
+  LOGIN_VALIDATIONINITIATED,
+  SENDING_LOGINREQUEST
 } from 'Context/ApplicationContext/types.js';
 import { useHttpClient } from 'Hooks/httpsHooks';
-import { useAuthRequest } from './APIrequests/login';
 
 import axios from 'axios';
 
 import setAuthToken from 'Utils/setAuthToken.js';
 
-const ApplicationState = props => {
+import {
+  isEmpty,
+  isInValidEmail,
+  isInValidIndianMobileNumber,
+  isNotMinLength,
+  areNotSame
+} from 'Utils/validations.js';
+
+export let util = { validateRegistrationFields: null };
+
+export const ApplicationState = props => {
   const initialState = {
-    brandname: '',
+    brandName: '',
     mobileNumber: '',
     email: '',
     password: '',
@@ -36,7 +47,7 @@ const ApplicationState = props => {
     categoryData: [],
     dMenuProductData: [],
     selectedCategory: '',
-    loading: true,
+    loading: false,
     token: localStorage.getItem('token'),
     isAuthenticated: false,
     user: null,
@@ -46,12 +57,25 @@ const ApplicationState = props => {
     errorMessage: '',
     frontEndError: {
       loginEmail: false,
-      loginPassword: false
+      loginPassword: false,
+      email: false,
+      password: false,
+      passwordConfirm: false,
+      brandName: false,
+      mobileNumber: false
     },
     validationError: {
-      loginEmail: false
+      loginEmail: false,
+      mobileNumber: false,
+      password: false,
+      passwordConfirm: false
     },
-    formValidated: false
+    formValidated: false,
+    registrationFromValidated: false,
+    loginValidationInitiated: false,
+    regValIntitiated: false,
+    sendingLoginRequest: false,
+    sendingRegRequest: false
   };
 
   const [state, dispatch] = useReducer(applicationReducer, initialState);
@@ -76,7 +100,12 @@ const ApplicationState = props => {
     errorMessage,
     frontEndError,
     validationError,
-    formValidated
+    formValidated,
+    registrationFromValidated,
+    loginValidationInitiated,
+    regValIntitiated,
+    sendingLoginRequest,
+    sendingRegRequest
   } = state;
 
   useEffect(() => {
@@ -141,6 +170,9 @@ const ApplicationState = props => {
   };
 
   const makeLoginRequest = async (loginEmail, loginPassword) => {
+    dispatch({
+      type: SENDING_LOGINREQUEST
+    });
     const body = JSON.stringify({
       email: loginEmail,
       password: loginPassword
@@ -167,7 +199,7 @@ const ApplicationState = props => {
         message: err.response.data.message
       });
 
-      setTimeout(() => dispatch({ type: REMOVE_AUTHERROR }), 2000);
+      setTimeout(() => dispatch({ type: REMOVE_AUTHERROR }), 3000);
     }
   };
 
@@ -182,49 +214,155 @@ const ApplicationState = props => {
 
   const validateFields = (loginEmail, loginPassword) => {
     console.log('in validate');
-    if (loginPassword == '') {
+    dispatch({
+      type: LOGIN_VALIDATIONINITIATED
+    });
+    if (isEmpty(loginPassword)) {
       dispatch({
         type: SET_FRONTENDERROR,
         field: 'loginPassword'
       });
     }
-    if (loginEmail == '') {
+    if (isEmpty(loginEmail)) {
       dispatch({
         type: SET_FRONTENDERROR,
         field: 'loginEmail'
       });
     }
 
-    var pattern = new RegExp(
-      /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
-    );
-
-    if (!pattern.test(loginEmail) && loginEmail !== '') {
+    if (isInValidEmail(loginEmail) && !isEmpty(loginEmail)) {
       dispatch({
         type: SET_VALIDATIONERROR,
         field: 'loginEmail'
       });
     }
 
-    if (loginPassword !== '' && loginEmail !== '' && pattern.test(loginEmail)) {
+    if (
+      !isEmpty(loginPassword) &&
+      !isEmpty(loginEmail) &&
+      !isInValidEmail(loginEmail)
+    ) {
       dispatch({
         type: SET_FORMVALIDATIONCOMPLETE
       });
     }
+
     setTimeout(() => dispatch({ type: REMOVE_FRONTENDERROR }), 1500);
     setTimeout(() => dispatch({ type: REMOVE_VALIDATIONERROR }), 1500);
+    return true;
+  };
+
+  const validateRegistrationFields = (
+    brandName,
+    mobileNumber,
+    email,
+    password,
+    passwordConfirm
+  ) => {
+    if (isEmpty(brandName)) {
+      dispatch({
+        type: SET_FRONTENDERROR,
+        field: 'brandName'
+      });
+    }
+    if (isEmpty(mobileNumber)) {
+      dispatch({
+        type: SET_FRONTENDERROR,
+        field: 'mobileNumber'
+      });
+    }
+    if (isEmpty(email)) {
+      dispatch({
+        type: SET_FRONTENDERROR,
+        field: 'email'
+      });
+    }
+    if (isEmpty(password)) {
+      dispatch({
+        type: SET_FRONTENDERROR,
+        field: 'password'
+      });
+    }
+    if (isEmpty(passwordConfirm)) {
+      dispatch({
+        type: SET_FRONTENDERROR,
+        field: 'passwordConfirm'
+      });
+    }
+    if (isInValidIndianMobileNumber(mobileNumber) && !isEmpty(mobileNumber)) {
+      dispatch({
+        type: SET_VALIDATIONERROR,
+        field: 'mobileNumber'
+      });
+    }
+
+    if (isInValidEmail(email) && !isEmpty(email)) {
+      dispatch({
+        type: SET_VALIDATIONERROR,
+        field: 'email'
+      });
+    }
+    if (isNotMinLength(password, 8) && !isEmpty(password)) {
+      dispatch({
+        type: SET_VALIDATIONERROR,
+        field: 'password'
+      });
+    }
+
+    if (
+      areNotSame(password, passwordConfirm) &&
+      !isEmpty(password) &&
+      !isEmpty(passwordConfirm)
+    ) {
+      dispatch({
+        type: SET_VALIDATIONERROR,
+        field: 'passwordConfirm'
+      });
+    }
+    setTimeout(() => dispatch({ type: REMOVE_FRONTENDERROR }), 1500);
+    setTimeout(() => dispatch({ type: REMOVE_VALIDATIONERROR }), 1500);
+    if (
+      !isEmpty(email) &&
+      !isEmpty(mobileNumber) &&
+      !isEmpty(password) &&
+      !isEmpty(passwordConfirm) &&
+      !isEmpty(brandName) &&
+      !isInValidEmail(email) &&
+      !isInValidIndianMobileNumber(mobileNumber) &&
+      !areNotSame(passwordConfirm, password) &&
+      !isNotMinLength(password, 8)
+    ) {
+      dispatch({
+        type: SET_REGISTERFORMVALIDATIONCOMPLETE
+      });
+    }
   };
 
   const registerUser = e => {
-    addUserToDB(brandName, mobileNumber, email, password, passwordConfirm);
+    validateRegistrationFields(
+      brandName,
+      mobileNumber,
+      email,
+      password,
+      passwordConfirm
+    );
   };
+
+  useEffect(() => {
+    if (registrationFromValidated) {
+      addUserToDB(brandName, mobileNumber, email, password, passwordConfirm);
+    }
+  }, [registrationFromValidated]);
+
+  useEffect(() => {
+    if (formValidated) {
+      makeLoginRequest(loginEmail, loginPassword);
+    }
+  }, [formValidated]);
 
   const loginUser = e => {
     setLoading();
     validateFields(loginEmail, loginPassword);
-    if (formValidated) {
-      makeLoginRequest(loginEmail, loginPassword);
-    }
   };
 
   const loadUser = async () => {
@@ -267,6 +405,11 @@ const ApplicationState = props => {
         errorMessage,
         frontEndError,
         validationError,
+        formValidated,
+        loginValidationInitiated,
+        regValIntitiated,
+        sendingLoginRequest,
+        sendingRegRequest,
         handleChangeFor,
         registerUser,
         loginUser,

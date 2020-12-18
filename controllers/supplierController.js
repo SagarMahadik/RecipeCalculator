@@ -6,4 +6,6 @@ exports.createSupplier = factory.createOne(Supplier);
 
 exports.getAllSuppliers = factory.getAll(Supplier);
 
+exports.getCustomersSuppliers = factory.getAll(Supplier);
+
 exports.updateSupplier = factory.updateOne(Supplier);

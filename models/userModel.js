@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
   mobileNumber: {
     type: Number,
     required: [true, 'Please enter mobile number'],
+    unique: true,
     minlength: 10,
     maxlength: 10
   },

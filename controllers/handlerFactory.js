@@ -81,6 +81,8 @@ exports.getAll = (Model, popOptions, popOption1) =>
   catchAsync(async (req, res, next) => {
     //console.log(Model);
     let filter = {};
+    if (req.params.userID) filter = { userID: req.params.userID };
+
     let selectFields = {};
     let features = Model.find(filter);
 

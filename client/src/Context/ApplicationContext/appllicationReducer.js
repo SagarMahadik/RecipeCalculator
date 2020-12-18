@@ -14,7 +14,11 @@ import {
   REMOVE_FRONTENDERROR,
   SET_VALIDATIONERROR,
   REMOVE_VALIDATIONERROR,
-  SET_FORMVALIDATIONCOMPLETE
+  SET_FORMVALIDATIONCOMPLETE,
+  SET_REGISTERFORMVALIDATIONCOMPLETE,
+  LOGIN_VALIDATIONINITIATED,
+  REGISTRATION_VALIDATIONINITIATED,
+  SENDING_LOGINREQUEST
 } from 'Context/ApplicationContext/types.js';
 
 import { produce } from 'immer';
@@ -37,6 +41,18 @@ export default (state, action) => {
       return {
         ...state,
         [input]: value
+      };
+
+    case LOGIN_VALIDATIONINITIATED:
+      return {
+        ...state,
+        loginValidationInitiated: true
+      };
+
+    case SENDING_LOGINREQUEST:
+      return {
+        ...state,
+        sendingLoginRequest: true
       };
 
     case REGISTRATION_SUCCESS:
@@ -72,9 +88,11 @@ export default (state, action) => {
 
     case REMOVE_FRONTENDERROR:
       return produce(state, draftState => {
-        draftState.frontEndError.loginEmail = false;
-        draftState.frontEndError.loginPassword = false;
+        Object.keys(draftState.frontEndError).map(function(key, index) {
+          draftState.frontEndError[key] = false;
+        });
       });
+
     case SET_VALIDATIONERROR:
       return produce(state, draftState => {
         draftState.validationError[action.field] = true;
@@ -82,13 +100,18 @@ export default (state, action) => {
 
     case REMOVE_VALIDATIONERROR:
       return produce(state, draftState => {
-        draftState.validationError.loginEmail = false;
-        draftState.validationError.loginPassword = false;
+        Object.keys(draftState.frontEndError).map(function(key, index) {
+          draftState.validationError[key] = false;
+        });
       });
 
     case SET_FORMVALIDATIONCOMPLETE:
       return produce(state, draftState => {
         draftState.formValidated = true;
+      });
+    case SET_REGISTERFORMVALIDATIONCOMPLETE:
+      return produce(state, draftState => {
+        draftState.registrationFromValidated = true;
       });
     case LOAD_USER:
       return {
