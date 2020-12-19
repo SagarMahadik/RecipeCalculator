@@ -9,6 +9,9 @@ const hpp = require('hpp');
 const path = require('path');
 const axios = require('axios');
 
+var winston = require('winston'),
+  expressWinston = require('express-winston');
+
 const bodyParser = require('body-parser');
 
 const AppError = require('./utils/appError');
@@ -47,12 +50,18 @@ app.use('/api', limiter);
 app.use(bodyParser.json());
 app.use(express.json({ limit: '10kb' }));
 
-morgan.token('body', (req, res) => JSON.stringify(req.body));
-app.use(
-  morgan(':method :url :status :response-time ms - :res[content-length] :body ')
-);
+expressWinston.requestWhitelist.push('body');
+expressWinston.responseWhitelist.push('body');
 
-morganBody(app, { noColors: true, prettify: false, includeNewLine: false });
+app.use(
+  expressWinston.logger({
+    transports: [new winston.transports.Console()],
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.json()
+    )
+  })
+);
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());

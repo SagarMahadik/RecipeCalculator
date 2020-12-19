@@ -164,14 +164,18 @@ export const ApplicationState = props => {
       }
     };
 
-    const res = await axios.post('/api/v1/users/signup', body, config);
+    try {
+      const res = await axios.post('/api/v1/users/signup', body, config);
 
-    localStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', res.data.token);
 
-    dispatch({
-      type: REGISTRATION_SUCCESS,
-      data: res.data.data.user
-    });
+      dispatch({
+        type: REGISTRATION_SUCCESS,
+        data: res.data.data.user
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const makeLoginRequest = async (loginEmail, loginPassword) => {
