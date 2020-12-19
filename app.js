@@ -30,6 +30,7 @@ const basicRecipeRouter = require('./routes/basicRecipeRoutes');
 const recipeRouter = require('./routes/recipeRoutes');
 const supplierRouter = require('./routes/supplierRoutes');
 const dMenuRouter = require('./routes/dMenuProductRoutes');
+const logRouter = require('./routes/logRoutes');
 const app = express();
 
 // 1) GLOBAL MIDDLEWARES
@@ -62,6 +63,10 @@ app.use(
     )
   })
 );
+
+if (process.env.NODE_ENV === 'development') {
+  morganBody(app);
+}
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -112,6 +117,7 @@ app.use('/api/v1/rawMaterial', rawMaterialRouter);
 app.use('/api/v1/basicRecipe', basicRecipeRouter);
 app.use('/api/v1/recipe', recipeRouter);
 app.use('/api/v1/supplier', supplierRouter);
+app.use('/api/v1/stepLogs', logRouter);
 
 if (process.env.NODE_ENV === 'production') {
   // Serving static files

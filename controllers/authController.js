@@ -116,14 +116,12 @@ exports.authenticate = async (req, res) => {
     const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (err) {
-    console.log(err.message);
     res.send(500).send('Server Error');
   }
 };
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    console.log(req.user);
     // roles ['admin', 'lead-guide']. role='user'
     if (!roles.includes(req.user.role)) {
       return next(

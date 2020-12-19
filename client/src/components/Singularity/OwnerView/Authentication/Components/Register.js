@@ -6,6 +6,12 @@ import { registrationFields } from './SeedData/register';
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 import applicationContext from 'Context/ApplicationContext/applicationContext.js';
 import { Redirect } from 'react-router-dom';
+import {
+  RegisterText,
+  RegisterLink,
+  ErrorText,
+  ErrorTextContainer
+} from 'styles/Singularity/OwnerView/Authentication';
 
 const Register = () => {
   const ApplicationContext = useContext(applicationContext);
@@ -13,7 +19,9 @@ const Register = () => {
     isAuthenticated,
     handleChangeFor,
     registerUser,
-    loading
+    loading,
+    customerMatchLogin,
+    errorMessage
   } = ApplicationContext;
 
   if (isAuthenticated && !loading) {
@@ -23,6 +31,21 @@ const Register = () => {
   return (
     <>
       <FormHeadings heading="Please register" />
+      {customerMatchLogin ? (
+        <ErrorTextContainer
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            ease: 'easeIn',
+            duration: 1.0
+          }}
+          exit={{ opacity: 0 }}
+        >
+          {' '}
+          <ErrorText>{errorMessage}</ErrorText>
+        </ErrorTextContainer>
+      ) : null}
+
       <CenterAlignedColumnContainer>
         {registrationFields.map(field => {
           return (
@@ -40,6 +63,15 @@ const Register = () => {
           );
         })}
         <StyledSubmitButton text="Register" onClick={registerUser} />
+
+        {customerMatchLogin ? (
+          <>
+            {' '}
+            <RegisterLink to="/">
+              <RegisterText>Login</RegisterText>
+            </RegisterLink>
+          </>
+        ) : null}
       </CenterAlignedColumnContainer>
     </>
   );

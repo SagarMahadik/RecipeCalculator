@@ -5,6 +5,7 @@ import {
   SET_LOADING,
   UPDATE_FIELD,
   REGISTRATION_SUCCESS,
+  REGISTRATION_FAIL,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOAD_USER,
@@ -22,6 +23,8 @@ import {
   SENDING_REGISTRATIONREQUEST
 } from 'Context/ApplicationContext/types.js';
 import { useHttpClient } from 'Hooks/httpsHooks';
+
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 
 import axios from 'axios';
 
@@ -77,7 +80,8 @@ export const ApplicationState = props => {
     loginValidationInitiated: false,
     regValIntitiated: false,
     sendingLoginRequest: false,
-    sendingRegRequest: false
+    sendingRegRequest: false,
+    customerMatchLogin: false
   };
 
   const [state, dispatch] = useReducer(applicationReducer, initialState);
@@ -107,7 +111,8 @@ export const ApplicationState = props => {
     loginValidationInitiated,
     regValIntitiated,
     sendingLoginRequest,
-    sendingRegRequest
+    sendingRegRequest,
+    customerMatchLogin
   } = state;
 
   useEffect(() => {
@@ -123,6 +128,7 @@ export const ApplicationState = props => {
   }, []);
 
   const { sendRequest, error } = useHttpClient();
+  const { sendStepStatusRequest, stepStatusError } = useStepStatusRequest();
 
   const getData = async (url, typeString) => {
     try {
@@ -158,14 +164,29 @@ export const ApplicationState = props => {
     });
 
     console.log(body);
+
+    const body1 = JSON.stringify({
+      userID: 'system',
+      step: 'REGISTER_REQUEST_SUCCESS',
+      status: 'success'
+    });
     const config = {
       headers: {
-        'Content-Type': 'application/JSON'
+        'Content-Type': 'application/JSON',
+        step: 'REGISTER_REQUEST_INITIATED'
       }
     };
 
     try {
       const res = await axios.post('/api/v1/users/signup', body, config);
+
+      //const stepRes = await axios.post('/api/v1/stepLogs', body1, config);
+
+      const stepSucRes = await sendStepStatusRequest(
+        'system',
+        'REGISTER_REQUEST_SUCCESS',
+        'success'
+      );
 
       localStorage.setItem('token', res.data.token);
 
@@ -174,7 +195,18 @@ export const ApplicationState = props => {
         data: res.data.data.user
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data.message);
+
+      const stepFailRes = await sendStepStatusRequest(
+        'system',
+        'REGISTER_REQUEST_FAILURE',
+        'failure'
+      );
+
+      dispatch({
+        type: REGISTRATION_FAIL,
+        message: err.response.data.message
+      });
     }
   };
 
@@ -201,12 +233,24 @@ export const ApplicationState = props => {
         type: LOGIN_SUCCESS,
         data: res.data.data.user
       });
+
+      const stepSucRes = await sendStepStatusRequest(
+        'system',
+        'LOGIN_REQUEST_SUCCESS',
+        'success'
+      );
     } catch (err) {
       console.log(err);
       dispatch({
         type: LOGIN_FAIL,
         message: err.response.data.message
       });
+
+      const stepFailRes = await sendStepStatusRequest(
+        'system',
+        'LOGIN_REQUEST_FAILED',
+        'failure'
+      );
 
       setTimeout(() => dispatch({ type: REMOVE_AUTHERROR }), 3000);
     }
@@ -392,7 +436,7 @@ export const ApplicationState = props => {
         payload: res
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   };
 
@@ -424,6 +468,7 @@ export const ApplicationState = props => {
         sendingLoginRequest,
         sendingRegRequest,
         registrationFromValidated,
+        customerMatchLogin,
         handleChangeFor,
         registerUser,
         loginUser,

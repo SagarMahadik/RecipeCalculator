@@ -19,7 +19,8 @@ import {
   LOGIN_VALIDATIONINITIATED,
   REGISTRATION_VALIDATIONINITIATED,
   SENDING_LOGINREQUEST,
-  SENDING_REGISTRATIONREQUEST
+  SENDING_REGISTRATIONREQUEST,
+  REGISTRATION_FAIL
 } from 'Context/ApplicationContext/types.js';
 
 import { produce } from 'immer';
@@ -78,6 +79,13 @@ export default (state, action) => {
         loginPassword: '',
         authError: true,
         errorMessage: action.message
+      };
+    case REGISTRATION_FAIL:
+      return {
+        ...state,
+        errorMessage: action.message,
+        customerMatchLogin: true,
+        registrationFromValidated: false
       };
 
     case REMOVE_AUTHERROR:

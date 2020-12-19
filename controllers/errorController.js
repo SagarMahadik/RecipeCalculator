@@ -7,8 +7,16 @@ const handleCastErrorDB = err => {
 
 const handleDuplicateFieldsDB = err => {
   const duplicateErrorField = Object.keys(err.keyValue)[0];
+  let frontEndMessageField = '';
 
-  const message = `Entered ${duplicateErrorField} already exsists, Please use another ${duplicateErrorField}!`;
+  if (duplicateErrorField === 'mobileNumber') {
+    frontEndMessageField = 'Mobile Number';
+  }
+  if (duplicateErrorField === 'email') {
+    frontEndMessageField = 'Email';
+  }
+
+  const message = `Entered ${frontEndMessageField} already exsists, Please login or try other ${frontEndMessageField}!`;
   return new AppError(message, 400);
 };
 
