@@ -6,10 +6,7 @@ const handleCastErrorDB = err => {
 };
 
 const handleDuplicateFieldsDB = err => {
-  console.log(err);
-
   const duplicateErrorField = Object.keys(err.keyValue)[0];
-  console.log(duplicateErrorField);
 
   const message = `Entered ${duplicateErrorField} already exsists, Please use another ${duplicateErrorField}!`;
   return new AppError(message, 400);
@@ -29,7 +26,6 @@ const handleJWTExpiredError = () =>
   new AppError('Your token has expired! Please log in again.', 401);
 
 const sendErrorDev = (err, res) => {
-  console.log(err);
   res.status(err.statusCode).json({
     status: err.status,
     error: err,
@@ -66,7 +62,6 @@ module.exports = (err, req, res, next) => {
   err.status = err.status || 'error';
 
   if (process.env.NODE_ENV === 'development') {
-    console.log(err.statusCode);
     if (`${err.statusCode}`.startsWith('4')) {
       sendErrorDev(err, res);
     }

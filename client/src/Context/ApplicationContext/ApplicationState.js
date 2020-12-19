@@ -111,13 +111,13 @@ export const ApplicationState = props => {
   } = state;
 
   useEffect(() => {
-    if (categoryData.length === 0) {
+    if (categoryData.length === 1) {
       getData('/api/v1/category', 'SET_CATEGORYDATA');
     }
   }, []);
 
   useEffect(() => {
-    if (dMenuProductData.length === 0) {
+    if (dMenuProductData.length === 1) {
       getData('/api/v1/dMenuProduct', 'SET_DMENUPRODUCTDATA');
     }
   }, []);
@@ -327,8 +327,8 @@ export const ApplicationState = props => {
         field: 'passwordConfirm'
       });
     }
-    setTimeout(() => dispatch({ type: REMOVE_FRONTENDERROR }), 1500);
-    setTimeout(() => dispatch({ type: REMOVE_VALIDATIONERROR }), 1500);
+    setTimeout(() => dispatch({ type: REMOVE_FRONTENDERROR }), 2500);
+    setTimeout(() => dispatch({ type: REMOVE_VALIDATIONERROR }), 2500);
     if (
       !isEmpty(email) &&
       !isEmpty(mobileNumber) &&
