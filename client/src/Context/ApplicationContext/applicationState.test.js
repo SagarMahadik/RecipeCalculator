@@ -39,7 +39,7 @@ describe('Application state', () => {
 });
 
 describe('.loginUser', () => {
-  it('Run loginUser function', () => {
+  it('Logs in user post validating', () => {
     const { getByText, getByLabelText } = render(
       <ApplicationState>
         <applicationContext.Consumer>
@@ -95,5 +95,98 @@ describe('.loginUser', () => {
     //expect(emailInput.value).toBe('sgrmhdk51@gmail.com');
     expect(getByText('Is form validated: true')).toBeTruthy();
     expect(getByText('Is making login request: true')).toBeTruthy();
+  });
+});
+
+describe('.registerUser', () => {
+  it('Register user post validating', () => {
+    const { getByText, getByLabelText } = render(
+      <ApplicationState>
+        <applicationContext.Consumer>
+          {value => (
+            <>
+              <label htmlFor="my-email">Email:</label>
+              <input
+                id="my-email"
+                type="text"
+                name="email"
+                value={value.email}
+                onChange={value.handleChangeFor('email')}
+              />
+              <label htmlFor="my-password">Password:</label>
+              <input
+                id="my-password"
+                type="text"
+                name="password"
+                value={value.password}
+                onChange={value.handleChangeFor('password')}
+              />
+              <label htmlFor="passwordConfirm">confirm:</label>
+              <input
+                id="passwordConfirm"
+                type="text"
+                name="passwordConfirm"
+                value={value.passwordConfirm}
+                onChange={value.handleChangeFor('passwordConfirm')}
+              />
+              <label htmlFor="brandName">Brand Name:</label>
+              <input
+                id="brandName"
+                type="text"
+                name="brandName"
+                value={value.brandName}
+                onChange={value.handleChangeFor('brandName')}
+              />
+              <label htmlFor="mobileNumber">Mobile Number:</label>
+              <input
+                id="mobileNumber"
+                type="text"
+                name="mobileNumber"
+                value={value.mobileNumber}
+                onChange={value.handleChangeFor('mobileNumber')}
+              />
+              <span>Is logged in: {value.isAuthenticated.toString()}</span>
+              <span>Is loading in: {value.loading.toString()}</span>
+              <span>
+                Is validation initiated: {value.regValIntitiated.toString()}
+              </span>
+
+              <span>
+                Is form validated: {value.registrationFromValidated.toString()}
+              </span>
+              <span>
+                Is making register request: {value.sendingRegRequest.toString()}
+              </span>
+              <button onClick={value.registerUser}>Register</button>
+            </>
+          )}
+        </applicationContext.Consumer>
+      </ApplicationState>
+    );
+
+    const emailInput = screen.getByLabelText(/email/i);
+    userEvent.type(emailInput, 'sgrmhdk51@gmail.com');
+
+    const passwordInput = screen.getByLabelText(/password/i);
+    userEvent.type(passwordInput, '12345678');
+
+    const passwordConfirmInput = screen.getByLabelText(/confirm/i);
+    userEvent.type(passwordConfirmInput, '12345678');
+
+    const brandNameInput = screen.getByLabelText(/brand name/i);
+    userEvent.type(brandNameInput, 'Benny');
+
+    const mobileNumberInput = screen.getByLabelText(/mobile number/i);
+    userEvent.type(mobileNumberInput, '9967531992');
+
+    fireEvent.click(getByText('Register'));
+
+    expect(getByText('Is logged in: false')).toBeTruthy();
+    expect(getByText('Is loading in: true')).toBeTruthy();
+    expect(getByText('Is validation initiated: true')).toBeTruthy();
+
+    //expect(emailInput.value).toBe('sgrmhdk51@gmail.com');
+    expect(getByText('Is form validated: true')).toBeTruthy();
+    expect(getByText('Is making register request: true')).toBeTruthy();
   });
 });

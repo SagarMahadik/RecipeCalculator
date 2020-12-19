@@ -17,7 +17,9 @@ import {
   SET_FORMVALIDATIONCOMPLETE,
   SET_REGISTERFORMVALIDATIONCOMPLETE,
   LOGIN_VALIDATIONINITIATED,
-  SENDING_LOGINREQUEST
+  SENDING_LOGINREQUEST,
+  REGISTRATION_VALIDATIONINITIATED,
+  SENDING_REGISTRATIONREQUEST
 } from 'Context/ApplicationContext/types.js';
 import { useHttpClient } from 'Hooks/httpsHooks';
 
@@ -144,6 +146,9 @@ export const ApplicationState = props => {
     password,
     passwordConfirm
   ) => {
+    dispatch({
+      type: SENDING_REGISTRATIONREQUEST
+    });
     const body = JSON.stringify({
       brandName,
       mobileNumber,
@@ -259,6 +264,9 @@ export const ApplicationState = props => {
     password,
     passwordConfirm
   ) => {
+    dispatch({
+      type: REGISTRATION_VALIDATIONINITIATED
+    });
     if (isEmpty(brandName)) {
       dispatch({
         type: SET_FRONTENDERROR,
@@ -339,6 +347,7 @@ export const ApplicationState = props => {
   };
 
   const registerUser = e => {
+    setLoading();
     validateRegistrationFields(
       brandName,
       mobileNumber,
@@ -410,6 +419,7 @@ export const ApplicationState = props => {
         regValIntitiated,
         sendingLoginRequest,
         sendingRegRequest,
+        registrationFromValidated,
         handleChangeFor,
         registerUser,
         loginUser,

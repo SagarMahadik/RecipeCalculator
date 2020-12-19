@@ -18,7 +18,8 @@ import {
   SET_REGISTERFORMVALIDATIONCOMPLETE,
   LOGIN_VALIDATIONINITIATED,
   REGISTRATION_VALIDATIONINITIATED,
-  SENDING_LOGINREQUEST
+  SENDING_LOGINREQUEST,
+  SENDING_REGISTRATIONREQUEST
 } from 'Context/ApplicationContext/types.js';
 
 import { produce } from 'immer';
@@ -55,6 +56,12 @@ export default (state, action) => {
         sendingLoginRequest: true
       };
 
+    case SENDING_REGISTRATIONREQUEST:
+      return {
+        ...state,
+        sendingRegRequest: true
+      };
+
     case REGISTRATION_SUCCESS:
     case LOGIN_SUCCESS:
       return {
@@ -78,6 +85,12 @@ export default (state, action) => {
         ...state,
         authError: false,
         errorMessage: ''
+      };
+
+    case REGISTRATION_VALIDATIONINITIATED:
+      return {
+        ...state,
+        regValIntitiated: true
       };
 
     case SET_FRONTENDERROR:
