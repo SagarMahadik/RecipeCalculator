@@ -112,17 +112,20 @@ export const ApplicationState = props => {
     regValIntitiated,
     sendingLoginRequest,
     sendingRegRequest,
-    customerMatchLogin
+    customerMatchLogin,
+    loginSuccess,
+    regSuccess,
+    loginFail
   } = state;
 
   useEffect(() => {
-    if (categoryData.length === 1) {
+    if (categoryData.length === 0) {
       getData('/api/v1/category', 'SET_CATEGORYDATA');
     }
   }, []);
 
   useEffect(() => {
-    if (dMenuProductData.length === 1) {
+    if (dMenuProductData.length === 0) {
       getData('/api/v1/dMenuProduct', 'SET_DMENUPRODUCTDATA');
     }
   }, []);
@@ -165,28 +168,14 @@ export const ApplicationState = props => {
 
     console.log(body);
 
-    const body1 = JSON.stringify({
-      userID: 'system',
-      step: 'REGISTER_REQUEST_SUCCESS',
-      status: 'success'
-    });
     const config = {
       headers: {
-        'Content-Type': 'application/JSON',
-        step: 'REGISTER_REQUEST_INITIATED'
+        'Content-Type': 'application/JSON'
       }
     };
 
     try {
       const res = await axios.post('/api/v1/users/signup', body, config);
-
-      //const stepRes = await axios.post('/api/v1/stepLogs', body1, config);
-
-      const stepSucRes = await sendStepStatusRequest(
-        'system',
-        'REGISTER_REQUEST_SUCCESS',
-        'success'
-      );
 
       localStorage.setItem('token', res.data.token);
 
@@ -196,12 +185,6 @@ export const ApplicationState = props => {
       });
     } catch (err) {
       console.log(err.response.data.message);
-
-      const stepFailRes = await sendStepStatusRequest(
-        'system',
-        'REGISTER_REQUEST_FAILURE',
-        'failure'
-      );
 
       dispatch({
         type: REGISTRATION_FAIL,
@@ -233,24 +216,12 @@ export const ApplicationState = props => {
         type: LOGIN_SUCCESS,
         data: res.data.data.user
       });
-
-      const stepSucRes = await sendStepStatusRequest(
-        'system',
-        'LOGIN_REQUEST_SUCCESS',
-        'success'
-      );
     } catch (err) {
       console.log(err);
       dispatch({
         type: LOGIN_FAIL,
         message: err.response.data.message
       });
-
-      const stepFailRes = await sendStepStatusRequest(
-        'system',
-        'LOGIN_REQUEST_FAILED',
-        'failure'
-      );
 
       setTimeout(() => dispatch({ type: REMOVE_AUTHERROR }), 3000);
     }

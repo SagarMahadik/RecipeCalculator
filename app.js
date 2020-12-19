@@ -49,7 +49,7 @@ app.use('/api', limiter);
 
 // Body parser, reading data from body into req.body
 app.use(bodyParser.json());
-app.use(express.json({ limit: '10kb' }));
+//app.use(express.json({ limit: '10kb' }));
 
 expressWinston.requestWhitelist.push('body');
 expressWinston.responseWhitelist.push('body');
@@ -63,10 +63,6 @@ app.use(
     )
   })
 );
-
-if (process.env.NODE_ENV === 'development') {
-  morganBody(app);
-}
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());

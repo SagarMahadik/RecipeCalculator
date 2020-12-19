@@ -78,7 +78,8 @@ export default (state, action) => {
         loginEmail: '',
         loginPassword: '',
         authError: true,
-        errorMessage: action.message
+        errorMessage: action.message,
+        loginFail: true
       };
     case REGISTRATION_FAIL:
       return {
