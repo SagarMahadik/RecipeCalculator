@@ -80,6 +80,9 @@ module.exports = (err, req, res, next) => {
 
     sendErrorProd(error, res);
   } else if (process.env.NODE_ENV === 'production') {
+    if (`${err.statusCode}`.startsWith('4')) {
+      sendErrorDev(err, res);
+    }
     let error = { ...err };
 
     if (error.name === 'CastError') error = handleCastErrorDB(error);
