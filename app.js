@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const path = require('path');
+const axios = require('axios');
 
 const bodyParser = require('body-parser');
 
@@ -33,9 +34,6 @@ const app = express();
 app.use(helmet());
 
 // Development logging
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
 
 // Limit requests from same API
 const limiter = rateLimit({
@@ -49,7 +47,12 @@ app.use('/api', limiter);
 app.use(bodyParser.json());
 app.use(express.json({ limit: '10kb' }));
 
-morganBody(app);
+morgan.token('body', (req, res) => JSON.stringify(req.body));
+app.use(
+  morgan(':method :url :status :response-time ms - :res[content-length] :body ')
+);
+
+morganBody(app, { noColors: true, prettify: false, includeNewLine: false });
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());

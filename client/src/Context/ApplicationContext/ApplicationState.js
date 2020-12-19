@@ -198,7 +198,7 @@ export const ApplicationState = props => {
         data: res.data.data.user
       });
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
       dispatch({
         type: LOGIN_FAIL,
         message: err.response.data.message
