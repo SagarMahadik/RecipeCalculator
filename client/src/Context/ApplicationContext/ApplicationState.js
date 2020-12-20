@@ -216,12 +216,20 @@ export const ApplicationState = props => {
         type: LOGIN_SUCCESS,
         data: res.data.data.user
       });
+
+      const stepREs = sendStepStatusRequest(
+        'sytem',
+        'LOGIN_SUCCESS',
+        'success'
+      );
     } catch (err) {
       console.log(err);
       dispatch({
         type: LOGIN_FAIL,
         message: err.response.data.message
       });
+
+      const stepREs = sendStepStatusRequest('sytem', 'LOGIN_FAIL', 'fail');
 
       setTimeout(() => dispatch({ type: REMOVE_AUTHERROR }), 3000);
     }

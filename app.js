@@ -31,6 +31,7 @@ const recipeRouter = require('./routes/recipeRoutes');
 const supplierRouter = require('./routes/supplierRoutes');
 const dMenuRouter = require('./routes/dMenuProductRoutes');
 const logRouter = require('./routes/logRoutes');
+const { info } = require('winston');
 const app = express();
 
 // 1) GLOBAL MIDDLEWARES
@@ -60,7 +61,10 @@ app.use(
     format: winston.format.combine(
       winston.format.colorize(),
       winston.format.json()
-    )
+    ),
+    ignoreRoute: function(req, res) {
+      return false;
+    }
   })
 );
 
