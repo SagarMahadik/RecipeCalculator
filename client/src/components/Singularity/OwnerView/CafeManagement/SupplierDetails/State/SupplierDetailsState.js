@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useContext, useEffect } from 'react';
 
 import supplierDetailsContext from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/supplierDetailsContext.js';
 import supplierDetailsReducer from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/supplierDetailsReducer.js';
@@ -6,10 +6,13 @@ import {
   SET_LOADING,
   SHOW_LOADER,
   UPDATE_FIELD,
-  COMPLETE_FORM
+  COMPLETE_FORM,
+  SET_USERID
 } from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/types.js';
 
-import { useHttpClient } from 'Hooks/httpsHooks';
+import applicationContext from 'Context/ApplicationContext/applicationContext';
+import { createSupplierRequestBody } from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/createSupplierRequestBody.js';
+
 import axios from 'axios';
 
 const SupplierDetailsState = props => {
@@ -27,6 +30,9 @@ const SupplierDetailsState = props => {
 
   const [state, dispatch] = useReducer(supplierDetailsReducer, initialState);
 
+  const ApplicationContext = useContext(applicationContext);
+  const { userID } = ApplicationContext;
+
   const {
     supplierName,
     supplierPersonDetails,
@@ -42,6 +48,7 @@ const SupplierDetailsState = props => {
   const setLoading = () => dispatch({ type: SET_LOADING });
   const setShowLoader = () => dispatch({ type: SHOW_LOADER });
   const addDataToDB = async (
+    userID,
     supplierName,
     supplierPersonDetails,
     supplierMobileNumber,
@@ -49,7 +56,9 @@ const SupplierDetailsState = props => {
     supplierPinCode,
     supplierGSTNumber
   ) => {
+    console.log(userID);
     const body = JSON.stringify({
+      userID,
       supplierName,
       supplierPersonDetails,
       supplierMobileNumber,
@@ -65,7 +74,7 @@ const SupplierDetailsState = props => {
     };
     const res = await axios.post('/api/v1/supplier', body, config);
     setLoading();
-    console.log(res);
+
     if (res.data.status === 'success') {
       dispatch({
         type: COMPLETE_FORM
@@ -87,6 +96,7 @@ const SupplierDetailsState = props => {
     console.log(e);
     setShowLoader();
     addDataToDB(
+      userID,
       supplierName,
       supplierPersonDetails,
       supplierMobileNumber,

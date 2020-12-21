@@ -4,9 +4,21 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.route('/').get(supplierController.getAllSuppliers);
+router
+  .route('/')
+  .get(
+    authController.protect,
+    authController.restrictTo('admin'),
+    supplierController.getAllSuppliers
+  );
 
-router.route('/:userID').get(supplierController.getCustomersSuppliers);
+router
+  .route('/:userID')
+  .get(
+    authController.protect,
+    authController.restrictToUser,
+    supplierController.getCustomersSuppliers
+  );
 
 router.route('/').post(supplierController.createSupplier);
 

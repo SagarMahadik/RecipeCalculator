@@ -30,7 +30,7 @@ export default function Routes() {
           path="/rawMaterialManagement"
           component={RawMaterialManagementMainComponent}
         />
-        <Route
+        <PrivateRoute
           exact
           path="/supplierDetails"
           component={SupplierDetailsMainComponent}

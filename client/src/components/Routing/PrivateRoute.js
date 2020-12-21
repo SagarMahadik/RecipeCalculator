@@ -19,7 +19,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       render={props =>
         loading && !authComplete ? (
           <AuthenticationLoader />
-        ) : !isAuthenticated && !authComplete && !authTokenFlag ? (
+        ) : !isAuthenticated && authComplete && !authTokenFlag ? (
           <Redirect to="/" />
         ) : (
           <Component {...props} />

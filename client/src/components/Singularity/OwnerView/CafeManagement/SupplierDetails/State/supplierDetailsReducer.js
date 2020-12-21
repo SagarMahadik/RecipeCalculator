@@ -2,7 +2,8 @@ import {
   SET_LOADING,
   SHOW_LOADER,
   UPDATE_FIELD,
-  COMPLETE_FORM
+  COMPLETE_FORM,
+  SET_USERID
 } from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/types.js';
 
 export default (state, action) => {
@@ -11,6 +12,12 @@ export default (state, action) => {
       return {
         ...state,
         loading: true
+      };
+    case SET_USERID:
+      console.log(action.payload);
+      return {
+        ...state,
+        userID: action.payload
       };
     case SHOW_LOADER:
       return {

@@ -42,6 +42,7 @@ export let util = { validateRegistrationFields: null };
 
 export const ApplicationState = props => {
   const initialState = {
+    userID: '',
     brandName: '',
     mobileNumber: '',
     email: '',
@@ -87,6 +88,7 @@ export const ApplicationState = props => {
   const [state, dispatch] = useReducer(applicationReducer, initialState);
 
   const {
+    userID,
     brandName,
     mobileNumber,
     email,
@@ -119,13 +121,13 @@ export const ApplicationState = props => {
   } = state;
 
   useEffect(() => {
-    if (categoryData.length === 0) {
+    if (categoryData.length === 1) {
       getData('/api/v1/category', 'SET_CATEGORYDATA');
     }
   }, []);
 
   useEffect(() => {
-    if (dMenuProductData.length === 0) {
+    if (dMenuProductData.length === 1) {
       getData('/api/v1/dMenuProduct', 'SET_DMENUPRODUCTDATA');
     }
   }, []);
@@ -163,7 +165,8 @@ export const ApplicationState = props => {
       mobileNumber,
       email,
       password,
-      passwordConfirm
+      passwordConfirm,
+      userID: mobileNumber
     });
 
     console.log(body);
@@ -412,7 +415,7 @@ export const ApplicationState = props => {
       console.log(res);
       dispatch({
         type: LOAD_USER,
-        payload: res
+        payload: res.data
       });
     } catch (err) {
       console.log(err.response);
@@ -422,6 +425,7 @@ export const ApplicationState = props => {
   return (
     <applicationContext.Provider
       value={{
+        userID,
         brandName,
         mobileNumber,
         email,

@@ -22,9 +22,14 @@ const userSchema = new mongoose.Schema({
     minlength: 10,
     maxlength: 10
   },
+  userID: {
+    type: Number,
+    required: [true, 'User needs a userID']
+  },
   photo: String,
   role: {
     type: String,
+
     enum: ['user', 'admin'],
     default: 'user'
   },

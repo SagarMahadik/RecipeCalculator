@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useContext, useReducer, useEffect } from 'react';
 
 import rawMaterialManagementContext from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
 import rawMaterialManagementReducer from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementReducer.js';
@@ -25,6 +25,9 @@ import {
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/seedData.js';
 
 import { useHttpClient } from 'Hooks/httpsHooks';
+
+import applicationContext from 'Context/ApplicationContext/applicationContext';
+
 import axios from 'axios';
 
 const RawMaterialManagementState = props => {
@@ -87,9 +90,15 @@ const RawMaterialManagementState = props => {
     isDataUploaded
   } = state;
 
+  const ApplicationContext = useContext(applicationContext);
+
+  const { userID, isAuthenticated } = ApplicationContext;
+
   useEffect(() => {
-    getData('/api/v1/supplier');
-  }, []);
+    if (isAuthenticated) {
+      getData(`/api/v1/supplier/${userID}`);
+    }
+  }, [isAuthenticated]);
 
   const setLoading = () => {
     dispatch({

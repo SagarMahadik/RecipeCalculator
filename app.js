@@ -51,22 +51,29 @@ app.use('/api', limiter);
 // Body parser, reading data from body into req.body
 app.use(bodyParser.json());
 //app.use(express.json({ limit: '10kb' }));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+  morganBody(app);
+}
 
-expressWinston.requestWhitelist.push('body');
-expressWinston.responseWhitelist.push('body');
+if (process.env.NODE_ENV === 'production') {
+  expressWinston.requestWhitelist.push('body');
+  expressWinston.responseWhitelist.push('body');
+  expressWinston.bodyBlacklist.push('password', 'passwordConfirm', 'token');
 
-app.use(
-  expressWinston.logger({
-    transports: [new winston.transports.Console()],
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.json()
-    ),
-    ignoreRoute: function(req, res) {
-      return false;
-    }
-  })
-);
+  app.use(
+    expressWinston.logger({
+      transports: [new winston.transports.Console()],
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.json()
+      ),
+      ignoreRoute: function(req, res) {
+        return false;
+      }
+    })
+  );
+}
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -118,15 +125,6 @@ app.use('/api/v1/basicRecipe', basicRecipeRouter);
 app.use('/api/v1/recipe', recipeRouter);
 app.use('/api/v1/supplier', supplierRouter);
 app.use('/api/v1/stepLogs', logRouter);
-
-if (process.env.NODE_ENV === 'production') {
-  // Serving static files
-  app.use(express.static('client/build'));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-}
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

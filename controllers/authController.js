@@ -43,7 +43,8 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     role: req.body.role,
-    mobileNumber: req.body.mobileNumber
+    mobileNumber: req.body.mobileNumber,
+    userID: req.body.userID
   });
 
   createSendToken(newUser, 201, res);
@@ -107,7 +108,19 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   // GRANT ACCESS TO PROTECTED ROUTE
+  console.log(req.params);
   req.user = currentUser;
+
+  next();
+});
+
+exports.restrictToUser = catchAsync(async (req, res, next) => {
+  if (req.params.userID != req.user.mobileNumber) {
+    return next(
+      new AppError('You do not have permission to perform this action', 405)
+    );
+  }
+
   next();
 });
 
@@ -125,7 +138,7 @@ exports.restrictTo = (...roles) => {
     // roles ['admin', 'lead-guide']. role='user'
     if (!roles.includes(req.user.role)) {
       return next(
-        new AppError('You do not have permission to perform this action', 403)
+        new AppError('You do not have permission to perform this action', 406)
       );
     }
 
