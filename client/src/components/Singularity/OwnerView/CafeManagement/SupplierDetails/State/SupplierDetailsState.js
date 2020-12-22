@@ -13,6 +13,8 @@ import {
 import applicationContext from 'Context/ApplicationContext/applicationContext';
 import { createSupplierRequestBody } from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/createSupplierRequestBody.js';
 
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
+
 import axios from 'axios';
 
 const SupplierDetailsState = props => {
@@ -44,6 +46,8 @@ const SupplierDetailsState = props => {
     showLoader,
     loading
   } = state;
+
+  const { sendStepStatusRequest, stepStatusError } = useStepStatusRequest();
 
   const setLoading = () => dispatch({ type: SET_LOADING });
   const setShowLoader = () => dispatch({ type: SHOW_LOADER });
@@ -79,6 +83,11 @@ const SupplierDetailsState = props => {
       dispatch({
         type: COMPLETE_FORM
       });
+      const stepREs = sendStepStatusRequest(
+        `${userID}`,
+        `Supplier created successfully for ${userID}`,
+        'success'
+      );
     }
   };
 

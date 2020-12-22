@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.route('/').get(rawMaterialController.getAllRawMaterials);
 
-router.route('/').post(rawMaterialController.createRawMaterial);
+router
+  .route('/')
+  .post(authController.protect, rawMaterialController.createRawMaterial);
 
 router.route('/:id').patch(rawMaterialController.updateRawMaterial);
 

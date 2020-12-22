@@ -20,7 +20,9 @@ router
     supplierController.getCustomersSuppliers
   );
 
-router.route('/').post(supplierController.createSupplier);
+router
+  .route('/')
+  .post(authController.protect, supplierController.createSupplier);
 
 router.route('/:id').patch(supplierController.updateSupplier);
 

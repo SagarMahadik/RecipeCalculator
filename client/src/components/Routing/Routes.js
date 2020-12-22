@@ -25,7 +25,7 @@ export default function Routes() {
           path="/recipeManagement"
           component={RecipeManagementMainComponent}
         />
-        <Route
+        <PrivateRoute
           exact
           path="/rawMaterialManagement"
           component={RawMaterialManagementMainComponent}

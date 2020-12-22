@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const rawMaterialSchema = new mongoose.Schema({
+  userID: {
+    type: String
+  },
   name: {
     type: String,
     required: [true, 'Please enter the raw material']

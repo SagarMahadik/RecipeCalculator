@@ -15,7 +15,9 @@ import {
   UPDATE_QUANTITY,
   UPDATE_GST,
   UPDATE_PRICEGSTDETAILS,
-  COMPLETE_FORM
+  COMPLETE_FORM,
+  COMPLETE_SUPPLIERUPDATE,
+  UPDATE_RAWMPRICE
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/types.js';
 import {
   typeRawMaterial,
@@ -27,6 +29,11 @@ import {
 import { useHttpClient } from 'Hooks/httpsHooks';
 
 import applicationContext from 'Context/ApplicationContext/applicationContext';
+
+import {
+  calcualatePriceWithoutGST,
+  calculatePriceWithGST
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/utils.js';
 
 import axios from 'axios';
 
@@ -49,13 +56,17 @@ const RawMaterialManagementState = props => {
     rawMaterialBaseRateWOGST: '',
     rawMaterialStatePriceGST: '',
     rawMaterialGSTNumber: '',
+    rawMaterialRate: '',
+    rawMaterialWORate: '',
     rawMaterialTypeDetails: [...typeRawMaterial],
     rawMaterialOptionData: [...rawMaterialOptions],
     GSTOptionsData: [...GSTOptions],
     priceGSTOptionsData: [...PricingGSTOptions],
     loading: false,
     showLoader: false,
-    isDataUploaded: false
+    isDataUploaded: false,
+    supplierUpdated: false,
+    priceUpdated: false
   };
 
   const [state, dispatch] = useReducer(
@@ -87,12 +98,16 @@ const RawMaterialManagementState = props => {
     priceGSTOptionsData,
     loading,
     showLoader,
-    isDataUploaded
+    isDataUploaded,
+    supplierUpdated,
+    rawMaterialRate,
+    rawMaterialWORate,
+    priceUpdated
   } = state;
 
   const ApplicationContext = useContext(applicationContext);
 
-  const { userID, isAuthenticated } = ApplicationContext;
+  const { userID, isAuthenticated, userBrandName } = ApplicationContext;
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -124,6 +139,7 @@ const RawMaterialManagementState = props => {
       });
     } catch (err) {}
   };
+
   useEffect(() => {
     if (searchString === '') {
       {
@@ -216,49 +232,108 @@ const RawMaterialManagementState = props => {
     });
   };
 
+  const addSupplierToDB = async (userID, supplierName) => {
+    const body = JSON.stringify({
+      userID,
+      supplierName
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/JSON'
+      }
+    };
+
+    const res = await axios.post('/api/v1/supplier', body, config);
+    setLoading();
+
+    if (res.data.status === 'success') {
+      dispatch({
+        type: COMPLETE_SUPPLIERUPDATE,
+        id: res.data.data.data._id
+      });
+    }
+  };
+
   const onSubmit = e => {
     e.preventDefault();
-    console.log(e);
-    setShowLoader();
-    let rawMaterialRate, rawMaterialWORate, rmBrandName;
 
-    if (brandName === '') {
-      rmBrandName = 'Piatto';
-    }
+    setShowLoader();
 
     if (rawMaterialGSTPercent === 0) {
-      rawMaterialRate = rawMaterialStatePrice;
-      rawMaterialWORate = rawMaterialStatePrice;
+      dispatch({
+        type: UPDATE_RAWMPRICE,
+        rawMrate: rawMaterialStatePrice,
+        rawMWOGST: rawMaterialStatePrice
+      });
     }
 
     if (rawMaterialStatePriceGST === 'withGST') {
-      rawMaterialRate = rawMaterialStatePrice;
-      rawMaterialWORate =
-        Number(rawMaterialStatePrice) -
-        (rawMaterialStatePrice * rawMaterialGSTPercent) / 100;
+      dispatch({
+        type: UPDATE_RAWMPRICE,
+        rawMrate: rawMaterialStatePrice,
+        rawMWOGST: calcualatePriceWithoutGST(
+          rawMaterialStatePrice,
+          rawMaterialGSTPercent
+        )
+      });
     }
     if (rawMaterialStatePriceGST === 'woGST') {
-      rawMaterialRate =
-        Number(rawMaterialStatePrice) +
-        (rawMaterialStatePrice * rawMaterialGSTPercent) / 100;
-      rawMaterialWORate = rawMaterialStatePrice;
+      dispatch({
+        type: UPDATE_RAWMPRICE,
+        rawMrate: calculatePriceWithGST(
+          rawMaterialStatePrice,
+          rawMaterialGSTPercent
+        ),
+        rawMWOGST: rawMaterialStatePrice
+      });
     }
 
-    addRawMaterialToDB(
-      rawMaterialName,
-      rmBrandName,
-      supplierID,
-      rawMaterialType,
-      rawMaterialBaseQuanitiy,
-      rawMaterialBaseUnit,
-      rawMaterialRate,
-      rawMaterialWORate,
-      rawMaterialDisplay,
-      rawMaterialGSTPercent
-    );
+    if (supplierID === '') {
+      addSupplierToDB(userID, searchString);
+    }
   };
 
+  useEffect(() => {
+    if (priceUpdated) {
+      if (supplierID != '' && !supplierUpdated) {
+        addRawMaterialToDB(
+          userID,
+          rawMaterialName,
+          brandName,
+          supplierID,
+          rawMaterialType,
+          rawMaterialBaseQuanitiy,
+          rawMaterialBaseUnit,
+          rawMaterialRate,
+          rawMaterialWORate,
+          rawMaterialDisplay,
+          rawMaterialGSTPercent
+        );
+      }
+    }
+  }, [priceUpdated, supplierID, supplierUpdated]);
+
+  useEffect(() => {
+    if (supplierUpdated) {
+      addRawMaterialToDB(
+        userID,
+        rawMaterialName,
+        brandName,
+        supplierID,
+        rawMaterialType,
+        rawMaterialBaseQuanitiy,
+        rawMaterialBaseUnit,
+        rawMaterialRate,
+        rawMaterialWORate,
+        rawMaterialDisplay,
+        rawMaterialGSTPercent
+      );
+    }
+  }, [supplierUpdated]);
+
   const addRawMaterialToDB = async (
+    userID,
     rawMaterialName,
     rmBrandName,
     supplierID,
@@ -271,7 +346,7 @@ const RawMaterialManagementState = props => {
     rawMaterialGSTPercent
   ) => {
     let name = rawMaterialName;
-    let brandName = rmBrandName;
+    let brandName = rmBrandName || userBrandName;
     let supplier = supplierID;
     let type = rawMaterialType;
     let baseQuantity = rawMaterialBaseQuanitiy;
@@ -283,6 +358,7 @@ const RawMaterialManagementState = props => {
     let GSTPercent = rawMaterialGSTPercent;
 
     const body = JSON.stringify({
+      userID,
       name,
       brandName,
       supplier,
@@ -295,7 +371,7 @@ const RawMaterialManagementState = props => {
       displayRateUnit,
       GSTPercent
     });
-    console.log(body);
+
     const config = {
       headers: {
         'Content-Type': 'application/JSON'
@@ -304,7 +380,6 @@ const RawMaterialManagementState = props => {
 
     const res = await axios.post('/api/v1/rawMaterial', body, config);
     setLoading();
-    console.log(res);
 
     if (res.data.status === 'success') {
       dispatch({

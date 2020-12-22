@@ -43,6 +43,7 @@ export let util = { validateRegistrationFields: null };
 export const ApplicationState = props => {
   const initialState = {
     userID: '',
+    userBrandName: '',
     brandName: '',
     mobileNumber: '',
     email: '',
@@ -89,6 +90,7 @@ export const ApplicationState = props => {
 
   const {
     userID,
+    userBrandName,
     brandName,
     mobileNumber,
     email,
@@ -417,6 +419,12 @@ export const ApplicationState = props => {
         type: LOAD_USER,
         payload: res.data
       });
+
+      const stepREs = sendStepStatusRequest(
+        `${res.data.userID}`,
+        'AUTH_SUCCESS',
+        'success'
+      );
     } catch (err) {
       console.log(err.response);
     }
@@ -427,6 +435,7 @@ export const ApplicationState = props => {
       value={{
         userID,
         brandName,
+        userBrandName,
         mobileNumber,
         email,
         password,

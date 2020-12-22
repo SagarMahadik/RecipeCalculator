@@ -36,16 +36,31 @@ exports.updateOne = Model =>
     });
   });
 
-exports.createOne = Model =>
+exports.createLog = Model =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.create(req.body);
+    //const doc = await Model.create(req.body);
 
     res.status(201).json({
-      status: 'success',
-      data: {
-        data: doc
-      }
+      status: 'success'
     });
+  });
+
+exports.createOne = Model =>
+  catchAsync(async (req, res, next) => {
+    if (Model === 'Log') {
+      res.status(201).json({
+        status: 'success'
+      });
+    } else {
+      const doc = await Model.create(req.body);
+
+      res.status(201).json({
+        status: 'success',
+        data: {
+          data: doc
+        }
+      });
+    }
   });
 
 exports.getSearchOutcomes = (Model, fieldsString) =>

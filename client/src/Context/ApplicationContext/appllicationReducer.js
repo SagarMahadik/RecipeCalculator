@@ -142,7 +142,8 @@ export default (state, action) => {
         loading: false,
         authComplete: true,
         user: action.payload,
-        userID: action.payload.userID
+        userID: action.payload.userID,
+        userBrandName: action.payload.brandName
       };
     case SET_CATEGORYDATA:
       return produce(state, draftState => {

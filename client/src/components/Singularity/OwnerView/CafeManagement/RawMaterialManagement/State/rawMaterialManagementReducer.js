@@ -11,7 +11,9 @@ import {
   UPDATE_QUANTITY,
   UPDATE_GST,
   UPDATE_PRICEGSTDETAILS,
-  COMPLETE_FORM
+  COMPLETE_FORM,
+  COMPLETE_SUPPLIERUPDATE,
+  UPDATE_RAWMPRICE
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/types.js';
 
 export default (state, action) => {
@@ -72,6 +74,14 @@ export default (state, action) => {
         rawMaterialType: action.payload
       };
 
+    case UPDATE_RAWMPRICE:
+      return {
+        ...state,
+        rawMaterialRate: action.rawMrate,
+        rawMaterialWORate: action.rawMWOGST,
+        priceUpdated: true
+      };
+
     case UPDATE_QUANTITY:
       const { displayRateUnit, baseQuantity, baseUnit } = action.payload;
       return {
@@ -94,6 +104,13 @@ export default (state, action) => {
         rawMaterialStatePriceGST: optionValue
       };
     }
+    case COMPLETE_SUPPLIERUPDATE:
+      return {
+        ...state,
+        supplierUpdated: true,
+        supplierID: action.id
+      };
+
     case COMPLETE_FORM:
       return {
         ...state,

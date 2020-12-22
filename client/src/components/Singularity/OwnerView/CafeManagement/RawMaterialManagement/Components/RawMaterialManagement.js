@@ -47,17 +47,7 @@ const RawMaterialManagement = () => {
             }}
             exit={{ opacity: 0 }}
           >
-            <div
-              style={{
-                zIndex: 1,
-                width: '100%',
-                position: 'absolute',
-                top: '120px'
-              }}
-            >
-              <SearchUpdateSupplier />
-            </div>
-
+            <SearchUpdateSupplier />
             <RawMaterialDetails />
             <RawMaterialTypeQuantity />
             <PriceGSTDetails />

@@ -18,7 +18,7 @@ export const useStepStatusRequest = () => {
       });
 
       const response = await axios.post('/api/v1/stepLogs', body, config);
-      const responseData = response.data.data.data;
+      const responseData = response.status;
       return responseData;
     },
     []
