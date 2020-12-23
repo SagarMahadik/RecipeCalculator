@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+const Mockgoose = require('mockgoose').Mockgoose;
 const dotenv = require('dotenv');
+const db = require('./db/index.js');
 
 process.on('uncaughtException', err => {
   console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
@@ -10,28 +12,7 @@ process.on('uncaughtException', err => {
 dotenv.config({ path: './config.env' });
 const app = require('./app');
 
-const setDatabase = () => {
-  if (process.env.NODE_ENV === 'development') {
-    const DB = process.env.DATABASE;
-    return DB;
-  } else {
-    const DB = process.env.DATABASE_PRODUCTION.replace(
-      '<PASSWORD>',
-      process.env.DATABASE_PASSWORD
-    );
-    return DB;
-  }
-};
-
-const DB = setDatabase();
-
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-  })
-  .then(() => console.log('DB connection successful!'));
+db.connect().then(() => console.log('DB connection successful!'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
