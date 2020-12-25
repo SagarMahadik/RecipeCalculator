@@ -1,6 +1,9 @@
 import React, { useEffect, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
-import applicationContext from 'Context/ApplicationContext/applicationContext.js';
+import {
+  applicationContext,
+  applicationDispatchContext
+} from 'Context/ApplicationContext/applicationContext.js';
 
 function ScrollToTop({ history }) {
   const ApplicationContext = useContext(applicationContext);

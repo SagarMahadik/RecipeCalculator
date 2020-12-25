@@ -4,7 +4,10 @@ import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/Contai
 import { DMenuCategoryContainer } from 'styles/Singularity/OwnerView/CafeManagement/DigitizedMenu/index.js';
 import { ThemeAnimationContainer } from 'styles/Singularity/Style1.0/Animations';
 import CategoryCard from 'components/Singularity/OwnerView/CafeManagement/DIgitizedMenu/DisplayMenu/Components/ComponentDesign/CategoryCard.js';
-import applicationContext from 'Context/ApplicationContext/applicationContext.js';
+import {
+  applicationContext,
+  applicationDispatchContext
+} from 'Context/ApplicationContext/applicationContext.js';
 
 const DmenuDisplay = () => {
   const ApplicationContext = useContext(applicationContext);

@@ -6,7 +6,10 @@ import {
 } from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/supplierDetailsContext.js';
 import supplierDetailsReducer from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/supplierDetailsReducer.js';
 
-import applicationContext from 'Context/ApplicationContext/applicationContext';
+import {
+  applicationContext,
+  applicationDispatchContext
+} from 'Context/ApplicationContext/applicationContext.js';
 
 function SupplierDetailsState({ children }) {
   const initialState = {

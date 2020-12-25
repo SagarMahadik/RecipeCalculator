@@ -1,6 +1,10 @@
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import applicationContext from 'Context/ApplicationContext/applicationContext.js';
+import {
+  applicationContext,
+  applicationDispatchContext
+} from 'Context/ApplicationContext/applicationContext.js';
+
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 import AuthenticationLoader from 'components/Singularity/ApplicationView/Loaders/AuthenticationLoader';
 

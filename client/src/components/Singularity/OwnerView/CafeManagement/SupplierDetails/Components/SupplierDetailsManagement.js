@@ -24,7 +24,6 @@ const SupplierDetailsManagement = () => {
   return (
     <>
       <FormHeadings heading="Supplier Details" />
-
       <SupplierDetails />
       <SubmitSupplierDetails onClick={onSubmit} />
       <SupplierValidations />

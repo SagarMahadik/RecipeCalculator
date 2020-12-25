@@ -3,7 +3,11 @@ import MenuPageCategory from 'components/Singularity/OwnerView/CafeManagement/DI
 import MenuPageSubCategory from 'components/Singularity/OwnerView/CafeManagement/DIgitizedMenu/DisplayMenu/Components/ComponentDesign/MenuPageSubCategory.js';
 import MenuPageProduct from 'components/Singularity/OwnerView/CafeManagement/DIgitizedMenu/DisplayMenu/Components/ComponentDesign/MenuPageProduct.js';
 import LogoPiattoTagLine from 'components/Singularity/ApplicationView/MoleculeComponent/LogoWithPiattoTagline';
-import applicationContext from 'Context/ApplicationContext/applicationContext.js';
+import {
+  applicationContext,
+  applicationDispatchContext
+} from 'Context/ApplicationContext/applicationContext.js';
+
 import displayDMenuContext from 'components/Singularity/OwnerView/CafeManagement/DIgitizedMenu/DisplayMenu/State/dMenuDisplayContext.js';
 import { ThemeAnimationContainer } from 'styles/Singularity/Style1.0/Animations';
 

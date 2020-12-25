@@ -48,7 +48,6 @@ const POSTsupplierRequest = () => {
     supplierPinCode,
     supplierGSTNumber
   ) => {
-    console.log(userID);
     const body = JSON.stringify({
       userID,
       supplierName,
@@ -70,7 +69,6 @@ const POSTsupplierRequest = () => {
     });
 
     if (res.data.status === 'success') {
-      console.log('setting complete form');
       dispatch({
         type: 'COMPLETE_FORM'
       });

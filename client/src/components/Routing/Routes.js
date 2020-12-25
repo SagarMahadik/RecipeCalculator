@@ -10,8 +10,7 @@ import DmenuDisplay from 'components/Singularity/OwnerView/CafeManagement/DIgiti
 import ImageGallery from 'components/Singularity/ApplicationView/ImageGallery';
 import DMenuProductMain from 'components/Singularity/OwnerView/CafeManagement/DIgitizedMenu/DisplayMenu/Components/DMenuProductMain.js';
 import Navigation from 'components/Singularity/OwnerView/CafeManagement/Navigation/Navigation';
-import Register from 'components/Singularity/OwnerView/Authentication/Components/Register.js';
-import Login from 'components/Singularity/OwnerView/Authentication/Components/Login.js';
+import Register from 'components/Singularity/OwnerView/Authentication/Components/RegistrationMainComponent.js';
 import PrivateRoute from 'components/Routing/PrivateRoute.js';
 import LandingPage from 'components/Singularity/OwnerView/Authentication/Components/LandingPage.js';
 
@@ -52,7 +51,7 @@ export default function Routes() {
         />
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/login" component={Login} />
+        <Route exact path="/login" component={LandingPage} />
         <PrivateRoute exact path="/ownerDashboard" component={Navigation} />
         <Route exact="/digitalCafeMenu" component={DmenuDisplay} />
         <Route exact path="/gallery" component={ImageGallery} />

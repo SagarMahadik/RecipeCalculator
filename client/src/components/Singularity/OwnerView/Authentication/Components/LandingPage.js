@@ -1,12 +1,13 @@
 import React from 'react';
 import Logo from 'components/Singularity/ApplicationView/Logo';
-import Login from 'components/Singularity/OwnerView/Authentication/Components/Login.js';
+
 import {
   BackgroundImage,
   LandingPageContainer,
   LogoContainer,
   LoginContainer
 } from 'styles/Singularity/OwnerView/Authentication/index.js';
+import LoginMainComponent from './LoginMainComponent';
 
 const LandingPage = () => {
   return (
@@ -15,9 +16,8 @@ const LandingPage = () => {
       <LogoContainer>
         <Logo height={150} width={150} />
       </LogoContainer>
-
       <LoginContainer>
-        <Login />
+        <LoginMainComponent />
       </LoginContainer>
     </LandingPageContainer>
   );

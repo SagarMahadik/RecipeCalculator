@@ -1,10 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
-import StyledSubmitButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledSubmitButton.js';
 import AppStyleButton from 'components/Singularity/ApplicationView/FormElements/Inputs/AppStyleButton.js';
-import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';
 
-import { loginFields } from './SeedData/login';
+import { loginFields } from 'components/Singularity/OwnerView/Authentication/Components/SeedData/login.js';
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 import {
   RegisterText,
@@ -12,22 +10,23 @@ import {
   ErrorText,
   ErrorTextContainer
 } from 'styles/Singularity/OwnerView/Authentication';
-import applicationContext from 'Context/ApplicationContext/applicationContext.js';
-import { Redirect } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 
-import AuthenticationLoader from 'components/Singularity/ApplicationView/Loaders/AuthenticationLoader';
+import {
+  useApplicationState,
+  useApplicationDispatch
+} from 'Context/ApplicationContext/ApplicationState.js';
+import { Redirect } from 'react-router-dom';
 
 const Login = props => {
-  const ApplicationContext = useContext(applicationContext);
+  const ApplicationContext = useApplicationState();
   const {
     isAuthenticated,
-    handleChangeFor,
     loginUser,
     authError,
-    errorMessage,
-    frontEndError
+    errorMessage
   } = ApplicationContext;
+
+  const dispatch = useApplicationDispatch();
 
   if (isAuthenticated) {
     return <Redirect to="/ownerDashboard" />;
@@ -35,7 +34,7 @@ const Login = props => {
 
   return (
     <>
-      <CenterAlignedColumnContainer>
+      <CenterAlignedColumnContainer style={{ marginTop: '50px' }}>
         {authError ? (
           <ErrorTextContainer
             initial={{ opacity: 0 }}
@@ -61,7 +60,12 @@ const Login = props => {
               isValidationError={ApplicationContext.validationError[field.name]}
               requiredErrorText={field.requiredErrorMessage}
               validationErrorText={field.validationErrorMessage}
-              onChange={handleChangeFor(field.name)}
+              onChange={e =>
+                dispatch({
+                  type: 'UPDATE_FIELD',
+                  payload: { input: field.name, value: e.target.value }
+                })
+              }
               value={ApplicationContext[field.name]}
             />
           );

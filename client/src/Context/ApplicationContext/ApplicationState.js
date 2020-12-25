@@ -1,5 +1,8 @@
-import React, { useReducer, useEffect } from 'react';
-import applicationContext from 'Context/ApplicationContext/applicationContext.js';
+import React, { useReducer, useEffect, useContext } from 'react';
+import {
+  applicationContext,
+  applicationDispatchContext
+} from 'Context/ApplicationContext/applicationContext.js';
 import applicationReducer from 'Context/ApplicationContext/appllicationReducer.js';
 import {
   SET_LOADING,
@@ -40,7 +43,7 @@ import {
 
 export let util = { validateRegistrationFields: null };
 
-export const ApplicationState = props => {
+function ApplicationState(props) {
   const initialState = {
     userID: '',
     userBrandName: '',
@@ -83,7 +86,9 @@ export const ApplicationState = props => {
     regValIntitiated: false,
     sendingLoginRequest: false,
     sendingRegRequest: false,
-    customerMatchLogin: false
+    customerMatchLogin: false,
+    initiateLoginRequest: false,
+    initiateRegRequest: false
   };
 
   const [state, dispatch] = useReducer(applicationReducer, initialState);
@@ -119,7 +124,9 @@ export const ApplicationState = props => {
     customerMatchLogin,
     loginSuccess,
     regSuccess,
-    loginFail
+    loginFail,
+    initiateLoginRequest,
+    initiateRegRequest
   } = state;
 
   useEffect(() => {
@@ -152,94 +159,6 @@ export const ApplicationState = props => {
 
   const setAuthTokenFlag = () => dispatch({ type: SET_AUTHTOKEN });
 
-  const addUserToDB = async (
-    brandName,
-    mobileNumber,
-    email,
-    password,
-    passwordConfirm
-  ) => {
-    dispatch({
-      type: SENDING_REGISTRATIONREQUEST
-    });
-    const body = JSON.stringify({
-      brandName,
-      mobileNumber,
-      email,
-      password,
-      passwordConfirm,
-      userID: mobileNumber
-    });
-
-    console.log(body);
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/JSON'
-      }
-    };
-
-    try {
-      const res = await axios.post('/api/v1/users/signup', body, config);
-
-      localStorage.setItem('token', res.data.token);
-
-      dispatch({
-        type: REGISTRATION_SUCCESS,
-        data: res.data.data.user
-      });
-    } catch (err) {
-      console.log(err.response.data.message);
-
-      dispatch({
-        type: REGISTRATION_FAIL,
-        message: err.response.data.message
-      });
-    }
-  };
-
-  const makeLoginRequest = async (loginEmail, loginPassword) => {
-    dispatch({
-      type: SENDING_LOGINREQUEST
-    });
-    const body = JSON.stringify({
-      email: loginEmail,
-      password: loginPassword
-    });
-
-    console.log(body);
-    const config = {
-      headers: {
-        'Content-Type': 'application/JSON'
-      }
-    };
-    try {
-      const res = await axios.post('/api/v1/users/login', body, config);
-      console.log(res);
-      localStorage.setItem('token', res.data.token);
-      dispatch({
-        type: LOGIN_SUCCESS,
-        data: res.data.data.user
-      });
-
-      const stepREs = sendStepStatusRequest(
-        'sytem',
-        'LOGIN_SUCCESS',
-        'success'
-      );
-    } catch (err) {
-      console.log(err);
-      dispatch({
-        type: LOGIN_FAIL,
-        message: err.response.data.message
-      });
-
-      const stepREs = sendStepStatusRequest('sytem', 'LOGIN_FAIL', 'fail');
-
-      setTimeout(() => dispatch({ type: REMOVE_AUTHERROR }), 3000);
-    }
-  };
-
   const handleChangeFor = input => e => {
     {
       dispatch({
@@ -249,161 +168,18 @@ export const ApplicationState = props => {
     }
   };
 
-  const validateFields = (loginEmail, loginPassword) => {
-    console.log('in validate');
-    dispatch({
-      type: LOGIN_VALIDATIONINITIATED
-    });
-    if (isEmpty(loginPassword)) {
-      dispatch({
-        type: SET_FRONTENDERROR,
-        field: 'loginPassword'
-      });
-    }
-    if (isEmpty(loginEmail)) {
-      dispatch({
-        type: SET_FRONTENDERROR,
-        field: 'loginEmail'
-      });
-    }
-
-    if (isInValidEmail(loginEmail) && !isEmpty(loginEmail)) {
-      dispatch({
-        type: SET_VALIDATIONERROR,
-        field: 'loginEmail'
-      });
-    }
-
-    if (
-      !isEmpty(loginPassword) &&
-      !isEmpty(loginEmail) &&
-      !isInValidEmail(loginEmail)
-    ) {
-      dispatch({
-        type: SET_FORMVALIDATIONCOMPLETE
-      });
-    }
-
-    setTimeout(() => dispatch({ type: REMOVE_FRONTENDERROR }), 1500);
-    setTimeout(() => dispatch({ type: REMOVE_VALIDATIONERROR }), 1500);
-    return true;
-  };
-
-  const validateRegistrationFields = (
-    brandName,
-    mobileNumber,
-    email,
-    password,
-    passwordConfirm
-  ) => {
-    dispatch({
-      type: REGISTRATION_VALIDATIONINITIATED
-    });
-    if (isEmpty(brandName)) {
-      dispatch({
-        type: SET_FRONTENDERROR,
-        field: 'brandName'
-      });
-    }
-    if (isEmpty(mobileNumber)) {
-      dispatch({
-        type: SET_FRONTENDERROR,
-        field: 'mobileNumber'
-      });
-    }
-    if (isEmpty(email)) {
-      dispatch({
-        type: SET_FRONTENDERROR,
-        field: 'email'
-      });
-    }
-    if (isEmpty(password)) {
-      dispatch({
-        type: SET_FRONTENDERROR,
-        field: 'password'
-      });
-    }
-    if (isEmpty(passwordConfirm)) {
-      dispatch({
-        type: SET_FRONTENDERROR,
-        field: 'passwordConfirm'
-      });
-    }
-    if (isInValidIndianMobileNumber(mobileNumber) && !isEmpty(mobileNumber)) {
-      dispatch({
-        type: SET_VALIDATIONERROR,
-        field: 'mobileNumber'
-      });
-    }
-
-    if (isInValidEmail(email) && !isEmpty(email)) {
-      dispatch({
-        type: SET_VALIDATIONERROR,
-        field: 'email'
-      });
-    }
-    if (isNotMinLength(password, 8) && !isEmpty(password)) {
-      dispatch({
-        type: SET_VALIDATIONERROR,
-        field: 'password'
-      });
-    }
-
-    if (
-      areNotSame(password, passwordConfirm) &&
-      !isEmpty(password) &&
-      !isEmpty(passwordConfirm)
-    ) {
-      dispatch({
-        type: SET_VALIDATIONERROR,
-        field: 'passwordConfirm'
-      });
-    }
-    setTimeout(() => dispatch({ type: REMOVE_FRONTENDERROR }), 2500);
-    setTimeout(() => dispatch({ type: REMOVE_VALIDATIONERROR }), 2500);
-    if (
-      !isEmpty(email) &&
-      !isEmpty(mobileNumber) &&
-      !isEmpty(password) &&
-      !isEmpty(passwordConfirm) &&
-      !isEmpty(brandName) &&
-      !isInValidEmail(email) &&
-      !isInValidIndianMobileNumber(mobileNumber) &&
-      !areNotSame(passwordConfirm, password) &&
-      !isNotMinLength(password, 8)
-    ) {
-      dispatch({
-        type: SET_REGISTERFORMVALIDATIONCOMPLETE
-      });
-    }
-  };
-
   const registerUser = e => {
     setLoading();
-    validateRegistrationFields(
-      brandName,
-      mobileNumber,
-      email,
-      password,
-      passwordConfirm
-    );
+    dispatch({
+      type: 'REGISTRATION_VALIDATIONINITIATED'
+    });
   };
-
-  useEffect(() => {
-    if (registrationFromValidated) {
-      addUserToDB(brandName, mobileNumber, email, password, passwordConfirm);
-    }
-  }, [registrationFromValidated]);
-
-  useEffect(() => {
-    if (formValidated) {
-      makeLoginRequest(loginEmail, loginPassword);
-    }
-  }, [formValidated]);
 
   const loginUser = e => {
     setLoading();
-    validateFields(loginEmail, loginPassword);
+    dispatch({
+      type: 'LOGIN_VALIDATIONINITIATED'
+    });
   };
 
   const loadUser = async () => {
@@ -427,6 +203,9 @@ export const ApplicationState = props => {
       );
     } catch (err) {
       console.log(err.response);
+      dispatch({
+        type: 'LOADING_USER_FAILED'
+      });
     }
   };
 
@@ -461,15 +240,38 @@ export const ApplicationState = props => {
         sendingRegRequest,
         registrationFromValidated,
         customerMatchLogin,
+        initiateLoginRequest,
+        initiateRegRequest,
         handleChangeFor,
         registerUser,
         loginUser,
         loadUser
       }}
     >
-      {props.children}
+      <applicationDispatchContext.Provider value={dispatch}>
+        {props.children}
+      </applicationDispatchContext.Provider>
     </applicationContext.Provider>
   );
-};
+}
 
-export default ApplicationState;
+function useApplicationState() {
+  const context = useContext(applicationContext);
+
+  if (context === undefined) {
+    throw new Error('useApplicationState must be used within a CountProvider');
+  }
+  return context;
+}
+
+function useApplicationDispatch() {
+  const context = useContext(applicationDispatchContext);
+  if (context === undefined) {
+    throw new Error(
+      'useApplicationDispatch must be used within a CountProvider'
+    );
+  }
+  return context;
+}
+
+export { ApplicationState, useApplicationState, useApplicationDispatch };

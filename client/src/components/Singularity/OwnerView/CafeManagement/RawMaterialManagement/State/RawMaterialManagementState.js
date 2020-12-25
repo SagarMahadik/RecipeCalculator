@@ -28,7 +28,10 @@ import {
 
 import { useHttpClient } from 'Hooks/httpsHooks';
 
-import applicationContext from 'Context/ApplicationContext/applicationContext';
+import {
+  applicationContext,
+  applicationDispatchContext
+} from 'Context/ApplicationContext/applicationContext.js';
 
 import {
   calcualatePriceWithoutGST,

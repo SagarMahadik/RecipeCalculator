@@ -2,9 +2,14 @@ import React, { useContext } from 'react';
 import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
 import StyledSubmitButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledSubmitButton.js';
 import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';
-import { registrationFields } from './SeedData/register';
+import { registrationFields } from 'components/Singularity/OwnerView/Authentication/Components/SeedData/register.js';
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
-import applicationContext from 'Context/ApplicationContext/applicationContext.js';
+
+import {
+  useApplicationState,
+  useApplicationDispatch
+} from 'Context/ApplicationContext/ApplicationState.js';
+
 import { Redirect } from 'react-router-dom';
 import {
   RegisterText,
@@ -14,15 +19,16 @@ import {
 } from 'styles/Singularity/OwnerView/Authentication';
 
 const Register = () => {
-  const ApplicationContext = useContext(applicationContext);
+  const ApplicationContext = useApplicationState();
   const {
     isAuthenticated,
-    handleChangeFor,
     registerUser,
     loading,
     customerMatchLogin,
     errorMessage
   } = ApplicationContext;
+
+  const dispatch = useApplicationDispatch();
 
   if (isAuthenticated && !loading) {
     return <Redirect to="/ownerDashboard" />;
@@ -57,7 +63,12 @@ const Register = () => {
               isValidationError={ApplicationContext.validationError[field.name]}
               requiredErrorText={field.requiredErrorMessage}
               validationErrorText={field.validationErrorMessage}
-              onChange={handleChangeFor(field.name)}
+              onChange={e => {
+                dispatch({
+                  type: 'UPDATE_FIELD',
+                  payload: { input: field.name, value: e.target.value }
+                });
+              }}
               value={ApplicationContext[field.name]}
             />
           );

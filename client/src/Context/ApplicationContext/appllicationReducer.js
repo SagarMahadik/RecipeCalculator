@@ -20,7 +20,10 @@ import {
   REGISTRATION_VALIDATIONINITIATED,
   SENDING_LOGINREQUEST,
   SENDING_REGISTRATIONREQUEST,
-  REGISTRATION_FAIL
+  REGISTRATION_FAIL,
+  INITIIATE_LOGINREQEST,
+  INITIIATE_REGISTRATIONREQEST,
+  LOADING_USER_FAILED
 } from 'Context/ApplicationContext/types.js';
 
 import { produce } from 'immer';
@@ -51,6 +54,18 @@ export default (state, action) => {
         loginValidationInitiated: true
       };
 
+    case INITIIATE_REGISTRATIONREQEST:
+      return {
+        ...state,
+        initiateRegRequest: true
+      };
+
+    case INITIIATE_LOGINREQEST:
+      return {
+        ...state,
+        initiateLoginRequest: true
+      };
+
     case SENDING_LOGINREQUEST:
       return {
         ...state,
@@ -79,7 +94,8 @@ export default (state, action) => {
         loginPassword: '',
         authError: true,
         errorMessage: action.message,
-        loginFail: true
+        loginFail: true,
+        loginValidationInitiated: false
       };
     case REGISTRATION_FAIL:
       return {
@@ -106,6 +122,8 @@ export default (state, action) => {
       console.log(action.field);
       return produce(state, draftState => {
         draftState.frontEndError[action.field] = true;
+        draftState.loginValidationInitiated = false;
+        draftState.regValIntitiated = false;
       });
 
     case REMOVE_FRONTENDERROR:
@@ -118,6 +136,8 @@ export default (state, action) => {
     case SET_VALIDATIONERROR:
       return produce(state, draftState => {
         draftState.validationError[action.field] = true;
+        draftState.loginValidationInitiated = false;
+        draftState.regValIntitiated = false;
       });
 
     case REMOVE_VALIDATIONERROR:
@@ -144,6 +164,13 @@ export default (state, action) => {
         user: action.payload,
         userID: action.payload.userID,
         userBrandName: action.payload.brandName
+      };
+
+    case LOADING_USER_FAILED:
+      return {
+        ...state,
+        loading: false,
+        authComplete: true
       };
     case SET_CATEGORYDATA:
       return produce(state, draftState => {
