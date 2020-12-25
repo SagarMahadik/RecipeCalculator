@@ -1,10 +1,15 @@
 const express = require('express');
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
+const validationController = require('./../controllers/validationController');
 
 const router = express.Router();
 
-router.post('/signup', authController.signup);
+router.post(
+  '/signup',
+  validationController.isUserIDMoblieMisMatch,
+  authController.signup
+);
 router.post('/login', authController.login);
 router.get('/auth', authController.protect, authController.authenticate);
 router.post('/forgotPassword', authController.forgotPassword);

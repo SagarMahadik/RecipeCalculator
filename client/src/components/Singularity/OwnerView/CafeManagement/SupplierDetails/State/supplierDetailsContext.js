@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 
-const rawMaterialManagementContext = createContext();
+const supplierDetailsContext = createContext();
+const supplierDetailsDispatchContext = createContext();
 
-export default rawMaterialManagementContext;
+export { supplierDetailsContext, supplierDetailsDispatchContext };

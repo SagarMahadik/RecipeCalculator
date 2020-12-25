@@ -1,23 +1,14 @@
-import React, { useReducer, useContext, useEffect } from 'react';
+import React, { useReducer, useContext } from 'react';
 
-import supplierDetailsContext from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/supplierDetailsContext.js';
-import supplierDetailsReducer from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/supplierDetailsReducer.js';
 import {
-  SET_LOADING,
-  SHOW_LOADER,
-  UPDATE_FIELD,
-  COMPLETE_FORM,
-  SET_USERID
-} from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/types.js';
+  supplierDetailsContext,
+  supplierDetailsDispatchContext
+} from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/supplierDetailsContext.js';
+import supplierDetailsReducer from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/supplierDetailsReducer.js';
 
 import applicationContext from 'Context/ApplicationContext/applicationContext';
-import { createSupplierRequestBody } from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/createSupplierRequestBody.js';
 
-import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
-
-import axios from 'axios';
-
-const SupplierDetailsState = props => {
+function SupplierDetailsState({ children }) {
   const initialState = {
     supplierName: '',
     supplierPersonDetails: '',
@@ -27,13 +18,21 @@ const SupplierDetailsState = props => {
     supplierGSTNumber: '',
     isComplete: false,
     showLoader: false,
-    loading: false
+    loading: false,
+    trigger: false,
+    requiredFields: ['supplierName', 'supplierPersonDetails'],
+    requiredFieldsError: {
+      supplierName: false,
+      supplierPersonDetails: false
+    },
+    supplierValidationsInitiated: false,
+    supplierValidationCompleted: false,
+    initiatePostSupplierRequest: false
   };
 
   const [state, dispatch] = useReducer(supplierDetailsReducer, initialState);
 
-  const ApplicationContext = useContext(applicationContext);
-  const { userID } = ApplicationContext;
+  const { userID } = useContext(applicationContext);
 
   const {
     supplierName,
@@ -44,80 +43,19 @@ const SupplierDetailsState = props => {
     supplierGSTNumber,
     isComplete,
     showLoader,
-    loading
+    loading,
+    trigger,
+    requiredFieldsError,
+    requiredFields,
+    supplierValidationsInitiated,
+    supplierValidationCompleted,
+    initiatePostSupplierRequest
   } = state;
-
-  const { sendStepStatusRequest, stepStatusError } = useStepStatusRequest();
-
-  const setLoading = () => dispatch({ type: SET_LOADING });
-  const setShowLoader = () => dispatch({ type: SHOW_LOADER });
-  const addDataToDB = async (
-    userID,
-    supplierName,
-    supplierPersonDetails,
-    supplierMobileNumber,
-    supplierAddress,
-    supplierPinCode,
-    supplierGSTNumber
-  ) => {
-    console.log(userID);
-    const body = JSON.stringify({
-      userID,
-      supplierName,
-      supplierPersonDetails,
-      supplierMobileNumber,
-      supplierAddress,
-      supplierPinCode,
-      supplierGSTNumber
-    });
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/JSON'
-      }
-    };
-    const res = await axios.post('/api/v1/supplier', body, config);
-    setLoading();
-
-    if (res.data.status === 'success') {
-      dispatch({
-        type: COMPLETE_FORM
-      });
-      const stepREs = sendStepStatusRequest(
-        `${userID}`,
-        `Supplier created successfully for ${userID}`,
-        'success'
-      );
-    }
-  };
-
-  const handleChangeFor = input => e => {
-    {
-      dispatch({
-        type: UPDATE_FIELD,
-        payload: { input, value: e.target.value }
-      });
-    }
-  };
-
-  const onSubmit = e => {
-    e.preventDefault();
-    console.log(e);
-    setShowLoader();
-    addDataToDB(
-      userID,
-      supplierName,
-      supplierPersonDetails,
-      supplierMobileNumber,
-      supplierAddress,
-      supplierPinCode,
-      supplierGSTNumber
-    );
-  };
 
   return (
     <supplierDetailsContext.Provider
       value={{
+        userID,
         supplierName,
         supplierPersonDetails,
         supplierMobileNumber,
@@ -127,13 +65,44 @@ const SupplierDetailsState = props => {
         isComplete,
         showLoader,
         loading,
-        handleChangeFor,
-        onSubmit
+        trigger,
+        requiredFieldsError,
+        supplierValidationsInitiated,
+        requiredFields,
+        supplierValidationCompleted,
+        initiatePostSupplierRequest
       }}
     >
-      {props.children}
+      <supplierDetailsDispatchContext.Provider value={dispatch}>
+        {children}
+      </supplierDetailsDispatchContext.Provider>
     </supplierDetailsContext.Provider>
   );
-};
+}
 
-export default SupplierDetailsState;
+function useSupplierDetailsState() {
+  const context = useContext(supplierDetailsContext);
+
+  if (context === undefined) {
+    throw new Error(
+      'useSupplierDetailsState must be used within a CountProvider'
+    );
+  }
+  return context;
+}
+
+function useSupplierDetailsDispatch() {
+  const context = useContext(supplierDetailsDispatchContext);
+  if (context === undefined) {
+    throw new Error(
+      'useSupplierDetailsDispatch must be used within a CountProvider'
+    );
+  }
+  return context;
+}
+
+export {
+  SupplierDetailsState,
+  useSupplierDetailsState,
+  useSupplierDetailsDispatch
+};
