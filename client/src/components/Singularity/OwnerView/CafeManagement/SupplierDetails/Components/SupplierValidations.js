@@ -11,8 +11,11 @@ const SupplierValidations = () => {
     supplierName,
     supplierPersonDetails,
     supplierValidationsInitiated,
-    supplierValidationCompleted
+    supplierValidationCompleted,
+    requiredFields
   } = useSupplierDetailsState();
+
+  const SupplierContext = useSupplierDetailsState();
   const dispatch = useSupplierDetailsDispatch();
 
   useEffect(() => {
@@ -22,18 +25,14 @@ const SupplierValidations = () => {
   }, [supplierValidationsInitiated]);
 
   const runSupplierValidations = (supplierName, supplierPersonDetails) => {
-    if (isEmpty(supplierName)) {
-      dispatch({
-        type: 'SET_MISSINGFIELDSERROR',
-        field: 'supplierName'
-      });
-    }
-    if (isEmpty(supplierPersonDetails)) {
-      dispatch({
-        type: 'SET_MISSINGFIELDSERROR',
-        field: 'supplierPersonDetails'
-      });
-    }
+    requiredFields.map(field => {
+      if (isEmpty(SupplierContext[field])) {
+        return dispatch({
+          type: 'SET_MISSINGFIELDSERROR',
+          field: `${field}`
+        });
+      }
+    });
 
     setTimeout(() => dispatch({ type: 'REMOVE_MISSINGFIELDSERROR' }), 1500);
     if (!isEmpty(supplierName && !isEmpty(supplierPersonDetails))) {

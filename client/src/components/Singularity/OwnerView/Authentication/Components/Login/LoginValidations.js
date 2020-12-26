@@ -5,6 +5,8 @@ import {
   useApplicationDispatch
 } from 'Context/ApplicationContext/ApplicationState.js';
 
+import { loginFields } from 'components/Singularity/OwnerView/Authentication/Components/SeedData/login.js';
+
 import { isEmpty, isInValidEmail } from 'Utils/validations';
 
 const LoginValidations = () => {
@@ -12,9 +14,11 @@ const LoginValidations = () => {
     loginEmail,
     loginPassword,
     loginValidationInitiated,
-    formValidated
+    formValidated,
+    loginRequiredFields
   } = useApplicationState();
   const dispatch = useApplicationDispatch();
+  const ApplicationContext = useApplicationState();
 
   useEffect(() => {
     if (loginValidationInitiated) {
@@ -24,18 +28,15 @@ const LoginValidations = () => {
 
   const validateLoginFields = (loginEmail, loginPassword) => {
     console.log('Insider validate login');
-    if (isEmpty(loginPassword)) {
-      dispatch({
-        type: 'SET_FRONTENDERROR',
-        field: 'loginPassword'
-      });
-    }
-    if (isEmpty(loginEmail)) {
-      dispatch({
-        type: 'SET_FRONTENDERROR',
-        field: 'loginEmail'
-      });
-    }
+
+    loginRequiredFields.map(requiredField => {
+      if (isEmpty(ApplicationContext[requiredField])) {
+        return dispatch({
+          type: 'SET_FRONTENDERROR',
+          field: `${requiredField}`
+        });
+      }
+    });
 
     if (isInValidEmail(loginEmail) && !isEmpty(loginEmail)) {
       dispatch({

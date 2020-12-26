@@ -55,6 +55,7 @@ const Login = props => {
             <StyledTextBoxLabel
               id={field.name}
               name={field.name}
+              key={field.name}
               type={field.type}
               text={field.fieldLabel}
               isError={ApplicationContext.frontEndError[field.name]}

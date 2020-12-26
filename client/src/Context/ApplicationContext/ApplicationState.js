@@ -42,6 +42,14 @@ function ApplicationState(props) {
     authTokenFlag: false,
     authError: false,
     errorMessage: '',
+    loginRequiredFields: ['loginEmail', 'loginPassword'],
+    registrationRequiredFields: [
+      'email',
+      'brandName',
+      'mobileNumber',
+      'password',
+      'passwordConfirm'
+    ],
     frontEndError: {
       loginEmail: false,
       loginPassword: false,
@@ -89,6 +97,8 @@ function ApplicationState(props) {
     authComplete,
     authTokenFlag,
     authError,
+    loginRequiredFields,
+    registrationRequiredFields,
     errorMessage,
     frontEndError,
     validationError,
@@ -219,6 +229,8 @@ function ApplicationState(props) {
         customerMatchLogin,
         initiateLoginRequest,
         initiateRegRequest,
+        loginRequiredFields,
+        registrationRequiredFields,
         handleChangeFor,
         registerUser,
         loginUser,

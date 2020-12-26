@@ -57,6 +57,7 @@ const Register = () => {
           return (
             <StyledTextBoxLabel
               name={field.name}
+              key={field.name}
               type={field.type}
               text={field.fieldLabel}
               isError={ApplicationContext.frontEndError[field.name]}

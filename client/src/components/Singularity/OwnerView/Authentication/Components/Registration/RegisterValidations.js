@@ -21,9 +21,12 @@ const RegisterValidations = () => {
     email,
     password,
     passwordConfirm,
-    registrationFromValidated
+    registrationFromValidated,
+    registrationRequiredFields
   } = useApplicationState();
   const dispatch = useApplicationDispatch();
+
+  const ApplicationContext = useApplicationState();
 
   useEffect(() => {
     if (regValIntitiated) {
@@ -47,36 +50,16 @@ const RegisterValidations = () => {
     dispatch({
       type: 'REGISTRATION_VALIDATIONINITIATED'
     });
-    if (isEmpty(brandName)) {
-      dispatch({
-        type: 'SET_FRONTENDERROR',
-        field: 'brandName'
-      });
-    }
-    if (isEmpty(mobileNumber)) {
-      dispatch({
-        type: 'SET_FRONTENDERROR',
-        field: 'mobileNumber'
-      });
-    }
-    if (isEmpty(email)) {
-      dispatch({
-        type: 'SET_FRONTENDERROR',
-        field: 'email'
-      });
-    }
-    if (isEmpty(password)) {
-      dispatch({
-        type: 'SET_FRONTENDERROR',
-        field: 'password'
-      });
-    }
-    if (isEmpty(passwordConfirm)) {
-      dispatch({
-        type: 'SET_FRONTENDERROR',
-        field: 'passwordConfirm'
-      });
-    }
+
+    registrationRequiredFields.map(requiredField => {
+      if (isEmpty(ApplicationContext[requiredField])) {
+        return dispatch({
+          type: 'SET_FRONTENDERROR',
+          field: `${requiredField}`
+        });
+      }
+    });
+
     if (isInValidIndianMobileNumber(mobileNumber) && !isEmpty(mobileNumber)) {
       dispatch({
         type: 'SET_VALIDATIONERROR',
