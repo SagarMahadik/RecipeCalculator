@@ -44,8 +44,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "test:ui": "jest -c jest.config.js --passWithNoTests",
+    "test:ui:watch": "npm run test:ui -- --watch"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -64,9 +66,13 @@
   },
   "proxy": "http://127.0.0.1:5000",
   "devDependencies": {
+    "@babel/polyfill": "^7.12.1",
     "@testing-library/dom": "^7.29.0",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
-    "babel-plugin-styled-components": "^1.10.7"
+    "babel-plugin-styled-components": "^1.10.7",
+    "expect-puppeteer": "^4.4.0",
+    "jest-puppeteer": "^4.4.0",
+    "puppeteer": "^5.5.0"
   }
 }

@@ -8,13 +8,17 @@ import userEvent from '@testing-library/user-event';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-import ApplicationState, {
-  util
-} from 'Context/ApplicationContext/ApplicationState.js';
-import applicationContext from 'Context/ApplicationContext/applicationContext.js';
+import { ApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
+
+import LoginValidation from 'components/Singularity/OwnerView/Authentication/Components/Login/LoginValidations.js';
+import LoginRequest from 'components/Singularity/OwnerView/Authentication/Components/Login/LoginRequest.js';
+
+import {
+  applicationContext,
+  applicationDispatchContext
+} from 'Context/ApplicationContext/applicationContext.js';
 
 const wrapper = shallow(<ApplicationState />);
-console.log(wrapper);
 
 describe('ApplicationState component', () => {
   test('should render', () => {
@@ -38,10 +42,15 @@ describe('Application state', () => {
   });
 });
 
+const loginEmail = 'sgrmhdk99@gmail.com';
+const loginPassword = '1234';
+
+const dispatch = jest.fn();
+
 describe('.loginUser', () => {
   it('Logs in user post validating', () => {
     const { getByText, getByLabelText } = render(
-      <ApplicationState>
+      <ApplicationState value={({ loginEmail, loginPassword }, dispatch)}>
         <applicationContext.Consumer>
           {value => (
             <>
@@ -69,12 +78,16 @@ describe('.loginUser', () => {
                 Is validation initiated:{' '}
                 {value.loginValidationInitiated.toString()}
               </span>
-
-              <span>Is form validated: {value.formValidated.toString()}</span>
               <span>
-                Is making login request: {value.sendingLoginRequest.toString()}
+                Is validation completed: {value.formValidated.toString()}
               </span>
+              <span>
+                Is Login request sent: {value.initiateLoginRequest.toString()}
+              </span>
+
               <button onClick={value.loginUser}>Login</button>
+              <LoginValidation />
+              <LoginRequest />
             </>
           )}
         </applicationContext.Consumer>
@@ -82,7 +95,7 @@ describe('.loginUser', () => {
     );
 
     const emailInput = screen.getByLabelText(/email/i);
-    userEvent.type(emailInput, 'sgrmhdk51@gmail.com');
+    userEvent.type(emailInput, 'sgrmhdk00@gmail.com');
 
     const passwordInput = screen.getByLabelText(/password/i);
     userEvent.type(passwordInput, '12345678');
@@ -92,9 +105,9 @@ describe('.loginUser', () => {
     expect(getByText('Is logged in: false')).toBeTruthy();
     expect(getByText('Is validation initiated: true')).toBeTruthy();
     expect(getByText('Is loading in: true')).toBeTruthy();
+    expect(getByText('Is validation completed: true')).toBeTruthy();
+    expect(getByText('Is Login request sent: true')).toBeTruthy();
     //expect(emailInput.value).toBe('sgrmhdk51@gmail.com');
-    expect(getByText('Is form validated: true')).toBeTruthy();
-    expect(getByText('Is making login request: true')).toBeTruthy();
   });
 });
 
@@ -151,12 +164,6 @@ describe('.registerUser', () => {
                 Is validation initiated: {value.regValIntitiated.toString()}
               </span>
 
-              <span>
-                Is form validated: {value.registrationFromValidated.toString()}
-              </span>
-              <span>
-                Is making register request: {value.sendingRegRequest.toString()}
-              </span>
               <button onClick={value.registerUser}>Register</button>
             </>
           )}
@@ -186,7 +193,5 @@ describe('.registerUser', () => {
     expect(getByText('Is validation initiated: true')).toBeTruthy();
 
     //expect(emailInput.value).toBe('sgrmhdk51@gmail.com');
-    expect(getByText('Is form validated: true')).toBeTruthy();
-    expect(getByText('Is making register request: true')).toBeTruthy();
   });
 });

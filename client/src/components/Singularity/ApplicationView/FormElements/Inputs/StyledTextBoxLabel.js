@@ -13,6 +13,7 @@ const StyledTextBoxLabel = props => {
     <CenterAlignedColumnContainer>
       <InputWrapper>
         <TextBox
+          id={props.id}
           placeholder=" "
           type={props.type}
           name={props.name}
@@ -21,10 +22,14 @@ const StyledTextBoxLabel = props => {
         />
         <LabelText>{props.text}</LabelText>
         {props.isError ? (
-          <ErrorText>{props.requiredErrorText}</ErrorText>
+          <ErrorText id="required-field-message">
+            {props.requiredErrorText}
+          </ErrorText>
         ) : null}
         {props.isValidationError ? (
-          <ErrorText>{props.validationErrorText}</ErrorText>
+          <ErrorText id="validation-error-message">
+            {props.validationErrorText}
+          </ErrorText>
         ) : null}
       </InputWrapper>
     </CenterAlignedColumnContainer>

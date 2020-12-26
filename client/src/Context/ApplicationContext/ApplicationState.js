@@ -7,23 +7,8 @@ import applicationReducer from 'Context/ApplicationContext/appllicationReducer.j
 import {
   SET_LOADING,
   UPDATE_FIELD,
-  REGISTRATION_SUCCESS,
-  REGISTRATION_FAIL,
-  LOGIN_FAIL,
-  LOGIN_SUCCESS,
   LOAD_USER,
-  SET_AUTHTOKEN,
-  REMOVE_AUTHERROR,
-  SET_FRONTENDERROR,
-  REMOVE_FRONTENDERROR,
-  SET_VALIDATIONERROR,
-  REMOVE_VALIDATIONERROR,
-  SET_FORMVALIDATIONCOMPLETE,
-  SET_REGISTERFORMVALIDATIONCOMPLETE,
-  LOGIN_VALIDATIONINITIATED,
-  SENDING_LOGINREQUEST,
-  REGISTRATION_VALIDATIONINITIATED,
-  SENDING_REGISTRATIONREQUEST
+  SET_AUTHTOKEN
 } from 'Context/ApplicationContext/types.js';
 import { useHttpClient } from 'Hooks/httpsHooks';
 
@@ -32,14 +17,6 @@ import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 import axios from 'axios';
 
 import setAuthToken from 'Utils/setAuthToken.js';
-
-import {
-  isEmpty,
-  isInValidEmail,
-  isInValidIndianMobileNumber,
-  isNotMinLength,
-  areNotSame
-} from 'Utils/validations.js';
 
 export let util = { validateRegistrationFields: null };
 

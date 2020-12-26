@@ -46,13 +46,14 @@ const Login = props => {
             exit={{ opacity: 0 }}
           >
             {' '}
-            <ErrorText>{errorMessage}</ErrorText>
+            <ErrorText id="error-message">{errorMessage}</ErrorText>
           </ErrorTextContainer>
         ) : null}
 
         {loginFields.map(field => {
           return (
             <StyledTextBoxLabel
+              id={field.name}
               name={field.name}
               type={field.type}
               text={field.fieldLabel}
@@ -70,7 +71,7 @@ const Login = props => {
             />
           );
         })}
-        <AppStyleButton display="Login" onClick={loginUser} />
+        <AppStyleButton display="Login" id="login-button" onClick={loginUser} />
 
         <RegisterLink to="/register">
           <RegisterText>Don’t have an account yet?</RegisterText>

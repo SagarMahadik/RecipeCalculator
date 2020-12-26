@@ -3,76 +3,86 @@
 exports[`renders 1`] = `
 <DocumentFragment>
   <div
-    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 Authentication__LoginContainer-sc-16b61pd-3 dttvFM"
   >
     <div
       class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+      style="margin-top: 50px;"
     >
       <div
-        class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
       >
-        <input
-          class="FormInputStyles__TextBox-sc-1x7zmpv-0 cyFYwY"
-          name="loginEmail"
-          placeholder=" "
-          type="Email"
-          value=""
-        />
-        <label
-          class="FormInputStyles__LabelText-sc-1x7zmpv-2 hwozQS"
+        <div
+          class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
         >
-          Email
-        </label>
+          <input
+            class="FormInputStyles__TextBox-sc-1x7zmpv-0 haXQQL"
+            id="loginEmail"
+            name="loginEmail"
+            placeholder=" "
+            type="Email"
+            value=""
+          />
+          <label
+            class="FormInputStyles__LabelText-sc-1x7zmpv-2 croxHW"
+          >
+            Email
+          </label>
+        </div>
       </div>
-    </div>
-    <div
-      class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
-    >
       <div
-        class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
       >
-        <input
-          class="FormInputStyles__TextBox-sc-1x7zmpv-0 cyFYwY"
-          name="loginPassword"
-          placeholder=" "
-          type="password"
-          value=""
-        />
-        <label
-          class="FormInputStyles__LabelText-sc-1x7zmpv-2 hwozQS"
+        <div
+          class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
         >
-          Password
-        </label>
+          <input
+            class="FormInputStyles__TextBox-sc-1x7zmpv-0 haXQQL"
+            id="loginPassword"
+            name="loginPassword"
+            placeholder=" "
+            type="password"
+            value=""
+          />
+          <label
+            class="FormInputStyles__LabelText-sc-1x7zmpv-2 croxHW"
+          >
+            Password
+          </label>
+        </div>
       </div>
-    </div>
-    <div
-      class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
-      style="margin-top: 20px;"
-    >
-      <button
-        class="FormInputStyles__TextRadioButton-sc-1x7zmpv-22 dlrpYJ"
+      <div
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+        style="margin-top: 20px;"
+      >
+        <button
+          class="FormInputStyles__TextRadioButton-sc-1x7zmpv-22 kaQBuQ"
+          id="login-button"
+        >
+          <text
+            class="TextStyles__PTSansText-sc-151f9kh-0 TextStyles__RadioButtonText-sc-151f9kh-10 AWBNw"
+          >
+            <div
+              class="TextStyles__TextContainer-sc-151f9kh-6 lnhFrg"
+            >
+              Login
+            </div>
+          </text>
+        </button>
+      </div>
+      <a
+        class="Authentication__RegisterLink-sc-16b61pd-5 eoffPn"
+        href="/register"
       >
         <text
-          class="TextStyles__PTSansText-sc-151f9kh-0 TextStyles__RadioButtonText-sc-151f9kh-10 bPeSpT"
+          class="TextStyles__ComicText-sc-151f9kh-5 Authentication__RegisterText-sc-16b61pd-4 bWGgEL"
         >
-          <div
-            class="TextStyles__TextContainer-sc-151f9kh-6 lnhFrg"
-          >
-            Login
-          </div>
+          Don’t have an account yet?
         </text>
-      </button>
+      </a>
     </div>
-    <a
-      class="Authentication__RegisterLink-sc-16b61pd-5 eoffPn"
-      href="/register"
-    >
-      <text
-        class="TextStyles__ComicText-sc-151f9kh-5 Authentication__RegisterText-sc-16b61pd-4 quGfF"
-      >
-        Don’t have an account yet?
-      </text>
-    </a>
+    <div />
+    <div />
   </div>
 </DocumentFragment>
 `;

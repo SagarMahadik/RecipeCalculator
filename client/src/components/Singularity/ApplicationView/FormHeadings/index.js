@@ -22,7 +22,9 @@ const FormHeadings = React.forwardRef(props => {
       <CenterAlignedColumnContainer>
         <LeftAlignedRowContainer>
           <Logo height={100} width={100} ref={headingRef2} />
-          <FormHeadingText ref={headingRef1}>{props.heading}</FormHeadingText>
+          <FormHeadingText id={props.id} ref={headingRef1}>
+            {props.heading}
+          </FormHeadingText>
         </LeftAlignedRowContainer>
         <FullWidthDivider />
       </CenterAlignedColumnContainer>

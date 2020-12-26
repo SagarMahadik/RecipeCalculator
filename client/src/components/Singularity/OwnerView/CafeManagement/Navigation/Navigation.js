@@ -6,7 +6,8 @@ import NavigationCard from 'components/Singularity/ApplicationView/MoleculeCompo
 const Navigation = () => {
   return (
     <>
-      <FormHeadings heading="What's in your mind" />
+      <FormHeadings heading="What's in your mind" id={'dashboard'} />
+      <div id="ownerdashboard" />
       {navigationDetails.map(detail => {
         return (
           <NavigationCard
