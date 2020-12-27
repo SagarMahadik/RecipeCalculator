@@ -11,11 +11,13 @@ export const TextBox = styled.input`
   height: 2.5em;
   border-radius: 5px;
   border: none;
+  font-family: PT Sans;
   color: ${styles.formContentColor};
   background: ${styles.backgroundGradient};
   margin-top: ${props => props.marginTop || '1.5em'};
   box-sizing: border-box;
   transition: border-width 0.6s linear;
+  text-indent: 8px;
   filter: drop-shadow(0px 4px 4px rgba(176, 167, 229, 0.5));
   &:focus {
     outline: none;

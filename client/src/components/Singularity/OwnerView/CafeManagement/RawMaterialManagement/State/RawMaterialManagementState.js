@@ -5,15 +5,7 @@ import {
   rawMaterialDispatchContext
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
 import rawMaterialManagementReducer from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementReducer.js';
-import {
-  SET_LOADING,
-  SHOW_LOADER,
-  UPDATE_FIELD,
-  UPDATE_RAWMTYPE,
-  COMPLETE_FORM,
-  COMPLETE_SUPPLIERUPDATE,
-  UPDATE_RAWMPRICE
-} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/types.js';
+import { UPDATE_RAWMTYPE } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/types.js';
 import {
   typeRawMaterial,
   rawMaterialOptions,
@@ -22,13 +14,6 @@ import {
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/seedData.js';
 
 import { applicationContext } from 'Context/ApplicationContext/applicationContext.js';
-
-import {
-  calcualatePriceWithoutGST,
-  calculatePriceWithGST
-} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/utils.js';
-
-import axios from 'axios';
 
 const RawMaterialManagementState = props => {
   const initialState = {
@@ -76,7 +61,10 @@ const RawMaterialManagementState = props => {
       rawMaterialStatePriceGST: false
     },
     initiateRawMaterialValidations: false,
-    validationsInitiated: false
+    validationsInitiated: false,
+    validationsCompleted: false,
+    initiateRMPOSTrequest: false,
+    initiateSupplierPOSTrequest: false
   };
 
   const [state, dispatch] = useReducer(
@@ -108,45 +96,22 @@ const RawMaterialManagementState = props => {
     loading,
     showLoader,
     isDataUploaded,
-    supplierUpdated,
     rawMaterialRate,
     rawMaterialWORate,
     priceUpdated,
     rawMaterialRequiredFields,
     initiateRawMaterialValidations,
     validationsInitiated,
-    requiredErrorFlag
+    requiredErrorFlag,
+    validationsCompleted,
+    initiateRMPOSTrequest,
+    initiateSupplierPOSTrequest,
+    supplierUpdated
   } = state;
 
   const ApplicationContext = useContext(applicationContext);
 
-  const {
-    userID,
-    isAuthenticated,
-    userBrandName,
-    supplierDetails
-  } = ApplicationContext;
-
-  const setLoading = () => {
-    dispatch({
-      type: SET_LOADING
-    });
-  };
-
-  const setShowLoader = () => {
-    dispatch({
-      type: SHOW_LOADER
-    });
-  };
-
-  const handleChangeFor = input => e => {
-    {
-      dispatch({
-        type: UPDATE_FIELD,
-        payload: { input, value: e.target.value }
-      });
-    }
-  };
+  const { supplierDetails } = ApplicationContext;
 
   const handleChangeForRawMaterialType = e => {
     let rawMtype = e.currentTarget.value;
@@ -157,169 +122,12 @@ const RawMaterialManagementState = props => {
     });
   };
 
-  const addSupplierToDB = async (userID, supplierName) => {
-    const body = JSON.stringify({
-      userID,
-      supplierName
-    });
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/JSON'
-      }
-    };
-
-    const res = await axios.post('/api/v1/supplier', body, config);
-    setLoading();
-
-    if (res.data.status === 'success') {
-      dispatch({
-        type: COMPLETE_SUPPLIERUPDATE,
-        id: res.data.data.data._id
-      });
-    }
-  };
-
   const onSubmit = e => {
     e.preventDefault();
-
-    console.log('In on submit');
-
-    //setShowLoader();
-
-    /**
-     * 
-     *     if (rawMaterialGSTPercent === 0) {
-      dispatch({
-        type: UPDATE_RAWMPRICE,
-        rawMrate: rawMaterialStatePrice,
-        rawMWOGST: rawMaterialStatePrice
-      });
-    }
-
-    if (rawMaterialStatePriceGST === 'withGST') {
-      dispatch({
-        type: UPDATE_RAWMPRICE,
-        rawMrate: rawMaterialStatePrice,
-        rawMWOGST: calcualatePriceWithoutGST(
-          rawMaterialStatePrice,
-          rawMaterialGSTPercent
-        )
-      });
-    }
-    if (rawMaterialStatePriceGST === 'woGST') {
-      dispatch({
-        type: UPDATE_RAWMPRICE,
-        rawMrate: calculatePriceWithGST(
-          rawMaterialStatePrice,
-          rawMaterialGSTPercent
-        ),
-        rawMWOGST: rawMaterialStatePrice
-      });
-    }
-
-    if (supplierID === '') {
-      addSupplierToDB(userID, searchString);
-    }
-     */
 
     dispatch({
       type: 'INITIATE_RAWMATERIAL_VALIDATIONS'
     });
-  };
-
-  useEffect(() => {
-    if (priceUpdated) {
-      if (supplierID != '' && !supplierUpdated) {
-        addRawMaterialToDB(
-          userID,
-          rawMaterialName,
-          brandName,
-          supplierID,
-          rawMaterialType,
-          rawMaterialBaseQuanitiy,
-          rawMaterialBaseUnit,
-          rawMaterialRate,
-          rawMaterialWORate,
-          rawMaterialDisplay,
-          rawMaterialGSTPercent
-        );
-      }
-    }
-  }, [priceUpdated, supplierID, supplierUpdated]);
-
-  useEffect(() => {
-    if (supplierUpdated) {
-      addRawMaterialToDB(
-        userID,
-        rawMaterialName,
-        brandName,
-        supplierID,
-        rawMaterialType,
-        rawMaterialBaseQuanitiy,
-        rawMaterialBaseUnit,
-        rawMaterialRate,
-        rawMaterialWORate,
-        rawMaterialDisplay,
-        rawMaterialGSTPercent
-      );
-    }
-  }, [supplierUpdated]);
-
-  const addRawMaterialToDB = async (
-    userID,
-    rawMaterialName,
-    rmBrandName,
-    supplierID,
-    rawMaterialType,
-    rawMaterialBaseQuanitiy,
-    rawMaterialBaseUnit,
-    rawMaterialRate,
-    rawMaterialWORate,
-    rawMaterialDisplay,
-    rawMaterialGSTPercent
-  ) => {
-    let name = rawMaterialName;
-    let brandName = rmBrandName || userBrandName;
-    let supplier = supplierID;
-    let type = rawMaterialType;
-    let baseQuantity = rawMaterialBaseQuanitiy;
-    let baseUnit = rawMaterialBaseUnit;
-    let rate = rawMaterialRate;
-    let rateWOGST = rawMaterialWORate;
-    let recipeUnit = rawMaterialBaseUnit;
-    let displayRateUnit = rawMaterialDisplay;
-    let GSTPercent = rawMaterialGSTPercent;
-
-    const body = JSON.stringify({
-      userID,
-      name,
-      brandName,
-      supplier,
-      type,
-      baseQuantity,
-      baseUnit,
-      rate,
-      rateWOGST,
-      recipeUnit,
-      displayRateUnit,
-      GSTPercent
-    });
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/JSON'
-      }
-    };
-
-    const res = await axios.post('/api/v1/rawMaterial', body, config);
-    setLoading();
-
-    if (res.data.status === 'success') {
-      dispatch({
-        type: COMPLETE_FORM
-      });
-    }
   };
 
   return (
@@ -353,7 +161,14 @@ const RawMaterialManagementState = props => {
         rawMaterialRequiredFields,
         validationsInitiated,
         requiredErrorFlag,
-        handleChangeFor,
+        validationsCompleted,
+        initiateRMPOSTrequest,
+        initiateSupplierPOSTrequest,
+        supplierUpdated,
+        priceUpdated,
+        rawMaterialRate,
+        rawMaterialWORate,
+
         handleChangeForRawMaterialType,
         onSubmit
       }}

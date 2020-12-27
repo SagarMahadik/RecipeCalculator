@@ -16,7 +16,10 @@ import {
   UPDATE_RAWMPRICE,
   INITIATE_RAWMATERIAL_VALIDATIONS,
   SET_FIELD_REQUIRED_ERROR,
-  REMOVE_FIELD_REQUIRED_ERROR
+  REMOVE_FIELD_REQUIRED_ERROR,
+  VALIDATION_COMPLETED,
+  INITIATE_RMATERIALPOST,
+  INITIATE_SUPPLIERPOST
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/types.js';
 
 import { produce } from 'immer';
@@ -129,6 +132,22 @@ export default (state, action) => {
         draftState.requiredErrorFlag[action.field] = false;
       });
 
+    case VALIDATION_COMPLETED:
+      return {
+        ...state,
+        validationsCompleted: true
+      };
+    case INITIATE_RMATERIALPOST:
+      return {
+        ...state,
+        initiateRMPOSTrequest: true
+      };
+
+    case INITIATE_SUPPLIERPOST:
+      return {
+        ...state,
+        initiateSupplierPOSTrequest: true
+      };
     case COMPLETE_SUPPLIERUPDATE:
       return {
         ...state,
