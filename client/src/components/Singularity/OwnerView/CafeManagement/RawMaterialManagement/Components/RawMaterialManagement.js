@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
 
-import rawMaterialManagementContext from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
+import {
+  rawMaterialManagementContext,
+  rawMaterialDispatchContext
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
 import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';
 import {
   RawMMainContainer,
@@ -11,6 +14,7 @@ import RawMaterialTypeQuantity from './RawMaterialTypeQuantity';
 import PriceGSTDetails from './PriceGSTDetails';
 import SubmitRawMaterial from './SubmitRawMaterial';
 import SearchUpdateSupplier from './SearchUpdateSupplier';
+import RawMaterialValidations from './RawMaterialValidations';
 
 import Ball from 'components/Singularity/ApplicationView/Loaders/Ball';
 import Loaders from 'components/Singularity/ApplicationView/Loaders';
@@ -51,6 +55,7 @@ const RawMaterialManagement = () => {
             <RawMaterialDetails />
             <RawMaterialTypeQuantity />
             <PriceGSTDetails />
+            <RawMaterialValidations />
             <SubmitRawMaterial />
           </AnimationContainer>
         </>

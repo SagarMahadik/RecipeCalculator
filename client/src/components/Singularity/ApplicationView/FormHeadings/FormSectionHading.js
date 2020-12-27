@@ -4,12 +4,23 @@ import {
   FormSectionHeadingTextContainer
 } from 'styles/Singularity/Style1.0/TextStyles';
 
-const FormSectionHading = props => {
+import { ErrorText } from 'styles/Singularity/OwnerView/Authentication/index.js';
+
+const FormSectionHading = ({
+  isRequiredError,
+  requiredErrorText,
+  sectionName
+}) => {
   return (
     <>
       <FormHeadingText>
         <FormSectionHeadingTextContainer>
-          {props.sectionName}
+          {sectionName}
+          {isRequiredError ? (
+            <ErrorText id="required-field-message">
+              {requiredErrorText}
+            </ErrorText>
+          ) : null}
         </FormSectionHeadingTextContainer>
       </FormHeadingText>
     </>

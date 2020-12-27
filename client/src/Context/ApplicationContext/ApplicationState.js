@@ -32,6 +32,7 @@ function ApplicationState(props) {
     loginEmail: '',
     loginPassword: '',
     categoryData: [],
+    supplierDetails: [],
     dMenuProductData: [],
     selectedCategory: '',
     loading: false,
@@ -73,7 +74,8 @@ function ApplicationState(props) {
     sendingRegRequest: false,
     customerMatchLogin: false,
     initiateLoginRequest: false,
-    initiateRegRequest: false
+    initiateRegRequest: false,
+    fetchAppData: false
   };
 
   const [state, dispatch] = useReducer(applicationReducer, initialState);
@@ -113,20 +115,17 @@ function ApplicationState(props) {
     regSuccess,
     loginFail,
     initiateLoginRequest,
-    initiateRegRequest
+    initiateRegRequest,
+    fetchAppData,
+    supplierDetails
   } = state;
 
   useEffect(() => {
-    if (categoryData.length === 1) {
-      getData('/api/v1/category', 'SET_CATEGORYDATA');
+    if (fetchAppData) {
+      console.log('In fetchdata');
+      getData(`/api/v1/supplier/${userID}`, 'SET_SUPPLIERDETAILS');
     }
-  }, []);
-
-  useEffect(() => {
-    if (dMenuProductData.length === 1) {
-      getData('/api/v1/dMenuProduct', 'SET_DMENUPRODUCTDATA');
-    }
-  }, []);
+  }, [fetchAppData]);
 
   const { sendRequest, error } = useHttpClient();
   const { sendStepStatusRequest, stepStatusError } = useStepStatusRequest();
@@ -147,12 +146,10 @@ function ApplicationState(props) {
   const setAuthTokenFlag = () => dispatch({ type: SET_AUTHTOKEN });
 
   const handleChangeFor = input => e => {
-    {
-      dispatch({
-        type: UPDATE_FIELD,
-        payload: { input, value: e.target.value }
-      });
-    }
+    dispatch({
+      type: UPDATE_FIELD,
+      payload: { input, value: e.target.value }
+    });
   };
 
   const registerUser = e => {
@@ -231,6 +228,7 @@ function ApplicationState(props) {
         initiateRegRequest,
         loginRequiredFields,
         registrationRequiredFields,
+        supplierDetails,
         handleChangeFor,
         registerUser,
         loginUser,

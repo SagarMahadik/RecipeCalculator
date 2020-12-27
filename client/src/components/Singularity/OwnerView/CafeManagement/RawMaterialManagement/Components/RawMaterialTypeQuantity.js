@@ -1,10 +1,14 @@
-import React, { useContext } from 'react';
-import rawMaterialManagementContext from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
+import React from 'react';
 import {
   RawMMainContainer,
   RawMTypeContainer,
   RawMTypeOptionContainer
 } from 'styles/Singularity/OwnerView/CafeManagement/RawMaterialManagement';
+
+import {
+  useRawMaterialsState,
+  useRawMaterialsDispatch
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
 
 import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
 import FormSectionHeading from 'components/Singularity/ApplicationView/FormHeadings/FormSectionHading.js';
@@ -12,20 +16,33 @@ import FormSectionHeading from 'components/Singularity/ApplicationView/FormHeadi
 import StyledRadioButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledRadioButton.js';
 
 const RawMaterialTypeQuantity = () => {
-  const RawMaterialManagementContext = useContext(rawMaterialManagementContext);
-
   const {
     rawMaterialTypeDetails,
     rawMaterialType,
     handleChangeForRawMaterialType,
     rawMaterialOptionData,
     rawMaterialDisplay,
-    handleTypeOfRawMaterialOption
-  } = RawMaterialManagementContext;
+    requiredErrorFlag
+  } = useRawMaterialsState();
+
+  const dispatch = useRawMaterialsDispatch();
+
+  const handleTypeOfRawMaterialOption = option => {
+    const { displayRateUnit, baseQuantity, baseUnit } = option;
+
+    dispatch({
+      type: 'UPDATE_QUANTITY',
+      payload: { displayRateUnit, baseQuantity, baseUnit }
+    });
+  };
 
   return (
     <RawMMainContainer>
-      <FormSectionHeading sectionName="Type of Raw Material" />
+      <FormSectionHeading
+        sectionName="Type of Raw Material"
+        isRequiredError={requiredErrorFlag['rawMaterialType']}
+        requiredErrorText={'Please select type of Raw Material'}
+      />
       <RawMTypeContainer>
         {rawMaterialTypeDetails.map((detail, index) => {
           return (
@@ -42,7 +59,11 @@ const RawMaterialTypeQuantity = () => {
 
       {rawMaterialType && (
         <>
-          <FormSectionHeading sectionName="Quantity" />
+          <FormSectionHeading
+            sectionName="Quantity"
+            isRequiredError={requiredErrorFlag['rawMaterialBaseQuanitiy']}
+            requiredErrorText={'Please select Base quantity'}
+          />
           <RawMTypeOptionContainer>
             {rawMaterialOptionData
               .filter(item => item.type === `${rawMaterialType}`)

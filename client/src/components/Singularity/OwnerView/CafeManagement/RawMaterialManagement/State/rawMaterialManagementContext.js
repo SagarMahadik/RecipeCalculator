@@ -2,4 +2,6 @@ import { createContext } from 'react';
 
 const rawMaterialManagementContext = createContext();
 
-export default rawMaterialManagementContext;
+const rawMaterialDispatchContext = createContext();
+
+export { rawMaterialManagementContext, rawMaterialDispatchContext };

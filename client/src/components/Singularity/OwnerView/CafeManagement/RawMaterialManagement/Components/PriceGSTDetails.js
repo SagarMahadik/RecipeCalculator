@@ -1,5 +1,14 @@
 import React, { useContext } from 'react';
-import rawMaterialManagementContext from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
+import {
+  rawMaterialManagementContext,
+  rawMaterialDispatchContext
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
+
+import {
+  useRawMaterialsState,
+  useRawMaterialsDispatch
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
+
 import {
   RawMMainContainer,
   GSTOptionContainer,
@@ -11,6 +20,7 @@ import FormSectionHeading from 'components/Singularity/ApplicationView/FormHeadi
 
 import StyledRadioButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledRadioButton.js';
 import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
+import { ErrorText } from 'styles/Singularity/OwnerView/Authentication/index.js';
 
 const PriceGSTDetails = () => {
   const RawMaterialManagementContext = useContext(rawMaterialManagementContext);
@@ -18,42 +28,75 @@ const PriceGSTDetails = () => {
   const {
     GSTOptionsData,
     rawMaterialGST,
-    handleRawMaterialGSTOption,
+
     rawMaterialStatePrice,
     handleChangeFor,
     rawMaterialStatePriceGST,
     priceGSTOptionsData,
-    handleRawMPriceGSTDetails,
+
     rawMaterialGSTPercent,
-    rawMaterialGSTNumber
-  } = RawMaterialManagementContext;
+    rawMaterialGSTNumber,
+    requiredErrorFlag
+  } = useRawMaterialsState();
+
+  const dispatch = useRawMaterialsDispatch();
+
+  const handleRawMaterialGSTOption = option => {
+    const { GSTDisplay, GSTPercentage } = option;
+
+    dispatch({
+      type: 'UPDATE_GST',
+      payload: { GSTDisplay, GSTPercentage }
+    });
+  };
+
+  const handleRawMPriceGSTDetails = option => {
+    const { optionValue } = option;
+    dispatch({
+      type: 'UPDATE_PRICEGSTDETAILS',
+      payload: { optionValue }
+    });
+  };
+
   return (
     <RawMMainContainer>
-      <FormSectionHeading sectionName="GST" />
+      <FormSectionHeading
+        sectionName="GST"
+        isRequiredError={requiredErrorFlag['rawMaterialGST']}
+        requiredErrorText={'Please select GST %'}
+      />
       <GSTOptionContainer>
-        {GSTOptionsData.sort((a, b) => a.GSTPercentage - b.GSTPercentage).map(
-          (option, index) => {
-            return (
-              <StyledRadioButton
-                display={option.GSTDisplay}
-                selected={rawMaterialGST === `${option.GSTDisplay}`}
-                onClick={() => handleRawMaterialGSTOption(option)}
-              />
-            );
-          }
-        )}
+        {GSTOptionsData.map((option, index) => {
+          return (
+            <StyledRadioButton
+              display={option.GSTDisplay}
+              selected={rawMaterialGST === `${option.GSTDisplay}`}
+              onClick={() => handleRawMaterialGSTOption(option)}
+            />
+          );
+        })}
       </GSTOptionContainer>
       <PartialWidthDivider />
       <StyledTextBoxLabel
         name={rawMaterialStatePrice}
         value={rawMaterialStatePrice}
-        onChange={handleChangeFor('rawMaterialStatePrice')}
+        onChange={e => {
+          dispatch({
+            type: 'UPDATE_FIELD',
+            payload: { input: 'rawMaterialStatePrice', value: e.target.value }
+          });
+        }}
         text="Price (Rs.)"
+        isError={requiredErrorFlag['rawMaterialStatePrice']}
+        requiredErrorText={'Please enter price'}
       />
       <PartialWidthDivider />
       {rawMaterialGSTPercent == 0 ? null : (
         <>
           <PriceOptionContainer>
+            {requiredErrorFlag['rawMaterialStatePriceGST'] ? (
+              <ErrorText id="required-field-message">"Please select"</ErrorText>
+            ) : null}
             {priceGSTOptionsData.map((option, index) => {
               return (
                 <StyledRadioButton

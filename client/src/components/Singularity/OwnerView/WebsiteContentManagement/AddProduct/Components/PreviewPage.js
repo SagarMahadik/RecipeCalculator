@@ -7,13 +7,8 @@ import React, {
   useMemo
 } from 'react';
 import {
-  TextBox,
-  TextParagraph,
-  TextRadioButton,
-  HiddenRadioButton,
   AddIconImage,
   InputLabel,
-  AddOnitemIcon,
   ItemDescription,
   IconBorderCircle,
   RadioButtonIcon
@@ -21,41 +16,28 @@ import {
 
 import {
   CenterAlignedColumnContainer,
-  CenterAlignedRowContainer,
-  CategoryContainer,
-  LeftrAlignedColumnContainer,
-  LeftAlignedRowContainer,
-  MenuPageMainContainer,
-  MenuContentContainer,
-  MenuPagePriceContainer,
   MenuPageIconContainer,
   IconItemGroupContainer,
   IconItemContainer,
   ItemPriceContainer,
   MenuAlignmentContainer,
-  MenuPageDescriptionContainer,
   PreviewPageProductNameContainer,
   PreviewProductPriceContainer,
   NameCuisineIconContainer
 } from 'styles/Singularity/Style1.0/ContainerStyles';
 
 import {
-  OverLay,
   ImageContainer,
-  ProductImage,
   IconImage,
   ProductPageICon
 } from 'styles/Singularity/Style1.0/ImageStyles';
 
 import { SubmitButton } from 'styles/Singularity/Style1.0/ButtonStyles';
 import Plate from 'components/Singularity/ApplicationView/FormElements/Plate';
-import { gsap, TweenMax } from 'gsap';
+import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
 import {
-  RadioButtonText,
-  TextContainer,
-  ProductName,
   ProductInformation,
   ProductIconDescription,
   PriceText,
@@ -68,12 +50,7 @@ import {
   ProductInformationTextContainer
 } from 'styles/Singularity/Style1.0/TextStyles';
 
-import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
-
-import VegIcon from 'components/Singularity/ApplicationView/VegIcon.js';
-import NonVegIcon from 'components/Singularity/ApplicationView/NonVegIcon.js';
-import DoneIcon from 'components/Singularity/ApplicationView/DoneIcon';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -89,16 +66,13 @@ const PreviewPage = () => {
     productPrice,
     selectedAddOnItemItems,
     cuisine,
-    onSubmit,
-    previousStep,
-    isComplete,
+
     crossSellPitch,
-    nutritionDetails,
+
     proteins,
     fats,
     carbohydrates,
-    calories,
-    loading
+    calories
   } = AddProductContext;
 
   let isVeg = false;
@@ -119,16 +93,6 @@ const PreviewPage = () => {
     console.log(productVariant);
   }, [additionalInformation, proteins, fats, carbohydrates, calories]);
 
-  const [showLoader, setShowLoader] = useState(false);
-
-  let productImageRef = useRef(null);
-  let CuisineIconRef = useRef(null);
-  let productNameRef = useRef(null);
-  let productPriceRef = useRef(null);
-  let productInformationRef = useRef(null);
-  let productStatus = useRef(null);
-  let addOnRef = useRef(null);
-  let makeItRef = useRef(null);
   let cardRef = useRef([]);
 
   const [play, setPlay] = useState(false);

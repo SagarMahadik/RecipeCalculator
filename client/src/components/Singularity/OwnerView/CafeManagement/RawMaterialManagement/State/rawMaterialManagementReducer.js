@@ -13,8 +13,13 @@ import {
   UPDATE_PRICEGSTDETAILS,
   COMPLETE_FORM,
   COMPLETE_SUPPLIERUPDATE,
-  UPDATE_RAWMPRICE
+  UPDATE_RAWMPRICE,
+  INITIATE_RAWMATERIAL_VALIDATIONS,
+  SET_FIELD_REQUIRED_ERROR,
+  REMOVE_FIELD_REQUIRED_ERROR
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/types.js';
+
+import { produce } from 'immer';
 
 export default (state, action) => {
   switch (action.type) {
@@ -37,7 +42,8 @@ export default (state, action) => {
     case CLEAR_SEARCHRESULTS: {
       return {
         ...state,
-        searchResults: action.payload
+        searchResults: action.payload,
+        supplierID: ''
       };
     }
     case UPDATE_SEARCHSTRING: {
@@ -104,6 +110,25 @@ export default (state, action) => {
         rawMaterialStatePriceGST: optionValue
       };
     }
+
+    case INITIATE_RAWMATERIAL_VALIDATIONS:
+      return {
+        ...state,
+        initiateRawMaterialValidations: true
+      };
+
+    case SET_FIELD_REQUIRED_ERROR:
+      return produce(state, draftState => {
+        draftState.requiredErrorFlag[action.field] = true;
+        draftState.initiateRawMaterialValidations = false;
+        draftState.validationsInitiated = true;
+      });
+
+    case REMOVE_FIELD_REQUIRED_ERROR:
+      return produce(state, draftState => {
+        draftState.requiredErrorFlag[action.field] = false;
+      });
+
     case COMPLETE_SUPPLIERUPDATE:
       return {
         ...state,

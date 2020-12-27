@@ -23,7 +23,8 @@ import {
   REGISTRATION_FAIL,
   INITIIATE_LOGINREQEST,
   INITIIATE_REGISTRATIONREQEST,
-  LOADING_USER_FAILED
+  LOADING_USER_FAILED,
+  SET_SUPPLIERDETAILS
 } from 'Context/ApplicationContext/types.js';
 
 import { produce } from 'immer';
@@ -84,7 +85,15 @@ export default (state, action) => {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: action.data
+        user: action.data,
+        userID: action.data.userID,
+        userBrandName: action.data.userBrandName,
+        email: '',
+        brandName: '',
+        password: '',
+        passwordConfirm: '',
+        mobileNumber: '',
+        fetchAppData: true
       };
 
     case LOGIN_FAIL:
@@ -95,14 +104,17 @@ export default (state, action) => {
         authError: true,
         errorMessage: action.message,
         loginFail: true,
-        loginValidationInitiated: false
+        loginValidationInitiated: false,
+        formValidated: false,
+        initiateLoginRequest: false
       };
     case REGISTRATION_FAIL:
       return {
         ...state,
         errorMessage: action.message,
         customerMatchLogin: true,
-        registrationFromValidated: false
+        registrationFromValidated: false,
+        regValIntitiated: false
       };
 
     case REMOVE_AUTHERROR:
@@ -163,7 +175,8 @@ export default (state, action) => {
         authComplete: true,
         user: action.payload,
         userID: action.payload.userID,
-        userBrandName: action.payload.brandName
+        userBrandName: action.payload.brandName,
+        fetchAppData: true
       };
 
     case LOADING_USER_FAILED:
@@ -196,6 +209,12 @@ export default (state, action) => {
       return {
         ...state,
         selectedCategory: action.payload
+      };
+
+    case SET_SUPPLIERDETAILS:
+      return {
+        ...state,
+        supplierDetails: [...action.payload]
       };
   }
 };

@@ -1,5 +1,8 @@
 import React, { useContext } from 'react';
-import rawMaterialManagementContext from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
+import {
+  rawMaterialManagementContext,
+  rawMaterialDispatchContext
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
 
 import StyledSubmitButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledSubmitButton.js';
 

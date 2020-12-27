@@ -1,20 +1,15 @@
 import React, { useContext, useReducer, useEffect } from 'react';
 
-import rawMaterialManagementContext from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
+import {
+  rawMaterialManagementContext,
+  rawMaterialDispatchContext
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
 import rawMaterialManagementReducer from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementReducer.js';
 import {
   SET_LOADING,
   SHOW_LOADER,
-  SET_SUPPLIERDETAILS,
-  CLEAR_SEARCHRESULTS,
-  UPDATE_SEARCHSTRING,
-  UPDATE_SEARCHRESULTS,
-  SET_SUPPLIER,
   UPDATE_FIELD,
   UPDATE_RAWMTYPE,
-  UPDATE_QUANTITY,
-  UPDATE_GST,
-  UPDATE_PRICEGSTDETAILS,
   COMPLETE_FORM,
   COMPLETE_SUPPLIERUPDATE,
   UPDATE_RAWMPRICE
@@ -26,12 +21,7 @@ import {
   PricingGSTOptions
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/seedData.js';
 
-import { useHttpClient } from 'Hooks/httpsHooks';
-
-import {
-  applicationContext,
-  applicationDispatchContext
-} from 'Context/ApplicationContext/applicationContext.js';
+import { applicationContext } from 'Context/ApplicationContext/applicationContext.js';
 
 import {
   calcualatePriceWithoutGST,
@@ -44,7 +34,6 @@ const RawMaterialManagementState = props => {
   const initialState = {
     searchString: '',
     searchResults: [],
-    supplierDetails: [],
     supplierID: '',
     rawMaterialName: '',
     brandName: '',
@@ -69,7 +58,25 @@ const RawMaterialManagementState = props => {
     showLoader: false,
     isDataUploaded: false,
     supplierUpdated: false,
-    priceUpdated: false
+    priceUpdated: false,
+    rawMaterialRequiredFields: [
+      'rawMaterialName',
+      'rawMaterialType',
+      'rawMaterialBaseQuanitiy',
+      'rawMaterialGST',
+      'rawMaterialStatePriceGST',
+      'rawMaterialStatePrice'
+    ],
+    requiredErrorFlag: {
+      rawMaterialName: false,
+      rawMaterialType: false,
+      rawMaterialBaseQuanitiy: false,
+      rawMaterialGST: false,
+      rawMaterialStatePrice: false,
+      rawMaterialStatePriceGST: false
+    },
+    initiateRawMaterialValidations: false,
+    validationsInitiated: false
   };
 
   const [state, dispatch] = useReducer(
@@ -80,7 +87,6 @@ const RawMaterialManagementState = props => {
   const {
     searchString,
     searchResults,
-    supplierDetails,
     supplierID,
     rawMaterialName,
     brandName,
@@ -105,18 +111,21 @@ const RawMaterialManagementState = props => {
     supplierUpdated,
     rawMaterialRate,
     rawMaterialWORate,
-    priceUpdated
+    priceUpdated,
+    rawMaterialRequiredFields,
+    initiateRawMaterialValidations,
+    validationsInitiated,
+    requiredErrorFlag
   } = state;
 
   const ApplicationContext = useContext(applicationContext);
 
-  const { userID, isAuthenticated, userBrandName } = ApplicationContext;
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getData(`/api/v1/supplier/${userID}`);
-    }
-  }, [isAuthenticated]);
+  const {
+    userID,
+    isAuthenticated,
+    userBrandName,
+    supplierDetails
+  } = ApplicationContext;
 
   const setLoading = () => {
     dispatch({
@@ -128,67 +137,6 @@ const RawMaterialManagementState = props => {
     dispatch({
       type: SHOW_LOADER
     });
-  };
-
-  const { sendRequest, error } = useHttpClient();
-
-  const getData = async url => {
-    try {
-      let res = await sendRequest(url);
-
-      dispatch({
-        type: SET_SUPPLIERDETAILS,
-        payload: res
-      });
-    } catch (err) {}
-  };
-
-  useEffect(() => {
-    if (searchString === '') {
-      {
-        dispatch({
-          type: CLEAR_SEARCHRESULTS,
-          payload: []
-        });
-      }
-    }
-  }, [searchString]);
-
-  const handleSearchText = e => {
-    let string = e.currentTarget.value;
-
-    {
-      dispatch({
-        type: UPDATE_SEARCHSTRING,
-        payload: string
-      });
-    }
-
-    let searchOptions = supplierDetails
-      .filter(
-        detail =>
-          detail.supplierName.toLowerCase().indexOf(string.toLowerCase()) > -1
-      )
-      .slice(0, 4);
-
-    {
-      dispatch({
-        type: UPDATE_SEARCHRESULTS,
-        payload: searchOptions
-      });
-    }
-  };
-
-  const handleSearchItemClick = item => {
-    let supplierName = item.supplierName;
-    let supplierID = item._id;
-
-    {
-      dispatch({
-        type: SET_SUPPLIER,
-        payload: { supplierName, supplierID }
-      });
-    }
   };
 
   const handleChangeFor = input => e => {
@@ -206,32 +154,6 @@ const RawMaterialManagementState = props => {
     dispatch({
       type: UPDATE_RAWMTYPE,
       payload: rawMtype
-    });
-  };
-
-  const handleTypeOfRawMaterialOption = option => {
-    const { displayRateUnit, baseQuantity, baseUnit } = option;
-
-    dispatch({
-      type: UPDATE_QUANTITY,
-      payload: { displayRateUnit, baseQuantity, baseUnit }
-    });
-  };
-
-  const handleRawMaterialGSTOption = option => {
-    const { GSTDisplay, GSTPercentage } = option;
-
-    dispatch({
-      type: UPDATE_GST,
-      payload: { GSTDisplay, GSTPercentage }
-    });
-  };
-
-  const handleRawMPriceGSTDetails = option => {
-    const { optionValue } = option;
-    dispatch({
-      type: UPDATE_PRICEGSTDETAILS,
-      payload: { optionValue }
     });
   };
 
@@ -261,9 +183,13 @@ const RawMaterialManagementState = props => {
   const onSubmit = e => {
     e.preventDefault();
 
-    setShowLoader();
+    console.log('In on submit');
 
-    if (rawMaterialGSTPercent === 0) {
+    //setShowLoader();
+
+    /**
+     * 
+     *     if (rawMaterialGSTPercent === 0) {
       dispatch({
         type: UPDATE_RAWMPRICE,
         rawMrate: rawMaterialStatePrice,
@@ -295,6 +221,11 @@ const RawMaterialManagementState = props => {
     if (supplierID === '') {
       addSupplierToDB(userID, searchString);
     }
+     */
+
+    dispatch({
+      type: 'INITIATE_RAWMATERIAL_VALIDATIONS'
+    });
   };
 
   useEffect(() => {
@@ -418,19 +349,45 @@ const RawMaterialManagementState = props => {
         loading,
         showLoader,
         isDataUploaded,
-        handleSearchText,
-        handleSearchItemClick,
+        initiateRawMaterialValidations,
+        rawMaterialRequiredFields,
+        validationsInitiated,
+        requiredErrorFlag,
         handleChangeFor,
         handleChangeForRawMaterialType,
-        handleTypeOfRawMaterialOption,
-        handleRawMaterialGSTOption,
-        handleRawMPriceGSTDetails,
         onSubmit
       }}
     >
-      {props.children}
+      <rawMaterialDispatchContext.Provider value={dispatch}>
+        {props.children}
+      </rawMaterialDispatchContext.Provider>
     </rawMaterialManagementContext.Provider>
   );
 };
 
-export default RawMaterialManagementState;
+function useRawMaterialsState() {
+  const context = useContext(rawMaterialManagementContext);
+
+  if (context === undefined) {
+    throw new Error(
+      'useSupplierDetailsState must be used within a CountProvider'
+    );
+  }
+  return context;
+}
+
+function useRawMaterialsDispatch() {
+  const context = useContext(rawMaterialDispatchContext);
+  if (context === undefined) {
+    throw new Error(
+      'useSupplierDetailsDispatch must be used within a CountProvider'
+    );
+  }
+  return context;
+}
+
+export {
+  RawMaterialManagementState,
+  useRawMaterialsState,
+  useRawMaterialsDispatch
+};
