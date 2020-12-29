@@ -4,10 +4,10 @@ exports[`renders 1`] = `
 <DocumentFragment>
   <div>
     <div
-      class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+      class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
     >
       <div
-        class="ContainerStyles__RowContainer-rntyy-5 ContainerStyles__LeftAlignedRowContainer-rntyy-8 iyhHGE"
+        class="ContainerStyles__RowContainer-rntyy-5 ContainerStyles__LeftAlignedRowContainer-rntyy-8 fYMjvC"
       >
         <a
           href="/"
@@ -49,127 +49,127 @@ exports[`renders 1`] = `
           </svg>
         </a>
         <text
-          class="TextStyles__RecursiveText-sc-151f9kh-3 TextStyles__FormHeadingText-sc-151f9kh-14 jVpSiO"
+          class="TextStyles__RecursiveText-sc-151f9kh-3 TextStyles__FormHeadingText-sc-151f9kh-14 BIdKI"
           style="opacity: 0; visibility: hidden; transform: translate(-200px, 0px) ;"
         >
           Please register
         </text>
       </div>
       <div
-        class="sc-gzVnrw haObxE"
+        class="sc-gzVnrw dxJDsE"
       />
     </div>
     <div
-      class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+      class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
     >
       <div
-        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
       >
         <div
           class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
         >
           <input
-            class="FormInputStyles__TextBox-sc-1x7zmpv-0 haXQQL"
+            class="FormInputStyles__TextBox-sc-1x7zmpv-0 dmINra"
             name="brandName"
             placeholder=" "
             type="text"
             value=""
           />
           <label
-            class="FormInputStyles__LabelText-sc-1x7zmpv-2 croxHW"
+            class="FormInputStyles__LabelText-sc-1x7zmpv-2 clDXLy"
           >
             Brand name
           </label>
         </div>
       </div>
       <div
-        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
       >
         <div
           class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
         >
           <input
-            class="FormInputStyles__TextBox-sc-1x7zmpv-0 haXQQL"
+            class="FormInputStyles__TextBox-sc-1x7zmpv-0 dmINra"
             name="mobileNumber"
             placeholder=" "
             type="number"
             value=""
           />
           <label
-            class="FormInputStyles__LabelText-sc-1x7zmpv-2 croxHW"
+            class="FormInputStyles__LabelText-sc-1x7zmpv-2 clDXLy"
           >
             Mobile Number
           </label>
         </div>
       </div>
       <div
-        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
       >
         <div
           class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
         >
           <input
-            class="FormInputStyles__TextBox-sc-1x7zmpv-0 haXQQL"
+            class="FormInputStyles__TextBox-sc-1x7zmpv-0 dmINra"
             name="email"
             placeholder=" "
             type="Email"
             value=""
           />
           <label
-            class="FormInputStyles__LabelText-sc-1x7zmpv-2 croxHW"
+            class="FormInputStyles__LabelText-sc-1x7zmpv-2 clDXLy"
           >
             Email
           </label>
         </div>
       </div>
       <div
-        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
       >
         <div
           class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
         >
           <input
-            class="FormInputStyles__TextBox-sc-1x7zmpv-0 haXQQL"
+            class="FormInputStyles__TextBox-sc-1x7zmpv-0 dmINra"
             name="password"
             placeholder=" "
             type="password"
             value=""
           />
           <label
-            class="FormInputStyles__LabelText-sc-1x7zmpv-2 croxHW"
+            class="FormInputStyles__LabelText-sc-1x7zmpv-2 clDXLy"
           >
             Password
           </label>
         </div>
       </div>
       <div
-        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
       >
         <div
           class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
         >
           <input
-            class="FormInputStyles__TextBox-sc-1x7zmpv-0 haXQQL"
+            class="FormInputStyles__TextBox-sc-1x7zmpv-0 dmINra"
             name="passwordConfirm"
             placeholder=" "
             type="password"
             value=""
           />
           <label
-            class="FormInputStyles__LabelText-sc-1x7zmpv-2 croxHW"
+            class="FormInputStyles__LabelText-sc-1x7zmpv-2 clDXLy"
           >
             Confirm password
           </label>
         </div>
       </div>
       <div
-        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
       >
         <div
-          class="sc-ifAKCX fyMFEb"
+          class="sc-ifAKCX iKkffk"
         >
           <text
-            class="TextStyles__SacramentoText-sc-151f9kh-1 TextStyles__ButtonText-sc-151f9kh-12 kTZCqR"
+            class="TextStyles__SacramentoText-sc-151f9kh-1 TextStyles__ButtonText-sc-151f9kh-12 kZDVDs"
           >
             Register
           </text>

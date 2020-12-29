@@ -1,8 +1,4 @@
-import React, { useContext } from 'react';
-import {
-  rawMaterialManagementContext,
-  rawMaterialDispatchContext
-} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
+import React from 'react';
 
 import {
   useRawMaterialsState,
@@ -22,20 +18,21 @@ import StyledRadioButton from 'components/Singularity/ApplicationView/FormElemen
 import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
 import { ErrorText } from 'styles/Singularity/OwnerView/Authentication/index.js';
 
-const PriceGSTDetails = () => {
-  const RawMaterialManagementContext = useContext(rawMaterialManagementContext);
+import {
+  requireRawMaterialGST,
+  requiredRawMaterialPrice,
+  requiredRawMaterialStatePriceInfo
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/ErrorMessages/index.js';
+import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index';
 
+const PriceGSTDetails = () => {
   const {
     GSTOptionsData,
     rawMaterialGST,
-
     rawMaterialStatePrice,
-    handleChangeFor,
     rawMaterialStatePriceGST,
     priceGSTOptionsData,
-
     rawMaterialGSTPercent,
-    rawMaterialGSTNumber,
     requiredErrorFlag
   } = useRawMaterialsState();
 
@@ -63,7 +60,7 @@ const PriceGSTDetails = () => {
       <FormSectionHeading
         sectionName="GST"
         isRequiredError={requiredErrorFlag['rawMaterialGST']}
-        requiredErrorText={'Please select GST %'}
+        requiredErrorText={requireRawMaterialGST}
       />
       <GSTOptionContainer>
         {GSTOptionsData.map((option, index) => {
@@ -88,27 +85,31 @@ const PriceGSTDetails = () => {
         }}
         text="Price (Rs.)"
         isError={requiredErrorFlag['rawMaterialStatePrice']}
-        requiredErrorText={'Please enter price'}
+        requiredErrorText={requiredRawMaterialPrice}
       />
       <PartialWidthDivider />
       {rawMaterialGSTPercent == 0 ? null : (
         <>
-          <PriceOptionContainer>
+          <CenterAlignedColumnContainer>
             {requiredErrorFlag['rawMaterialStatePriceGST'] ? (
-              <ErrorText id="required-field-message">"Please select"</ErrorText>
+              <ErrorText id="required-field-message">
+                {requiredRawMaterialStatePriceInfo}
+              </ErrorText>
             ) : null}
-            {priceGSTOptionsData.map((option, index) => {
-              return (
-                <StyledRadioButton
-                  display={option.OptionDisplay}
-                  selected={
-                    rawMaterialStatePriceGST === `${option.optionValue}`
-                  }
-                  onClick={() => handleRawMPriceGSTDetails(option)}
-                />
-              );
-            })}
-          </PriceOptionContainer>
+            <PriceOptionContainer>
+              {priceGSTOptionsData.map((option, index) => {
+                return (
+                  <StyledRadioButton
+                    display={option.OptionDisplay}
+                    selected={
+                      rawMaterialStatePriceGST === `${option.optionValue}`
+                    }
+                    onClick={() => handleRawMPriceGSTDetails(option)}
+                  />
+                );
+              })}
+            </PriceOptionContainer>
+          </CenterAlignedColumnContainer>
           <PartialWidthDivider />
         </>
       )}

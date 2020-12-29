@@ -6,8 +6,8 @@ export const typeRawMaterial = [
 
 export const GSTOptions = [
   {
-    GSTDisplay: '9.0%-9.0%',
-    GSTPercentage: 18
+    GSTDisplay: 'No GST',
+    GSTPercentage: 0
   },
 
   {
@@ -18,10 +18,9 @@ export const GSTOptions = [
     GSTDisplay: '6%-6%',
     GSTPercentage: 12
   },
-
   {
-    GSTDisplay: 'No GST',
-    GSTPercentage: 0
+    GSTDisplay: '9.0%-9.0%',
+    GSTPercentage: 18
   }
 ];
 

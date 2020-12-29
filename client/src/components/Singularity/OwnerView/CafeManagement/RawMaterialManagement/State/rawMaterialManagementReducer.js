@@ -1,14 +1,13 @@
 import {
   SET_LOADING,
   SHOW_LOADER,
-  SET_SUPPLIERDETAILS,
   CLEAR_SEARCHRESULTS,
   UPDATE_SEARCHSTRING,
   UPDATE_SEARCHRESULTS,
   SET_SUPPLIER,
   UPDATE_FIELD,
-  UPDATE_RAWMTYPE,
   UPDATE_QUANTITY,
+  UPDATE_RAWMTYPE,
   UPDATE_GST,
   UPDATE_PRICEGSTDETAILS,
   COMPLETE_FORM,
@@ -36,12 +35,7 @@ export default (state, action) => {
         ...state,
         showLoader: true
       };
-    case SET_SUPPLIERDETAILS: {
-      return {
-        ...state,
-        supplierDetails: action.payload
-      };
-    }
+
     case CLEAR_SEARCHRESULTS: {
       return {
         ...state,
@@ -61,6 +55,11 @@ export default (state, action) => {
         searchResults: action.payload
       };
     }
+    case UPDATE_RAWMTYPE:
+      return {
+        ...state,
+        rawMaterialType: action.payload
+      };
 
     case SET_SUPPLIER: {
       const { supplierName, supplierID } = action.payload;
@@ -77,18 +76,11 @@ export default (state, action) => {
         ...state,
         [input]: value
       };
-    case UPDATE_RAWMTYPE:
-      return {
-        ...state,
-        rawMaterialType: action.payload
-      };
 
-    case UPDATE_RAWMPRICE:
+    case INITIATE_RAWMATERIAL_VALIDATIONS:
       return {
         ...state,
-        rawMaterialRate: action.rawMrate,
-        rawMaterialWORate: action.rawMWOGST,
-        priceUpdated: true
+        initiateRawMaterialValidations: true
       };
 
     case UPDATE_QUANTITY:
@@ -114,12 +106,6 @@ export default (state, action) => {
       };
     }
 
-    case INITIATE_RAWMATERIAL_VALIDATIONS:
-      return {
-        ...state,
-        initiateRawMaterialValidations: true
-      };
-
     case SET_FIELD_REQUIRED_ERROR:
       return produce(state, draftState => {
         draftState.requiredErrorFlag[action.field] = true;
@@ -137,6 +123,15 @@ export default (state, action) => {
         ...state,
         validationsCompleted: true
       };
+
+    case UPDATE_RAWMPRICE:
+      return {
+        ...state,
+        rawMaterialRate: action.rawMrate,
+        rawMaterialWORate: action.rawMWOGST,
+        priceUpdated: true
+      };
+
     case INITIATE_RMATERIALPOST:
       return {
         ...state,

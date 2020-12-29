@@ -42,15 +42,10 @@ describe('Application state', () => {
   });
 });
 
-const loginEmail = 'sgrmhdk99@gmail.com';
-const loginPassword = '1234';
-
-const dispatch = jest.fn();
-
 describe('.loginUser', () => {
   it('Logs in user post validating', () => {
     const { getByText, getByLabelText } = render(
-      <ApplicationState value={({ loginEmail, loginPassword }, dispatch)}>
+      <ApplicationState>
         <applicationContext.Consumer>
           {value => (
             <>

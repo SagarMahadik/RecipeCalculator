@@ -8,6 +8,7 @@ import SupplierValidations from './SupplierValidations';
 import POSTsupplierRequest from './POSTsupplierRequest';
 
 import Ball from 'components/Singularity/ApplicationView/Loaders/Ball';
+import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index';
 
 const SupplierDetailsManagement = () => {
   const {
@@ -23,11 +24,16 @@ const SupplierDetailsManagement = () => {
   }
   return (
     <>
-      <FormHeadings heading="Supplier Details" />
-      <SupplierDetails />
-      <SubmitSupplierDetails onClick={onSubmit} />
-      <SupplierValidations />
-      <POSTsupplierRequest />
+      <CenterAlignedColumnContainer
+        style={{ height: '100vh' }}
+        backGroundColor={'#514E4E'}
+      >
+        <FormHeadings heading="Supplier Details" />
+        <SupplierDetails />
+        <SubmitSupplierDetails onClick={onSubmit} />
+        <SupplierValidations />
+        <POSTsupplierRequest />
+      </CenterAlignedColumnContainer>
     </>
   );
 };

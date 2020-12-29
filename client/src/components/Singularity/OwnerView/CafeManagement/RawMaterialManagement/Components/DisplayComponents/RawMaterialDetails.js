@@ -1,27 +1,24 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import {
   useRawMaterialsState,
   useRawMaterialsDispatch
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
 
-import { rawMaterialManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
-
 import { RawMMainContainer } from 'styles/Singularity/OwnerView/CafeManagement/RawMaterialManagement';
 import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
 import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
+
+import { requiredRawMaterialName } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/ErrorMessages';
 
 const RawMaterialDetails = () => {
   const {
     rawMaterialName,
     brandName,
-    handleChangeFor,
     requiredErrorFlag
   } = useRawMaterialsState();
 
   const dispatch = useRawMaterialsDispatch();
-
-  const RawMaterialContext = useContext(rawMaterialManagementContext);
 
   return (
     <RawMMainContainer>
@@ -35,7 +32,7 @@ const RawMaterialDetails = () => {
           });
         }}
         isError={requiredErrorFlag['rawMaterialName']}
-        requiredErrorText={'Please enter raw material name'}
+        requiredErrorText={requiredRawMaterialName}
         text="Raw Material"
       />
       <StyledTextBoxLabel

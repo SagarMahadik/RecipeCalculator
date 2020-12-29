@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import {
   RawMMainContainer,
   SearchResultContainer
@@ -9,10 +9,14 @@ import {
   useRawMaterialsState
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
 
+import { applicationContext } from 'Context/ApplicationContext/applicationContext.js';
+
 const SearchUpdateSupplier = () => {
+  const ApplicationContext = useContext(applicationContext);
+
+  const { supplierDetails } = ApplicationContext;
   const {
     searchString,
-    supplierDetails,
 
     searchResults
   } = useRawMaterialsState();

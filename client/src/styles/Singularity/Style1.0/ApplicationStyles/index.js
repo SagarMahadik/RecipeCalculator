@@ -1,19 +1,25 @@
 import styled from 'styled-components';
 
 export const styles = {
-  dividerColor: 'rgba(82, 243, 234, 0.5)',
+  dividerColor: '#CEA42B',
   formContentColor: '#514E4E',
   themecolor: '#CEA42B',
+  formheadingTextColor: '#CEA42B',
   buttonTextColor: '#514E4E',
   selectedBorder: '4px solid #CEA42B',
+  backgroundColor: '#514E4E',
   backgroundGradient:
     'linear-gradient(181.83deg, rgba(4, 4, 4, 0) -206.42%, #FCE07D 98.45%)',
   backgroundLinearGradient:
     'radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(110, 93, 204, 0.5) 100%)',
   buttonBackgroundGradient:
-    'linear-gradient(180deg, rgba(247, 136, 101, 0.49) 0%, #6E5DCC 100%)',
+    'linear-gradient(181.83deg, rgba(4, 4, 4, 0) -206.42%, #FCE07D 98.45%)',
   dMenuContentColor: '#CCAC00',
-  errorText: '#ff6961'
+  errorText: '#ff6961',
+  dividerLineColor: '#CEA42B',
+  inputShadowFilter: ' drop-shadow(0px 4px 4px rgba(206, 164, 43, 0.49))',
+  buttonTextColor: 'white',
+  selectedLabelColor: '#CEA42B'
 };
 
 export const Background = styled.div`

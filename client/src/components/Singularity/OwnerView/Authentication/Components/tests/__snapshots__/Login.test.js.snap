@@ -3,20 +3,20 @@
 exports[`renders 1`] = `
 <DocumentFragment>
   <div
-    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 Authentication__LoginContainer-sc-16b61pd-3 dttvFM"
+    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 Authentication__LoginContainer-sc-16b61pd-3 cjoKNj"
   >
     <div
-      class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+      class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
       style="margin-top: 50px;"
     >
       <div
-        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
       >
         <div
           class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
         >
           <input
-            class="FormInputStyles__TextBox-sc-1x7zmpv-0 haXQQL"
+            class="FormInputStyles__TextBox-sc-1x7zmpv-0 dmINra"
             id="loginEmail"
             name="loginEmail"
             placeholder=" "
@@ -24,20 +24,20 @@ exports[`renders 1`] = `
             value=""
           />
           <label
-            class="FormInputStyles__LabelText-sc-1x7zmpv-2 croxHW"
+            class="FormInputStyles__LabelText-sc-1x7zmpv-2 clDXLy"
           >
             Email
           </label>
         </div>
       </div>
       <div
-        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
       >
         <div
           class="FormInputStyles__InputWrapper-sc-1x7zmpv-6 kSKTSn"
         >
           <input
-            class="FormInputStyles__TextBox-sc-1x7zmpv-0 haXQQL"
+            class="FormInputStyles__TextBox-sc-1x7zmpv-0 dmINra"
             id="loginPassword"
             name="loginPassword"
             placeholder=" "
@@ -45,18 +45,18 @@ exports[`renders 1`] = `
             value=""
           />
           <label
-            class="FormInputStyles__LabelText-sc-1x7zmpv-2 croxHW"
+            class="FormInputStyles__LabelText-sc-1x7zmpv-2 clDXLy"
           >
             Password
           </label>
         </div>
       </div>
       <div
-        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+        class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
         style="margin-top: 20px;"
       >
         <button
-          class="FormInputStyles__TextRadioButton-sc-1x7zmpv-22 kaQBuQ"
+          class="FormInputStyles__TextRadioButton-sc-1x7zmpv-22 hWglKs"
           id="login-button"
         >
           <text

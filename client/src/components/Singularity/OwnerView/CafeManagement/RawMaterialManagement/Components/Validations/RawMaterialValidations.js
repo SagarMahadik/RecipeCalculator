@@ -1,9 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 
-import {
-  rawMaterialManagementContext,
-  rawMaterialDispatchContext
-} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
+import { rawMaterialManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
 
 import {
   useRawMaterialsState,
@@ -13,7 +10,6 @@ import {
 import { isEmpty } from 'Utils/validations.js';
 
 const RawMaterialValidations = () => {
-  console.log('In Raw M validatiosn');
   const {
     rawMaterialRequiredFields,
     initiateRawMaterialValidations,
@@ -24,8 +20,7 @@ const RawMaterialValidations = () => {
     rawMaterialGSTPercent,
     rawMaterialStatePrice,
     rawMaterialStatePriceGST,
-    validationsInitiated,
-    validationsCompleted
+    validationsInitiated
   } = useRawMaterialsState();
 
   const dispatch = useRawMaterialsDispatch();
@@ -102,7 +97,6 @@ const RawMaterialValidations = () => {
     dispatch,
     rawMaterialStatePriceGST
   ) {
-    console.log('Field validation');
     if (rawMaterialGST === 'No GST') {
       if (
         !isEmpty(rawMaterialName) &&

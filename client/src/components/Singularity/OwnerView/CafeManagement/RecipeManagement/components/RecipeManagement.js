@@ -16,6 +16,7 @@ import recipeManagementContext from 'components/Singularity/OwnerView/CafeManage
 import RecipeBasicRecipies from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeBasicRecipes.js';
 import ProductDetails from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/Components/ProductDetails';
 import RecipeProductPricing from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeProductPricing.js';
+import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index';
 
 const RecipeManagement = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);
@@ -34,28 +35,33 @@ const RecipeManagement = () => {
   }
   return (
     <>
-      <FormHeadings heading="Start Building Your Recipe" />
-      <SaveRecipeOptions />
-      <RecipeName />
+      <CenterAlignedColumnContainer
+        style={{ height: '100vh' }}
+        backGroundColor={'#514E4E'}
+      >
+        <FormHeadings heading="Start Building Your Recipe" />
+        <SaveRecipeOptions />
+        <RecipeName />
 
-      {!showBasicRecipeSearch && (
-        <>
-          {' '}
-          <SearchItems />
-          <SearchBoxResults />
-        </>
-      )}
-      {Object.keys(recipeProducts).length > 0 ? <ProductRecipes /> : null}
-      {recipeRawMaterials.length > 0 ? <RecipeRawMaterials /> : null}
-      {recipeBasicRecipes.length > 0 ? <RecipeBasicRecipies /> : null}
-      {recipeBasicRecipes.length > 0 || recipeRawMaterials.length > 0 ? (
-        <>
-          <TotalCost />
-          <YieldUnits />
-          <RecipeProductPricing />
-          <SubmitRecipe />
-        </>
-      ) : null}
+        {!showBasicRecipeSearch && (
+          <>
+            {' '}
+            <SearchItems />
+            <SearchBoxResults />
+          </>
+        )}
+        {Object.keys(recipeProducts).length > 0 ? <ProductRecipes /> : null}
+        {recipeRawMaterials.length > 0 ? <RecipeRawMaterials /> : null}
+        {recipeBasicRecipes.length > 0 ? <RecipeBasicRecipies /> : null}
+        {recipeBasicRecipes.length > 0 || recipeRawMaterials.length > 0 ? (
+          <>
+            <TotalCost />
+            <YieldUnits />
+            <RecipeProductPricing />
+            <SubmitRecipe />
+          </>
+        ) : null}
+      </CenterAlignedColumnContainer>
     </>
   );
 };

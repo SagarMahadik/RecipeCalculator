@@ -1,19 +1,17 @@
-import React, { useContext, useReducer, useEffect } from 'react';
+import React, { useContext, useReducer } from 'react';
 
 import {
   rawMaterialManagementContext,
   rawMaterialDispatchContext
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
 import rawMaterialManagementReducer from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementReducer.js';
-import { UPDATE_RAWMTYPE } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/types.js';
+
 import {
   typeRawMaterial,
   rawMaterialOptions,
   GSTOptions,
   PricingGSTOptions
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/seedData.js';
-
-import { applicationContext } from 'Context/ApplicationContext/applicationContext.js';
 
 const RawMaterialManagementState = props => {
   const initialState = {
@@ -109,16 +107,18 @@ const RawMaterialManagementState = props => {
     supplierUpdated
   } = state;
 
-  const ApplicationContext = useContext(applicationContext);
-
-  const { supplierDetails } = ApplicationContext;
-
   const handleChangeForRawMaterialType = e => {
     let rawMtype = e.currentTarget.value;
 
     dispatch({
-      type: UPDATE_RAWMTYPE,
+      type: 'UPDATE_RAWMTYPE',
       payload: rawMtype
+    });
+  };
+  const handleChangeFor = input => e => {
+    dispatch({
+      type: 'UPDATE_FIELD',
+      payload: { input, value: e.target.value }
     });
   };
 
@@ -135,7 +135,6 @@ const RawMaterialManagementState = props => {
       value={{
         searchString,
         searchResults,
-        supplierDetails,
         supplierID,
         rawMaterialName,
         brandName,
@@ -168,7 +167,7 @@ const RawMaterialManagementState = props => {
         priceUpdated,
         rawMaterialRate,
         rawMaterialWORate,
-
+        handleChangeFor,
         handleChangeForRawMaterialType,
         onSubmit
       }}

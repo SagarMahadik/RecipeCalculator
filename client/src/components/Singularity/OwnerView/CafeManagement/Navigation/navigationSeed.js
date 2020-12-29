@@ -16,5 +16,10 @@ export const navigationDetails = [
     route: 'quoteGeneration',
     backgroundGradient:
       'linear-gradient(180deg, #A8F7FF 0%, rgba(218, 165, 32, 0.8) 100%)'
+  },
+  {
+    component: 'Manage Suppliers',
+    route: 'supplierDetails',
+    backgroundGradient: 'linear-gradient(315deg, #f2cf07 0%, #55d284 74%)'
   }
 ];

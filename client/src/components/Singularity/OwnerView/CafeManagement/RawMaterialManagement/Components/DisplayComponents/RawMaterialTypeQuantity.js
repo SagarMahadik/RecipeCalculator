@@ -15,6 +15,11 @@ import FormSectionHeading from 'components/Singularity/ApplicationView/FormHeadi
 
 import StyledRadioButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledRadioButton.js';
 
+import {
+  requiredBaseQuantity,
+  requiredRawMaterialName
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/ErrorMessages/index.js';
+
 const RawMaterialTypeQuantity = () => {
   const {
     rawMaterialTypeDetails,
@@ -41,7 +46,7 @@ const RawMaterialTypeQuantity = () => {
       <FormSectionHeading
         sectionName="Type of Raw Material"
         isRequiredError={requiredErrorFlag['rawMaterialType']}
-        requiredErrorText={'Please select type of Raw Material'}
+        requiredErrorText={requiredRawMaterialName}
       />
       <RawMTypeContainer>
         {rawMaterialTypeDetails.map((detail, index) => {
@@ -62,7 +67,7 @@ const RawMaterialTypeQuantity = () => {
           <FormSectionHeading
             sectionName="Quantity"
             isRequiredError={requiredErrorFlag['rawMaterialBaseQuanitiy']}
-            requiredErrorText={'Please select Base quantity'}
+            requiredErrorText={requiredBaseQuantity}
           />
           <RawMTypeOptionContainer>
             {rawMaterialOptionData

@@ -10,7 +10,6 @@ import { applicationContext } from 'Context/ApplicationContext/applicationContex
 import axios from 'axios';
 
 const RawMaterialRequest = () => {
-  console.log('In a RMR request');
   const {
     rawMaterialName,
     brandName,

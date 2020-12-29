@@ -8,15 +8,12 @@ import {
 import axios from 'axios';
 
 const SupplierRequest = () => {
-  console.log('In a supplier request');
-
   const dispatch = useRawMaterialsDispatch();
 
   const {
     searchString,
     userID,
     supplierUpdated,
-    supplierID,
     initiateSupplierPOSTrequest
   } = useRawMaterialsState();
 

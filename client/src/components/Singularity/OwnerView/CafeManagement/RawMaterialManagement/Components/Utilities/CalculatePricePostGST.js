@@ -11,7 +11,6 @@ import {
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/utils.js';
 
 const CalculatePricePostGST = () => {
-  console.log('In calculate price');
   const dispatch = useRawMaterialsDispatch();
 
   const {

@@ -11,24 +11,23 @@ export const TextBox = styled.input`
   height: 2.5em;
   border-radius: 5px;
   border: none;
-  font-family: PT Sans;
+  font-family: 'PT Sans';
   color: ${styles.formContentColor};
   background: ${styles.backgroundGradient};
   margin-top: ${props => props.marginTop || '1.5em'};
   box-sizing: border-box;
   transition: border-width 0.6s linear;
   text-indent: 8px;
-  filter: drop-shadow(0px 4px 4px rgba(176, 167, 229, 0.5));
+  filter: ${styles.inputShadowFilter};
   &:focus {
     outline: none;
-    border: 2px solid #6e5dcc;
   }
 `;
 
 export const InputLabel = styled.label`
   width: 73px;
   height: auto;
-  font-family: PT Sans;
+  font-family: 'PT Sans';
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -47,13 +46,14 @@ export const LabelText = styled.label`
   font-size: 18px;
   line-height: 16px;
   pointer-events: none;
+  font-family: 'PT Sans';
   transition: 0.6s;
   color: ${styles.formContentColor};
   ${TextBox}:focus ~ &,
   ${TextBox}:not(:placeholder-shown) ~ & {
     top: 0;
     left: 0;
-    color: ${styles.formContentColor};
+    color: ${styles.selectedLabelColor};
     font-size: 16px;
     font-weight: bold;
   }
@@ -85,13 +85,14 @@ export const LabelText1 = styled.label`
   font-size: 18px;
   line-height: 16px;
   pointer-events: none;
+  font-family: 'PT Sans';
   transition: 0.5s;
   color: ${styles.formContentColor};
   ${TextParagraph}:focus ~ &,
   ${TextParagraph}:not(:placeholder-shown) ~ & {
     top: 0;
     left: 0;
-    color: ${styles.formContentColor};
+    color: ${styles.selectedLabelColor};
     font-size: 16px;
     font-weight: bold;
   }
@@ -106,6 +107,7 @@ export const LabelTextParagraph = styled.label`
   pointer-events: none;
   transition: 0.5s;
   color: ${styles.formContentColor};
+  font-family: 'PT Sans';
   ${TextParagraph}:focus ~ &,
   ${TextParagraph}:not(:placeholder-shown) ~ & {
     top: 0;
@@ -262,13 +264,15 @@ export const TextRadioButton = styled.button`
   background: ${props =>
     props.selected
       ? `${styles.formContentColor}`
-      : 'rgba(176, 167, 230, 0.54)'};
-  box-shadow: 0px 4px 8px rgba(176, 167, 230, 0.5);
+      : `${styles.buttonBackgroundGradient}`};
+  filter: ${styles.inputShadowFilter};
   border-radius: 20px;
   margin: 6px;
   outline: none;
   border: ${props =>
-    props.selected ? '4px solid #6e5dcc' : '4px solid rgba(255, 0, 0, 0.0)'};
+    props.selected
+      ? `4px solid ${styles.themecolor}`
+      : '4px solid rgba(255, 0, 0, 0.0)'};
   transition: all ease 0.6s;
   &:active {
     box-shadow: 0 0 4px ${styles.themecolor};

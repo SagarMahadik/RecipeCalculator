@@ -5,16 +5,14 @@ import {
 } from 'styles/Singularity/Style1.0/TextStyles';
 import { TextRadioButton } from 'styles/Singularity/Style1.0/FormInputStyles';
 
-const StyledRadioButton = props => {
+import PropTypes from 'prop-types';
+
+const StyledRadioButton = ({ value, selected, onClick, display }) => {
   return (
     <>
-      <TextRadioButton
-        value={props.value}
-        selected={props.selected}
-        onClick={props.onClick}
-      >
-        <RadioButtonText selected={props.selected}>
-          <TextContainer>{props.display}</TextContainer>
+      <TextRadioButton value={value} selected={selected} onClick={onClick}>
+        <RadioButtonText selected={selected}>
+          <TextContainer>{display}</TextContainer>
         </RadioButtonText>
       </TextRadioButton>
     </>
@@ -22,3 +20,17 @@ const StyledRadioButton = props => {
 };
 
 export default StyledRadioButton;
+
+StyledRadioButton.propTypes = {
+  value: PropTypes.string,
+  selected: PropTypes.bool,
+  display: PropTypes.string.isRequired,
+  onClick: PropTypes.func
+};
+
+StyledRadioButton.defaultProps = {
+  value: null,
+  selected: false,
+  display: null,
+  onClick: undefined
+};

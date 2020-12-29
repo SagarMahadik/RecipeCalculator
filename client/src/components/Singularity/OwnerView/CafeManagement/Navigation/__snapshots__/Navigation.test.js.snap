@@ -3,10 +3,10 @@
 exports[`Should match a snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
   >
     <div
-      class="ContainerStyles__RowContainer-rntyy-5 ContainerStyles__LeftAlignedRowContainer-rntyy-8 iyhHGE"
+      class="ContainerStyles__RowContainer-rntyy-5 ContainerStyles__LeftAlignedRowContainer-rntyy-8 fYMjvC"
     >
       <a
         href="/"
@@ -48,7 +48,7 @@ exports[`Should match a snapshot 1`] = `
         </svg>
       </a>
       <text
-        class="TextStyles__RecursiveText-sc-151f9kh-3 TextStyles__FormHeadingText-sc-151f9kh-14 jVpSiO"
+        class="TextStyles__RecursiveText-sc-151f9kh-3 TextStyles__FormHeadingText-sc-151f9kh-14 BIdKI"
         id="dashboard"
         style="opacity: 0; visibility: hidden; transform: translate(-200px, 0px) ;"
       >
@@ -56,14 +56,14 @@ exports[`Should match a snapshot 1`] = `
       </text>
     </div>
     <div
-      class="sc-EHOje cybJbU"
+      class="sc-EHOje hGnhmL"
     />
   </div>
   <div
     id="ownerdashboard"
   />
   <div
-    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
   >
     <a
       backgroundcolor="linear-gradient(180deg, #96F7D2 0%, rgba(110, 93, 204, 0.8) 100%);"
@@ -78,7 +78,7 @@ exports[`Should match a snapshot 1`] = `
     </a>
   </div>
   <div
-    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
   >
     <a
       backgroundcolor="linear-gradient(180deg, #F5B5FC 0%, rgba(82, 243, 234, 0.8) 100%)"
@@ -93,7 +93,7 @@ exports[`Should match a snapshot 1`] = `
     </a>
   </div>
   <div
-    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 bOlXEd"
+    class="ContainerStyles__ColumnContainer-rntyy-0 ContainerStyles__CenterAlignedColumnContainer-rntyy-2 jjFUUG"
   >
     <a
       backgroundcolor="linear-gradient(180deg, #A8F7FF 0%, rgba(218, 165, 32, 0.8) 100%)"

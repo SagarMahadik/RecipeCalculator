@@ -80,7 +80,7 @@ export const RadioButtonText = styled(PTSansText)`
 export const NavigationButtonText = styled(PTSansText)`
   font-weight: bold;
   font-size: 38px;
-  line-height: 10px;
+  line-height: 35px;
 `;
 
 export const ButtonText = styled(SacramentoText)`
@@ -97,7 +97,7 @@ export const FormContentText = styled(PTSansText)`
 export const FormHeadingText = styled(RecursiveText)`
   font-size: 22px;
   line-height: 33px;
-  color: ${styles.formContentColor};
+  color: ${styles.formheadingTextColor};
 `;
 
 export const ItemDescriptionText = styled(PTSansText)`
