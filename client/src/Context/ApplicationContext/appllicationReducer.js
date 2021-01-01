@@ -24,7 +24,9 @@ import {
   INITIIATE_LOGINREQEST,
   INITIIATE_REGISTRATIONREQEST,
   LOADING_USER_FAILED,
-  SET_SUPPLIERDETAILS
+  SET_SUPPLIERDETAILS,
+  PLAY_WELCOMETONE,
+  INCREMENT_WELCOMETONECOUNT
 } from 'Context/ApplicationContext/types.js';
 
 import { produce } from 'immer';
@@ -114,7 +116,9 @@ export default (state, action) => {
         errorMessage: action.message,
         customerMatchLogin: true,
         registrationFromValidated: false,
-        regValIntitiated: false
+        regValIntitiated: false,
+
+        initiateRegRequest: false
       };
 
     case REMOVE_AUTHERROR:
@@ -131,7 +135,6 @@ export default (state, action) => {
       };
 
     case SET_FRONTENDERROR:
-      console.log(action.field);
       return produce(state, draftState => {
         draftState.frontEndError[action.field] = true;
         draftState.loginValidationInitiated = false;
@@ -214,7 +217,21 @@ export default (state, action) => {
     case SET_SUPPLIERDETAILS:
       return {
         ...state,
-        supplierDetails: [...action.payload]
+        supplierDetails: [...action.payload],
+        supplierDetailsLoaded: true
+      };
+
+    case PLAY_WELCOMETONE:
+      return {
+        ...state,
+        playWelcomTone: true
+      };
+
+    case INCREMENT_WELCOMETONECOUNT:
+      return {
+        ...state,
+        welcomeTonePlayedCount: 1,
+        playWelcomTone: false
       };
   }
 };

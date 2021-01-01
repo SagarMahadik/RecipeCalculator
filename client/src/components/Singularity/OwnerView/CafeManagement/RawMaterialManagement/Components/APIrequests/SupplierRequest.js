@@ -5,17 +5,23 @@ import {
   useRawMaterialsDispatch
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
 
+import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
+
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
+
 import axios from 'axios';
 
 const SupplierRequest = () => {
   const dispatch = useRawMaterialsDispatch();
+  const { sendStepStatusRequest } = useStepStatusRequest();
 
   const {
     searchString,
-    userID,
     supplierUpdated,
     initiateSupplierPOSTrequest
   } = useRawMaterialsState();
+
+  const { userID } = useApplicationState();
 
   useEffect(() => {
     if (initiateSupplierPOSTrequest) {
@@ -24,11 +30,14 @@ const SupplierRequest = () => {
   }, [initiateSupplierPOSTrequest]);
 
   useEffect(() => {
-    console.log('in a useeffct supplier');
     if (supplierUpdated) {
       dispatch({
         type: 'INITIATE_RMATERIALPOST'
       });
+      sendStepStatusRequest(
+        `${userID}`,
+        'Successfully created Supplier & initiate Raw Material'
+      );
     }
   }, [supplierUpdated]);
 
@@ -40,7 +49,8 @@ const SupplierRequest = () => {
 
     const config = {
       headers: {
-        'Content-Type': 'application/JSON'
+        'Content-Type': 'application/JSON',
+        Authorization: `Bearer ${localStorage.token}`
       }
     };
 
@@ -54,6 +64,14 @@ const SupplierRequest = () => {
         type: 'COMPLETE_SUPPLIERUPDATE',
         id: res.data.data.data._id
       });
+      sendStepStatusRequest(`${userID}`, 'Successfully created Supplier');
+    }
+    if (res.data.status === 'failure') {
+      dispatch({
+        type: 'COMPLETE_SUPPLIERUPDATE',
+        id: res.data.data.data._id
+      });
+      sendStepStatusRequest(`${userID}`, 'Failed to create Supplier');
     }
   };
 

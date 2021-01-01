@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
 import AppStyleButton from 'components/Singularity/ApplicationView/FormElements/Inputs/AppStyleButton.js';
 
@@ -17,8 +17,12 @@ import {
 } from 'Context/ApplicationContext/ApplicationState.js';
 import { Redirect } from 'react-router-dom';
 
+import FormErrorSound from 'components/Singularity/ApplicationSounds/FormErrorSound.js';
+import SuccessSound from 'components/Singularity/ApplicationSounds/SuccessSound.js';
+
 const Login = props => {
   const ApplicationContext = useApplicationState();
+
   const {
     isAuthenticated,
     loginUser,
@@ -29,7 +33,11 @@ const Login = props => {
   const dispatch = useApplicationDispatch();
 
   if (isAuthenticated) {
-    return <Redirect to="/ownerDashboard" />;
+    return (
+      <>
+        <Redirect to="/ownerDashboard" />
+      </>
+    );
   }
 
   return (
@@ -49,6 +57,7 @@ const Login = props => {
             <ErrorText id="error-message">{errorMessage}</ErrorText>
           </ErrorTextContainer>
         ) : null}
+        <FormErrorSound isError={authError} />
 
         {loginFields.map(field => {
           return (

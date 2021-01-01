@@ -7,6 +7,8 @@ import {
 
 import axios from 'axios';
 
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
+
 const MakeRegisterRequest = () => {
   const {
     initiateRegRequest,
@@ -17,6 +19,8 @@ const MakeRegisterRequest = () => {
     passwordConfirm
   } = useApplicationState();
   const dispatch = useApplicationDispatch();
+
+  const { sendStepStatusRequest } = useStepStatusRequest();
 
   useEffect(() => {
     if (initiateRegRequest) {
@@ -34,6 +38,12 @@ const MakeRegisterRequest = () => {
     dispatch({
       type: 'SENDING_REGISTRATIONREQUEST'
     });
+
+    sendStepStatusRequest(
+      `${mobileNumber}`,
+      `Initiated registration request for ${mobileNumber}`,
+      'success'
+    );
     const body = JSON.stringify({
       brandName,
       mobileNumber,
@@ -42,8 +52,6 @@ const MakeRegisterRequest = () => {
       passwordConfirm,
       userID: mobileNumber
     });
-
-    console.log(body);
 
     const config = {
       headers: {
@@ -60,13 +68,22 @@ const MakeRegisterRequest = () => {
         type: 'REGISTRATION_SUCCESS',
         data: res.data.data.user
       });
-    } catch (err) {
-      console.log(err.response.data.message);
 
+      sendStepStatusRequest(
+        `${mobileNumber}`,
+        `Registration successful for ${mobileNumber}`,
+        'success'
+      );
+    } catch (err) {
       dispatch({
         type: 'REGISTRATION_FAIL',
         message: err.response.data.message
       });
+      sendStepStatusRequest(
+        `${mobileNumber}`,
+        `Registration failed for ${mobileNumber}`,
+        'failure'
+      );
     }
   };
 

@@ -7,7 +7,6 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const path = require('path');
-const axios = require('axios');
 
 var winston = require('winston'),
   expressWinston = require('express-winston');

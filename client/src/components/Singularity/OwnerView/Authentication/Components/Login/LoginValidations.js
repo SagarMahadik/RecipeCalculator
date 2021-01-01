@@ -7,6 +7,8 @@ import {
 
 import { loginFields } from 'components/Singularity/OwnerView/Authentication/Components/SeedData/login.js';
 
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
+
 import { isEmpty, isInValidEmail } from 'Utils/validations';
 
 const LoginValidations = () => {
@@ -20,6 +22,8 @@ const LoginValidations = () => {
   const dispatch = useApplicationDispatch();
   const ApplicationContext = useApplicationState();
 
+  const { sendStepStatusRequest, stepStatusError } = useStepStatusRequest();
+
   useEffect(() => {
     if (loginValidationInitiated) {
       validateLoginFields(loginEmail, loginPassword);
@@ -27,8 +31,6 @@ const LoginValidations = () => {
   }, [loginValidationInitiated]);
 
   const validateLoginFields = (loginEmail, loginPassword) => {
-    console.log('Insider validate login');
-
     loginRequiredFields.map(requiredField => {
       if (isEmpty(ApplicationContext[requiredField])) {
         return dispatch({
@@ -53,6 +55,11 @@ const LoginValidations = () => {
       dispatch({
         type: 'SET_FORMVALIDATIONCOMPLETE'
       });
+      sendStepStatusRequest(
+        `${loginEmail}`,
+        `login form validations successful for ${loginEmail}`,
+        'success'
+      );
     }
 
     setTimeout(() => dispatch({ type: 'REMOVE_FRONTENDERROR' }), 1500);

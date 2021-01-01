@@ -5,13 +5,19 @@ import {
   useRawMaterialsDispatch
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
 
+import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
+
 import {
   calcualatePriceWithoutGST,
   calculatePriceWithGST
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/utils.js';
 
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
+
 const CalculatePricePostGST = () => {
   const dispatch = useRawMaterialsDispatch();
+  const { userID } = useApplicationState();
+  const { sendStepStatusRequest } = useStepStatusRequest();
 
   const {
     rawMaterialGSTPercent,
@@ -19,12 +25,17 @@ const CalculatePricePostGST = () => {
     validationsCompleted,
     rawMaterialStatePriceGST,
     priceUpdated,
-    supplierID
+    supplierID,
+    searchString
   } = useRawMaterialsState();
 
   useEffect(() => {
     if (validationsCompleted) {
       handlePriceGST(rawMaterialStatePrice, rawMaterialGSTPercent);
+      sendStepStatusRequest(
+        `${userID}`,
+        'Initiated Price calculation for POST Raw material request'
+      );
     }
   }, [validationsCompleted]);
 
@@ -35,6 +46,10 @@ const CalculatePricePostGST = () => {
         rawMrate: rawMaterialStatePrice,
         rawMWOGST: rawMaterialStatePrice
       });
+      sendStepStatusRequest(
+        `${userID}`,
+        'Completed Price calculation for POST Raw material request'
+      );
     }
 
     if (rawMaterialStatePriceGST === 'withGST') {
@@ -46,6 +61,10 @@ const CalculatePricePostGST = () => {
           rawMaterialGSTPercent
         )
       });
+      sendStepStatusRequest(
+        `${userID}`,
+        'Completed Price calculation for POST Raw material request'
+      );
     }
     if (rawMaterialStatePriceGST === 'woGST') {
       dispatch({
@@ -56,21 +75,29 @@ const CalculatePricePostGST = () => {
         ),
         rawMWOGST: rawMaterialStatePrice
       });
+      sendStepStatusRequest(
+        `${userID}`,
+        'Completed Price calculation for POST Raw material request'
+      );
     }
   };
 
   useEffect(() => {
-    console.log('In a price update use effect');
     if (priceUpdated) {
-      if (supplierID != '') {
+      if (supplierID != '' || searchString === '') {
         dispatch({
           type: 'INITIATE_RMATERIALPOST'
         });
+        sendStepStatusRequest(
+          `${userID}`,
+          'Initiate POST Raw material request'
+        );
       }
       if (supplierID === '') {
         dispatch({
           type: 'INITIATE_SUPPLIERPOST'
         });
+        sendStepStatusRequest(`${userID}`, 'Initiate POST Supplier request');
       }
     }
   }, [priceUpdated]);

@@ -13,9 +13,7 @@ const LandingPage = () => {
   return (
     <LandingPageContainer>
       <BackgroundImage src="https://res.cloudinary.com/antilibrary/image/upload/v1608114803/Piatto/rm-1_hrvxia.jpg" />
-      <LogoContainer>
-        <Logo height={150} width={150} />
-      </LogoContainer>
+
       <LoginContainer>
         <LoginMainComponent />
       </LoginContainer>

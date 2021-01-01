@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 
 import {
   TextBox,
@@ -11,46 +11,30 @@ import {
   ProductPriceLabel
 } from 'styles/Singularity/Style1.0/FormInputStyles';
 
-import {
-  CenterAlignedColumnContainer,
-  ProductVariantContainer
-} from 'styles/Singularity/Style1.0/ContainerStyles';
+import { ProductVariantContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 
 import {
   FormHeadingText,
-  FormSectionHeadingTextContainer,
-  FormContentText
+  FormSectionHeadingTextContainer
 } from 'styles/Singularity/Style1.0/TextStyles';
 
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
 
 import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
-import { gsap, Bounce, Slow, TweenMax, Power3 } from 'gsap';
+import { TweenMax, Power3 } from 'gsap';
 
 const ProductDetails = React.forwardRef((props, setRef1) => {
   const AddProductContext = useContext(addProductContext);
 
   const {
-    Category,
-    SubCategory,
     productName,
     productDescription,
     crossSellPitch,
     productPrice,
-    categoryData,
-    loading,
-    step,
-    nextStep,
-    previousStep,
-    handleChangeFor,
-    isSubCategory,
-    getCategoryData,
-    selectedCategory,
-    handleChange,
-    isCategory
+
+    handleChangeFor
   } = AddProductContext;
 
-  const [hide, setHide] = useState(true);
   let productDetails = useRef(null);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';
 import SupplierDetails from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/Components/SupplierDetails.js';
@@ -14,7 +14,6 @@ const SupplierDetailsManagement = () => {
   const {
     onSubmit,
     showLoader,
-    trigger,
     loading,
     isComplete
   } = useSupplierDetailsState();
@@ -24,16 +23,11 @@ const SupplierDetailsManagement = () => {
   }
   return (
     <>
-      <CenterAlignedColumnContainer
-        style={{ height: '100vh' }}
-        backGroundColor={'#514E4E'}
-      >
-        <FormHeadings heading="Supplier Details" />
-        <SupplierDetails />
-        <SubmitSupplierDetails onClick={onSubmit} />
-        <SupplierValidations />
-        <POSTsupplierRequest />
-      </CenterAlignedColumnContainer>
+      <FormHeadings heading="Supplier Details" />
+      <SupplierDetails />
+      <SubmitSupplierDetails onClick={onSubmit} />
+      <SupplierValidations />
+      <POSTsupplierRequest />
     </>
   );
 };

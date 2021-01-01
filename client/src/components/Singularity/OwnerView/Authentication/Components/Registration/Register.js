@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
 import StyledSubmitButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledSubmitButton.js';
 import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';

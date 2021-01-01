@@ -8,10 +8,7 @@ import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/Contai
 
 const AppStyleButton = ({ onClick, display, id }) => {
   return (
-    <CenterAlignedColumnContainer
-      style={{ marginTop: '20px' }}
-      backGroundcolor={'none'}
-    >
+    <CenterAlignedColumnContainer style={{ marginTop: '20px' }}>
       <TextRadioButton onClick={onClick} selected={true} id={id}>
         <RadioButtonText selected={true}>
           <TextContainer>{display}</TextContainer>

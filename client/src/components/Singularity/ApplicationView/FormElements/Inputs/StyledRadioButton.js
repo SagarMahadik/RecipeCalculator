@@ -10,7 +10,13 @@ import PropTypes from 'prop-types';
 const StyledRadioButton = ({ value, selected, onClick, display }) => {
   return (
     <>
-      <TextRadioButton value={value} selected={selected} onClick={onClick}>
+      <TextRadioButton
+        value={value}
+        selected={selected}
+        onClick={e => {
+          onClick(e);
+        }}
+      >
         <RadioButtonText selected={selected}>
           <TextContainer>{display}</TextContainer>
         </RadioButtonText>

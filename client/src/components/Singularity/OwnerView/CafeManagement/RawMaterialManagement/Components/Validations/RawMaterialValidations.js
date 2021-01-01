@@ -2,10 +2,14 @@ import React, { useContext, useEffect } from 'react';
 
 import { rawMaterialManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
 
+import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
+
 import {
   useRawMaterialsState,
   useRawMaterialsDispatch
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState';
+
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 
 import { isEmpty } from 'Utils/validations.js';
 
@@ -27,6 +31,10 @@ const RawMaterialValidations = () => {
 
   const RawMaterialStateContext = useContext(rawMaterialManagementContext);
 
+  const { userID } = useApplicationState();
+
+  const { sendStepStatusRequest } = useStepStatusRequest();
+
   useEffect(() => {
     if (initiateRawMaterialValidations) {
       validateRawMaterialFields(rawMaterialRequiredFields);
@@ -38,6 +46,10 @@ const RawMaterialValidations = () => {
         rawMaterialStatePrice,
         dispatch,
         rawMaterialStatePriceGST
+      );
+      sendStepStatusRequest(
+        `${userID}`,
+        'Initiated validation for POST Raw material request'
       );
     }
   }, [initiateRawMaterialValidations]);
@@ -62,7 +74,7 @@ const RawMaterialValidations = () => {
   const validateRawMaterialFields = rawMaterialRequiredFields => {
     rawMaterialRequiredFields.map(requiredField => {
       if (isEmpty(RawMaterialStateContext[requiredField])) {
-        dispatch({
+        return dispatch({
           type: 'SET_FIELD_REQUIRED_ERROR',
           field: `${requiredField}`
         });
@@ -70,7 +82,7 @@ const RawMaterialValidations = () => {
     });
 
     if (rawMaterialGST === 'No GST') {
-      dispatch({
+      return dispatch({
         type: 'REMOVE_FIELD_REQUIRED_ERROR',
         field: 'rawMaterialStatePriceGST'
       });
@@ -107,6 +119,10 @@ const RawMaterialValidations = () => {
         dispatch({
           type: 'VALIDATION_COMPLETED'
         });
+        sendStepStatusRequest(
+          `${userID}`,
+          'Completed validation for POST Raw material request'
+        );
       }
     } else {
       if (
@@ -119,6 +135,10 @@ const RawMaterialValidations = () => {
         dispatch({
           type: 'VALIDATION_COMPLETED'
         });
+        sendStepStatusRequest(
+          `${userID}`,
+          'Completed validation for POST Raw material request'
+        );
       }
     }
     return true;

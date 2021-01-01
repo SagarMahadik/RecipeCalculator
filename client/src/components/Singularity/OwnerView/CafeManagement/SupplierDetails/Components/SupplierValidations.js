@@ -5,8 +5,13 @@ import {
   useSupplierDetailsDispatch
 } from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/SupplierDetailsState.js';
 
+import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
+
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
+
 import { isEmpty } from 'Utils/validations';
 const SupplierValidations = () => {
+  const { userID } = useApplicationState();
   const {
     supplierName,
     supplierPersonDetails,
@@ -17,6 +22,8 @@ const SupplierValidations = () => {
 
   const SupplierContext = useSupplierDetailsState();
   const dispatch = useSupplierDetailsDispatch();
+
+  const { sendStepStatusRequest } = useStepStatusRequest();
 
   useEffect(() => {
     if (supplierValidationsInitiated) {
@@ -47,6 +54,11 @@ const SupplierValidations = () => {
       dispatch({
         type: 'INITIATE_POSTSUPPLIERREQUEST'
       });
+
+      sendStepStatusRequest(
+        `${userID}`,
+        `Validated Supplier for for ${userID}`
+      );
     }
   }, [supplierValidationCompleted]);
 

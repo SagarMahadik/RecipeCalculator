@@ -9,7 +9,7 @@ import { motion } from 'framer-motion';
 
 export const BackgroundImage = styled.img`
   width: 100%;
-  height: 426px;
+  height: 50%;
   object-fit: cover;
   filter: blur(1px);
 `;
@@ -26,23 +26,30 @@ export const LogoContainer = styled(CenterAlignedColumnContainer)`
 `;
 
 export const LoginContainer = styled(CenterAlignedColumnContainer)`
-  margin-top: -80px;
+  margin-top: -20px;
 `;
 
 export const RegisterText = styled(ComicText)`
   font-size: 14px;
   text-decoration: underline;
   font-weight: bold;
-  color: ${styles.formContentColor};
+  color: ${styles.linkTextColor};
 `;
 
 export const RegisterLink = styled(Link)`
   margin-top: 10px;
+  color: white;
 `;
 
 export const ErrorText = styled(ComicText)`
   font-size: 14px;
   color: ${styles.errorText};
+  font-weight: bold;
+`;
+
+export const ErrorDummyText = styled(ComicText)`
+  font-size: 14px;
+  color: ${styles.backgroundColor};
   font-weight: bold;
 `;
 
@@ -52,5 +59,12 @@ export const ErrorTextContainer = styled(motion.div)`
   justify-content: center;
   flex-direction: column;
   width: 100%;
-  margin-top: 20px;
+`;
+
+export const ErrorDummyTextContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
 `;

@@ -1,16 +1,11 @@
 import React from 'react';
-
 import {
   MenuPageCategoryLine,
   Category,
   DMenuCategoryContainer
 } from 'styles/Singularity/OwnerView/CafeManagement/DigitizedMenu/index.js';
 
-import {
-  CenterAlignedColumnContainer,
-  RowContainer,
-  LeftAlignedRowContainer
-} from 'styles/Singularity/Style1.0/ContainerStyles';
+import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 
 const MenuPageCategory = props => {
   return (

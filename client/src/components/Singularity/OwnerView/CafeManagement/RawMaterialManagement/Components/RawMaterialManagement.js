@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { rawMaterialManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
 import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';
@@ -20,7 +20,6 @@ import Ball from 'components/Singularity/ApplicationView/Loaders/Ball';
 import Loaders from 'components/Singularity/ApplicationView/Loaders';
 import SupplierRequest from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/Components/APIrequests/SupplierRequest.js';
 import RawMaterialRequest from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/Components/APIrequests/RawMaterialRequest.js';
-import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index';
 
 const RawMaterialManagement = () => {
   const RawMaterialManagementContext = useContext(rawMaterialManagementContext);
@@ -29,7 +28,7 @@ const RawMaterialManagement = () => {
 
   const ApplicationContext = useContext(applicationContext);
 
-  const { supplierDetails } = ApplicationContext;
+  const { supplierDetails, supplierDetailsLoaded } = ApplicationContext;
 
   if (showLoader) {
     return <Ball loading={loading} isComplete={isDataUploaded} />;
@@ -37,39 +36,34 @@ const RawMaterialManagement = () => {
 
   return (
     <>
-      <CenterAlignedColumnContainer
-        style={{ height: '100vh' }}
-        backGroundColor={'#514E4E'}
-      >
-        <FormHeadings heading="Raw Material Details" />
-        {supplierDetails.length === 0 ? (
-          <RawMMainContainer>
-            <Loaders />
-          </RawMMainContainer>
-        ) : (
-          <>
-            <AnimationContainer
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{
-                ease: 'easeOut',
-                duration: 0.8
-              }}
-              exit={{ opacity: 0 }}
-            >
-              <SearchUpdateSupplier />
-              <RawMaterialDetails />
-              <RawMaterialTypeQuantity />
-              <PriceGSTDetails />
-              <RawMaterialValidations />
-              <CalculatePricePostGST />
-              <SupplierRequest />
-              <RawMaterialRequest />
-              <SubmitRawMaterial />
-            </AnimationContainer>
-          </>
-        )}
-      </CenterAlignedColumnContainer>
+      <FormHeadings heading="Raw Material Details" />
+      {supplierDetails.length === 0 && !supplierDetailsLoaded ? (
+        <RawMMainContainer>
+          <Loaders />
+        </RawMMainContainer>
+      ) : supplierDetails && supplierDetailsLoaded ? (
+        <>
+          <AnimationContainer
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              ease: 'easeOut',
+              duration: 0.8
+            }}
+            exit={{ opacity: 0 }}
+          >
+            <SearchUpdateSupplier />
+            <RawMaterialDetails />
+            <RawMaterialTypeQuantity />
+            <PriceGSTDetails />
+            <RawMaterialValidations />
+            <CalculatePricePostGST />
+            <SupplierRequest />
+            <RawMaterialRequest />
+            <SubmitRawMaterial />
+          </AnimationContainer>
+        </>
+      ) : null}
     </>
   );
 };

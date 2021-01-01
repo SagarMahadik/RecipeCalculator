@@ -5,9 +5,35 @@ import {
   InputWrapper
 } from 'styles/Singularity/Style1.0/FormInputStyles/index.js';
 
-import { ErrorText } from 'styles/Singularity/OwnerView/Authentication/index.js';
+import {
+  ErrorText,
+  ErrorTextContainer,
+  ErrorDummyTextContainer,
+  ErrorDummyText
+} from 'styles/Singularity/OwnerView/Authentication/index.js';
 
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
+
+import { AnimatePresence } from 'framer-motion';
+
+const DisplayError = ({ message }) => {
+  return (
+    <AnimatePresence>
+      <ErrorTextContainer
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          ease: 'easeOut',
+          duration: 1.0
+        }}
+        exit={{ opacity: 0 }}
+      >
+        {' '}
+        <ErrorText id="required-field-message">{message}</ErrorText>
+      </ErrorTextContainer>
+    </AnimatePresence>
+  );
+};
 const StyledTextBoxLabel = ({
   id,
   type,
@@ -33,13 +59,14 @@ const StyledTextBoxLabel = ({
         />
         <LabelText>{text}</LabelText>
         {isError ? (
-          <ErrorText id="required-field-message">{requiredErrorText}</ErrorText>
-        ) : null}
-        {isValidationError ? (
-          <ErrorText id="validation-error-message">
-            {validationErrorText}
-          </ErrorText>
-        ) : null}
+          <DisplayError message={requiredErrorText} />
+        ) : isValidationError ? (
+          <DisplayError message={validationErrorText} />
+        ) : (
+          <ErrorDummyTextContainer>
+            <ErrorDummyText>Hello</ErrorDummyText>
+          </ErrorDummyTextContainer>
+        )}
       </InputWrapper>
     </CenterAlignedColumnContainer>
   );

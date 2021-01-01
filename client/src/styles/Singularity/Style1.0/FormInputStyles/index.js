@@ -21,6 +21,7 @@ export const TextBox = styled.input`
   filter: ${styles.inputShadowFilter};
   &:focus {
     outline: none;
+    border: 2px solid ${styles.selectedBorderColor};
   }
 `;
 
@@ -74,7 +75,7 @@ export const TextParagraph = styled.textarea`
   transition: border-width 0.6s linear;
   &:focus {
     outline: none;
-    border: 2px solid #6e5dcc;
+    border: 2px solid ${styles.selectedBorderColor};
   }
 `;
 
@@ -112,7 +113,7 @@ export const LabelTextParagraph = styled.label`
   ${TextParagraph}:not(:placeholder-shown) ~ & {
     top: 0;
     left: 0;
-    color: ${styles.formContentColor};
+    color: ${styles.selectedLabelColor};
     font-size: 16px;
     font-weight: bold;
   }
@@ -121,7 +122,6 @@ export const LabelTextParagraph = styled.label`
 export const InputWrapper = styled.div`
   position: relative;
   width: 60%;
-  margin-top: 0.8em;
 `;
 
 export const CrossSellPitch = styled(TextParagraph)``;
@@ -263,19 +263,19 @@ export const TextRadioButton = styled.button`
   box-sizing: border-box;
   background: ${props =>
     props.selected
-      ? `${styles.formContentColor}`
-      : `${styles.buttonBackgroundGradient}`};
+      ? `${styles.buttonBackgroundGradient}`
+      : `${styles.formContentColor}`};
   filter: ${styles.inputShadowFilter};
   border-radius: 20px;
   margin: 6px;
   outline: none;
   border: ${props =>
     props.selected
-      ? `4px solid ${styles.themecolor}`
-      : '4px solid rgba(255, 0, 0, 0.0)'};
-  transition: all ease 0.6s;
+      ? `0.1px solid ${styles.themecolor}`
+      : `0.1px solid ${styles.themecolor}`};
+  transition: all ease-out 0.8s;
+
   &:active {
-    box-shadow: 0 0 4px ${styles.themecolor};
     transform: translateY(-20px);
   }
 `;

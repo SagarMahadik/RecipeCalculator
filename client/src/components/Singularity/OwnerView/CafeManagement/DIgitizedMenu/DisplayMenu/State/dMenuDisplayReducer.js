@@ -41,5 +41,8 @@ export default (state, action) => {
         activeCategory: action.payload,
         activeIndex: action.index
       };
+
+    default:
+      return state;
   }
 };

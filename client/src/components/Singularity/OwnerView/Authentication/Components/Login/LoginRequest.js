@@ -16,7 +16,7 @@ const LoginRequest = () => {
   } = useApplicationState();
   const dispatch = useApplicationDispatch();
 
-  const { sendStepStatusRequest, stepStatusError } = useStepStatusRequest();
+  const { sendStepStatusRequest } = useStepStatusRequest();
 
   useEffect(() => {
     if (initiateLoginRequest) {
@@ -25,6 +25,11 @@ const LoginRequest = () => {
   }, [initiateLoginRequest]);
 
   const makeLoginRequest = async (loginEmail, loginPassword) => {
+    sendStepStatusRequest(
+      `${loginEmail}`,
+      `Initiating login request for ${loginEmail}`,
+      'success'
+    );
     dispatch({
       type: 'SENDING_LOGINREQUEST'
     });
@@ -41,16 +46,15 @@ const LoginRequest = () => {
     };
     try {
       const res = await axios.post('/api/v1/users/login', body, config);
-      console.log(res);
+
       localStorage.setItem('token', res.data.token);
       dispatch({
         type: 'LOGIN_SUCCESS',
         data: res.data.data.user
       });
-
-      const stepREs = sendStepStatusRequest(
-        'sytem',
-        'LOGIN_SUCCESS',
+      sendStepStatusRequest(
+        `${loginEmail}`,
+        `Login successful for ${loginEmail}`,
         'success'
       );
     } catch (err) {
@@ -60,7 +64,11 @@ const LoginRequest = () => {
         message: err.response.data.message
       });
 
-      const stepREs = sendStepStatusRequest('sytem', 'LOGIN_FAIL', 'fail');
+      sendStepStatusRequest(
+        `${loginEmail}`,
+        `Login request failed for ${loginEmail}`,
+        'success'
+      );
 
       setTimeout(() => dispatch({ type: 'REMOVE_AUTHERROR' }), 3000);
     }

@@ -157,5 +157,8 @@ export default (state, action) => {
         nutritionDetails: action.payload,
         step: action.currentStep + 1
       };
+
+    default:
+      return state;
   }
 };

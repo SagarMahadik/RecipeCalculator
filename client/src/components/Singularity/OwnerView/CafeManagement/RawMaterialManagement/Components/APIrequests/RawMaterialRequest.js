@@ -7,6 +7,8 @@ import {
 
 import { applicationContext } from 'Context/ApplicationContext/applicationContext.js';
 
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
+
 import axios from 'axios';
 
 const RawMaterialRequest = () => {
@@ -28,6 +30,8 @@ const RawMaterialRequest = () => {
   const ApplicationContext = useContext(applicationContext);
 
   const { userID, userBrandName } = ApplicationContext;
+
+  const { sendStepStatusRequest } = useStepStatusRequest();
 
   useEffect(() => {
     if (initiateRMPOSTrequest) {
@@ -92,7 +96,8 @@ const RawMaterialRequest = () => {
 
     const config = {
       headers: {
-        'Content-Type': 'application/JSON'
+        'Content-Type': 'application/JSON',
+        Authorization: `Bearer ${localStorage.token}`
       }
     };
 
@@ -105,6 +110,10 @@ const RawMaterialRequest = () => {
       dispatch({
         type: 'COMPLETE_FORM'
       });
+      sendStepStatusRequest(`${userID}`, 'Successfully created Raw material');
+    }
+    if (res.data.status === 'failure') {
+      sendStepStatusRequest(`${userID}`, 'Failed to create Raw material');
     }
   };
 

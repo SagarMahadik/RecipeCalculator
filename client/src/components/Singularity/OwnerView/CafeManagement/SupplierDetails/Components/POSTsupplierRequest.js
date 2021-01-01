@@ -60,7 +60,8 @@ const POSTsupplierRequest = () => {
 
     const config = {
       headers: {
-        'Content-Type': 'application/JSON'
+        'Content-Type': 'application/JSON',
+        Authorization: `Bearer ${localStorage.token}`
       }
     };
     const res = await axios.post('/api/v1/supplier', body, config);
@@ -72,10 +73,18 @@ const POSTsupplierRequest = () => {
       dispatch({
         type: 'COMPLETE_FORM'
       });
-      const stepREs = sendStepStatusRequest(
+      sendStepStatusRequest(
         `${userID}`,
         `Supplier created successfully for ${userID}`,
         'success'
+      );
+    }
+
+    if (res.data.status === 'failure') {
+      sendStepStatusRequest(
+        `${userID}`,
+        `Supplier creation failed for ${userID}`,
+        'failure'
       );
     }
   };

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Loaders from 'components/Singularity/ApplicationView/Loaders';
 
@@ -11,6 +11,8 @@ import {
   DoneTextContainer
 } from 'styles/Singularity/Style1.0/Loaders/Ball';
 
+import DoneSound from 'components/Singularity/ApplicationSounds/DoneSound.js';
+
 const BallLoader = props => {
   const [redirect, setRedirect] = useState(false);
 
@@ -19,7 +21,6 @@ const BallLoader = props => {
   }, []);
 
   useEffect(() => {
-    console.log('In a use Effect');
     if (props.isComplete) {
       setTimeout(() => setRedirect(true), 2000);
     }
@@ -69,6 +70,7 @@ const BallLoader = props => {
           )}
         </TextContainer>
         <Loaders />
+        <DoneSound isComplete={props.isComplete} />
       </MainContainer>
     </>
   );

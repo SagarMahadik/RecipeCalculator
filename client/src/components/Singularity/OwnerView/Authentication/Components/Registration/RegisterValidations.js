@@ -13,7 +13,11 @@ import {
   areNotSame
 } from 'Utils/validations.js';
 
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
+
 const RegisterValidations = () => {
+  const { sendStepStatusRequest } = useStepStatusRequest();
+
   const {
     regValIntitiated,
     brandName,
@@ -106,6 +110,11 @@ const RegisterValidations = () => {
       dispatch({
         type: 'SET_REGISTERFORMVALIDATIONCOMPLETE'
       });
+      sendStepStatusRequest(
+        `${mobileNumber}`,
+        `Registration form validations successful for ${mobileNumber}`,
+        'success'
+      );
     }
   };
   useEffect(() => {

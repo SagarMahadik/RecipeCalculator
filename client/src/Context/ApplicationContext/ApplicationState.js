@@ -16,6 +16,8 @@ import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 
 import axios from 'axios';
 
+import { submitVibrations } from 'Utils/vibrations';
+
 import setAuthToken from 'Utils/setAuthToken.js';
 
 export let util = { validateRegistrationFields: null };
@@ -75,7 +77,10 @@ function ApplicationState(props) {
     customerMatchLogin: false,
     initiateLoginRequest: false,
     initiateRegRequest: false,
-    fetchAppData: false
+    fetchAppData: false,
+    supplierDetailsLoaded: false,
+    playWelcomTone: false,
+    welcomeTonePlayedCount: 0
   };
 
   const [state, dispatch] = useReducer(applicationReducer, initialState);
@@ -117,18 +122,20 @@ function ApplicationState(props) {
     initiateLoginRequest,
     initiateRegRequest,
     fetchAppData,
-    supplierDetails
+    supplierDetails,
+    supplierDetailsLoaded,
+    playWelcomTone,
+    welcomeTonePlayedCount
   } = state;
 
   useEffect(() => {
     if (fetchAppData) {
-      console.log('In fetchdata');
       getData(`/api/v1/supplier/${userID}`, 'SET_SUPPLIERDETAILS');
     }
   }, [fetchAppData]);
 
-  const { sendRequest, error } = useHttpClient();
-  const { sendStepStatusRequest, stepStatusError } = useStepStatusRequest();
+  const { sendRequest } = useHttpClient();
+  const { sendStepStatusRequest } = useStepStatusRequest();
 
   const getData = async (url, typeString) => {
     try {
@@ -138,7 +145,19 @@ function ApplicationState(props) {
         type: `${typeString}`,
         payload: res
       });
-    } catch (err) {}
+
+      sendStepStatusRequest(
+        `${userID}`,
+        `Successfully fecthed supplier details for ${userID}`,
+        'success'
+      );
+    } catch (err) {
+      sendStepStatusRequest(
+        `${userID}`,
+        `Fetching supplier failed for ${userID}`,
+        'failure'
+      );
+    }
   };
 
   const setLoading = () => dispatch({ type: SET_LOADING });
@@ -153,14 +172,26 @@ function ApplicationState(props) {
   };
 
   const registerUser = e => {
+    submitVibrations();
     setLoading();
+    sendStepStatusRequest(
+      `${mobileNumber}`,
+      `Initiating Registration validations for ${mobileNumber}`,
+      'success'
+    );
     dispatch({
       type: 'REGISTRATION_VALIDATIONINITIATED'
     });
   };
 
   const loginUser = e => {
+    submitVibrations();
     setLoading();
+    sendStepStatusRequest(
+      `${loginEmail}`,
+      `Initiating login validations for ${loginEmail}`,
+      'success'
+    );
     dispatch({
       type: 'LOGIN_VALIDATIONINITIATED'
     });
@@ -174,19 +205,19 @@ function ApplicationState(props) {
     setLoading();
     try {
       const res = await axios.get('/api/v1/users/auth');
-      console.log(res);
+
       dispatch({
         type: LOAD_USER,
         payload: res.data
       });
 
-      const stepREs = sendStepStatusRequest(
+      sendStepStatusRequest(
         `${res.data.userID}`,
-        'AUTH_SUCCESS',
+        `Authentication succesful for ${res.data.userID}`,
         'success'
       );
     } catch (err) {
-      console.log(err.response);
+      sendStepStatusRequest(`Authentication failed`, 'success');
       dispatch({
         type: 'LOADING_USER_FAILED'
       });
@@ -229,6 +260,9 @@ function ApplicationState(props) {
         loginRequiredFields,
         registrationRequiredFields,
         supplierDetails,
+        supplierDetailsLoaded,
+        playWelcomTone,
+        welcomeTonePlayedCount,
         handleChangeFor,
         registerUser,
         loginUser,

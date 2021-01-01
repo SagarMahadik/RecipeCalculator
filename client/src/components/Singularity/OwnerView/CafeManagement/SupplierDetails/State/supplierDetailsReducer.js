@@ -58,7 +58,7 @@ export default (state, action) => {
     case REMOVE_MISSINGFIELDSERROR:
       return produce(state, draftState => {
         Object.keys(draftState.requiredFieldsError).map(function(key, index) {
-          draftState.requiredFieldsError[key] = false;
+          return (draftState.requiredFieldsError[key] = false);
         });
       });
 

@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 export const styles = {
-  dividerColor: '#CEA42B',
+  dividerColor: '#FCE07D',
   formContentColor: '#514E4E',
-  themecolor: '#CEA42B',
-  formheadingTextColor: '#CEA42B',
+  themecolor: '#FCE07D',
+  formheadingTextColor: '#FCE07D',
+  linkTextColor: '#FCE07D',
   buttonTextColor: '#514E4E',
   selectedBorder: '4px solid #CEA42B',
   backgroundColor: '#514E4E',
@@ -16,10 +17,11 @@ export const styles = {
     'linear-gradient(181.83deg, rgba(4, 4, 4, 0) -206.42%, #FCE07D 98.45%)',
   dMenuContentColor: '#CCAC00',
   errorText: '#ff6961',
-  dividerLineColor: '#CEA42B',
+  dividerLineColor: '#FCE07D',
   inputShadowFilter: ' drop-shadow(0px 4px 4px rgba(206, 164, 43, 0.49))',
-  buttonTextColor: 'white',
-  selectedLabelColor: '#CEA42B'
+  buttonTextColor: '#514E4E',
+  selectedLabelColor: '#CEA42B',
+  selectedBorderColor: '#CEA42B'
 };
 
 export const Background = styled.div`
