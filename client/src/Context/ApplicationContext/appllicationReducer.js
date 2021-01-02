@@ -10,6 +10,7 @@ import {
   SET_AUTHTOKEN,
   LOGIN_FAIL,
   REMOVE_AUTHERROR,
+  REMOVE_REGISTRATIONERROR,
   SET_FRONTENDERROR,
   REMOVE_FRONTENDERROR,
   SET_VALIDATIONERROR,
@@ -108,7 +109,9 @@ export default (state, action) => {
         loginFail: true,
         loginValidationInitiated: false,
         formValidated: false,
-        initiateLoginRequest: false
+        initiateLoginRequest: false,
+
+        loading: false
       };
     case REGISTRATION_FAIL:
       return {
@@ -117,8 +120,21 @@ export default (state, action) => {
         customerMatchLogin: true,
         registrationFromValidated: false,
         regValIntitiated: false,
+        initiateRegRequest: false,
+        registrationError: true,
+        loading: false
+      };
 
-        initiateRegRequest: false
+    case REMOVE_REGISTRATIONERROR:
+      return {
+        ...state,
+        errorMessage: '',
+        customerMatchLogin: true,
+        registrationFromValidated: false,
+        regValIntitiated: false,
+        initiateRegRequest: false,
+        registrationError: false,
+        loading: false
       };
 
     case REMOVE_AUTHERROR:
@@ -139,6 +155,7 @@ export default (state, action) => {
         draftState.frontEndError[action.field] = true;
         draftState.loginValidationInitiated = false;
         draftState.regValIntitiated = false;
+        draftState.loading = false;
       });
 
     case REMOVE_FRONTENDERROR:
@@ -153,6 +170,7 @@ export default (state, action) => {
         draftState.validationError[action.field] = true;
         draftState.loginValidationInitiated = false;
         draftState.regValIntitiated = false;
+        draftState.loading = false;
       });
 
     case REMOVE_VALIDATIONERROR:

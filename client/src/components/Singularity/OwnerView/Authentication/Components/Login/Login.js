@@ -8,7 +8,9 @@ import {
   RegisterText,
   RegisterLink,
   ErrorText,
-  ErrorTextContainer
+  ErrorTextContainer,
+  ErrorDummyTextContainer,
+  ErrorDummyText
 } from 'styles/Singularity/OwnerView/Authentication';
 
 import {
@@ -17,6 +19,7 @@ import {
 } from 'Context/ApplicationContext/ApplicationState.js';
 import { Redirect } from 'react-router-dom';
 
+import { AnimatePresence } from 'framer-motion';
 import FormErrorSound from 'components/Singularity/ApplicationSounds/FormErrorSound.js';
 import SuccessSound from 'components/Singularity/ApplicationSounds/SuccessSound.js';
 
@@ -27,7 +30,8 @@ const Login = props => {
     isAuthenticated,
     loginUser,
     authError,
-    errorMessage
+    errorMessage,
+    loading
   } = ApplicationContext;
 
   const dispatch = useApplicationDispatch();
@@ -43,20 +47,26 @@ const Login = props => {
   return (
     <>
       <CenterAlignedColumnContainer style={{ marginTop: '50px' }}>
-        {authError ? (
-          <ErrorTextContainer
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              ease: 'easeIn',
-              duration: 1.0
-            }}
-            exit={{ opacity: 0 }}
-          >
-            {' '}
-            <ErrorText id="error-message">{errorMessage}</ErrorText>
-          </ErrorTextContainer>
-        ) : null}
+        <AnimatePresence exitBeforeEnter>
+          {authError ? (
+            <ErrorTextContainer
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                ease: 'easeIn',
+                duration: 1.0
+              }}
+              exit={{ opacity: 0 }}
+            >
+              {' '}
+              <ErrorText id="error-message">{errorMessage}</ErrorText>
+            </ErrorTextContainer>
+          ) : (
+            <ErrorDummyTextContainer>
+              <ErrorDummyText>Hello</ErrorDummyText>
+            </ErrorDummyTextContainer>
+          )}
+        </AnimatePresence>
         <FormErrorSound isError={authError} />
 
         {loginFields.map(field => {
@@ -81,7 +91,12 @@ const Login = props => {
             />
           );
         })}
-        <AppStyleButton display="Login" id="login-button" onClick={loginUser} />
+        <AppStyleButton
+          display="Login"
+          id="login-button"
+          onClick={loginUser}
+          loading={loading}
+        />
 
         <RegisterLink to="/register">
           <RegisterText>Don’t have an account yet?</RegisterText>

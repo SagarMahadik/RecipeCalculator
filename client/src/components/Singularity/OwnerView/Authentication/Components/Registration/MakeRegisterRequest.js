@@ -79,11 +79,13 @@ const MakeRegisterRequest = () => {
         type: 'REGISTRATION_FAIL',
         message: err.response.data.message
       });
+
       sendStepStatusRequest(
         `${mobileNumber}`,
         `Registration failed for ${mobileNumber}`,
         'failure'
       );
+      setTimeout(() => dispatch({ type: 'REMOVE_REGISTRATIONERROR' }), 3000);
     }
   };
 

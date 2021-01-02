@@ -2,7 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import Logo from 'components/Singularity/ApplicationView/Logo';
 import {
   LeftAlignedRowContainer,
-  CenterAlignedColumnContainer
+  CenterAlignedColumnContainer,
+  FormHeadingsContainer
 } from 'styles/Singularity/Style1.0/ContainerStyles';
 import { FormHeadingText } from 'styles/Singularity/Style1.0/TextStyles';
 import { FullWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
@@ -19,15 +20,14 @@ const FormHeadings = React.forwardRef(props => {
 
   return (
     <>
-      <CenterAlignedColumnContainer>
-        <LeftAlignedRowContainer>
-          <Logo height={100} width={100} ref={headingRef2} />
+      <FormHeadingsContainer>
+        <Logo height={100} width={100} ref={headingRef2} />
+        <CenterAlignedColumnContainer backGroundcolor="none">
           <FormHeadingText id={props.id} ref={headingRef1}>
             {props.heading}
           </FormHeadingText>
-        </LeftAlignedRowContainer>
-        <FullWidthDivider />
-      </CenterAlignedColumnContainer>
+        </CenterAlignedColumnContainer>
+      </FormHeadingsContainer>
     </>
   );
 });

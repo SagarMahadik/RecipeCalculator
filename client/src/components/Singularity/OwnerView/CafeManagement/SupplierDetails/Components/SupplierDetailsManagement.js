@@ -9,6 +9,7 @@ import POSTsupplierRequest from './POSTsupplierRequest';
 
 import Ball from 'components/Singularity/ApplicationView/Loaders/Ball';
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index';
+import { MainContentContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index.js';
 
 const SupplierDetailsManagement = () => {
   const {
@@ -24,10 +25,12 @@ const SupplierDetailsManagement = () => {
   return (
     <>
       <FormHeadings heading="Supplier Details" />
-      <SupplierDetails />
-      <SubmitSupplierDetails onClick={onSubmit} />
-      <SupplierValidations />
-      <POSTsupplierRequest />
+      <MainContentContainer>
+        <SupplierDetails />
+        <SubmitSupplierDetails onClick={onSubmit} />
+        <SupplierValidations />
+        <POSTsupplierRequest />
+      </MainContentContainer>
     </>
   );
 };

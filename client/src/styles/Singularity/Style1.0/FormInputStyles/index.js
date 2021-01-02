@@ -257,7 +257,7 @@ export const ItemDescription = styled.div`
 export const TextRadioButton = styled.button`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   padding: 10px;
   box-sizing: border-box;

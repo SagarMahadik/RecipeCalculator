@@ -18,20 +18,17 @@ import { AnimatePresence } from 'framer-motion';
 
 const DisplayError = ({ message }) => {
   return (
-    <AnimatePresence>
-      <ErrorTextContainer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{
-          ease: 'easeOut',
-          duration: 1.0
-        }}
-        exit={{ opacity: 0 }}
-      >
-        {' '}
-        <ErrorText id="required-field-message">{message}</ErrorText>
-      </ErrorTextContainer>
-    </AnimatePresence>
+    <ErrorTextContainer
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        ease: 'easeOut',
+        duration: 1.0
+      }}
+      exit={{ opacity: 0 }}
+    >
+      <ErrorText id="required-field-message">{message}</ErrorText>
+    </ErrorTextContainer>
   );
 };
 const StyledTextBoxLabel = ({
@@ -58,15 +55,17 @@ const StyledTextBoxLabel = ({
           onChange={onChange}
         />
         <LabelText>{text}</LabelText>
-        {isError ? (
-          <DisplayError message={requiredErrorText} />
-        ) : isValidationError ? (
-          <DisplayError message={validationErrorText} />
-        ) : (
-          <ErrorDummyTextContainer>
-            <ErrorDummyText>Hello</ErrorDummyText>
-          </ErrorDummyTextContainer>
-        )}
+        <AnimatePresence>
+          {isError ? (
+            <DisplayError message={requiredErrorText} />
+          ) : isValidationError ? (
+            <DisplayError message={validationErrorText} />
+          ) : (
+            <ErrorDummyTextContainer>
+              <ErrorDummyText>Hello</ErrorDummyText>
+            </ErrorDummyTextContainer>
+          )}
+        </AnimatePresence>
       </InputWrapper>
     </CenterAlignedColumnContainer>
   );

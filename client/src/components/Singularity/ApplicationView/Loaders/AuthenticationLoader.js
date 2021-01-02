@@ -6,7 +6,11 @@ import {
   LoginText
 } from 'styles/Singularity/Style1.0/Loaders/index.js';
 
+import { quotes, generateRandomInteger } from 'Utils/quotes';
+
 const AuthenticationLoader = () => {
+  const index = generateRandomInteger(1, 29);
+
   return (
     <MainContainer
       initial={{ opacity: 0 }}
@@ -19,10 +23,7 @@ const AuthenticationLoader = () => {
     >
       <LoginText>Logging you in..</LoginText>
       <Loaders />
-      <QuoteText>
-        "All you need is love. But a little chocolate now and then doesn't
-        hurt."
-      </QuoteText>
+      <QuoteText>{quotes[index].quote}</QuoteText>
     </MainContainer>
   );
 };

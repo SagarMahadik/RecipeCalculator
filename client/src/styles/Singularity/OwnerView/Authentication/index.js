@@ -61,7 +61,7 @@ export const ErrorTextContainer = styled(motion.div)`
   width: 100%;
 `;
 
-export const ErrorDummyTextContainer = styled.div`
+export const ErrorDummyTextContainer = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;

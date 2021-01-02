@@ -8,7 +8,7 @@ export const styles = {
   linkTextColor: '#FCE07D',
   buttonTextColor: '#514E4E',
   selectedBorder: '4px solid #CEA42B',
-  backgroundColor: '#514E4E',
+  backgroundColor: '#272424',
   backgroundGradient:
     'linear-gradient(181.83deg, rgba(4, 4, 4, 0) -206.42%, #FCE07D 98.45%)',
   backgroundLinearGradient:

@@ -13,6 +13,8 @@ import {
   PricingGSTOptions
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/seedData.js';
 
+import { submitVibrations } from 'Utils/vibrations';
+
 const RawMaterialManagementState = props => {
   const initialState = {
     searchString: '',
@@ -124,7 +126,7 @@ const RawMaterialManagementState = props => {
 
   const onSubmit = e => {
     e.preventDefault();
-
+    submitVibrations();
     dispatch({
       type: 'INITIATE_RAWMATERIAL_VALIDATIONS'
     });

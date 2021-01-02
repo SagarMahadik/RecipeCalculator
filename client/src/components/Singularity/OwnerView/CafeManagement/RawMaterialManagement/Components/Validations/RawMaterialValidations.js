@@ -37,6 +37,10 @@ const RawMaterialValidations = () => {
 
   useEffect(() => {
     if (initiateRawMaterialValidations) {
+      sendStepStatusRequest(
+        `${userID}`,
+        'Initiated validation for POST Raw material request'
+      );
       validateRawMaterialFields(rawMaterialRequiredFields);
       checkIfFieldsAreValidated(
         rawMaterialGST,
@@ -46,10 +50,6 @@ const RawMaterialValidations = () => {
         rawMaterialStatePrice,
         dispatch,
         rawMaterialStatePriceGST
-      );
-      sendStepStatusRequest(
-        `${userID}`,
-        'Initiated validation for POST Raw material request'
       );
     }
   }, [initiateRawMaterialValidations]);

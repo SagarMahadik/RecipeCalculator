@@ -3,6 +3,8 @@ import { useSupplierDetailsDispatch } from 'components/Singularity/OwnerView/Caf
 import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
 import StyledSubmitButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledSubmitButton.js';
 
+import { submitVibrations } from 'Utils/vibrations';
+
 import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 const SubmitSupplierDetails = () => {
   const { userID } = useApplicationState();
@@ -15,6 +17,7 @@ const SubmitSupplierDetails = () => {
     <StyledSubmitButton
       onClick={e => {
         e.preventDefault();
+        submitVibrations();
         dispatch({ type: 'SET_SUPPLIERVALIDATIONS' });
         sendStepStatusRequest(
           `${userID}`,

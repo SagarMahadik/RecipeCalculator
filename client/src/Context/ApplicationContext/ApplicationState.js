@@ -44,6 +44,7 @@ function ApplicationState(props) {
     authComplete: false,
     authTokenFlag: false,
     authError: false,
+    registrationError: false,
     errorMessage: '',
     loginRequiredFields: ['loginEmail', 'loginPassword'],
     registrationRequiredFields: [
@@ -119,6 +120,7 @@ function ApplicationState(props) {
     loginSuccess,
     regSuccess,
     loginFail,
+    registrationError,
     initiateLoginRequest,
     initiateRegRequest,
     fetchAppData,
@@ -255,6 +257,7 @@ function ApplicationState(props) {
         sendingRegRequest,
         registrationFromValidated,
         customerMatchLogin,
+        registrationError,
         initiateLoginRequest,
         initiateRegRequest,
         loginRequiredFields,

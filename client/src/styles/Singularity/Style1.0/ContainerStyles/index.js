@@ -8,7 +8,6 @@ export const ColumnContainer = styled.div`
   margin: auto;
   flex-direction: column;
   max-width: 500px;
-  background-color: black;
 `;
 
 export const GridContainer = styled.div`
@@ -19,7 +18,7 @@ export const GridContainer = styled.div`
 
 export const CenterAlignedColumnContainer = styled(ColumnContainer)`
   align-items: center;
-  background: ${props => props.backGroundcolor || `${styles.backgroundColor}`};
+  background: ${props => props.backGroundcolor || 'none'};
 `;
 
 export const LeftrAlignedColumnContainer = styled(ColumnContainer)`
@@ -303,4 +302,28 @@ export const SearchFilterContainer = styled(RowContainer)`
   @media (min-width: 765px) {
     width: 60%;
   }
+`;
+
+export const FormHeadingsContainer = styled.div`
+  display: flex;
+  width: 90%;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  background: #272424;
+  box-shadow: inset -2px -2px 8px #504b3e, inset 4px 4px 8px 2px #000000;
+  border-radius: 5px;
+  margin: 12px;
+`;
+
+export const MainContentContainer = styled.div`
+  display: flex;
+  width: 90%;
+  flex-direction: column;
+  align-items: center;
+  background: #272424;
+  box-shadow: inset -2px -2px 8px #504b3e, inset 4px 4px 8px 2px #000000;
+  border-radius: 5px;
+  margin: 12px;
+  padding-bottom: 40px;
 `;

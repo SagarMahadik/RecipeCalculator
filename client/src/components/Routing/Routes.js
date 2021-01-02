@@ -6,6 +6,8 @@ import {
   useLocation
 } from 'react-router-dom';
 
+import { AnimatePresence } from 'framer-motion';
+
 const RecipeManagementMainComponent = React.lazy(() =>
   import(
     'components/Singularity/OwnerView/CafeManagement/RecipeManagement/RecipeManagementMainComponent.js'
@@ -73,44 +75,46 @@ export default function Routes() {
   return (
     <Router>
       <React.Suspense fallback={<p>...Loading</p>}>
-        <Switch>
-          <PrivateRoute
-            exact
-            path="/recipeManagement"
-            component={RecipeManagementMainComponent}
-          />
-          <PrivateRoute
-            exact
-            path="/rawMaterialManagement"
-            component={RawMaterialManagementMainComponent}
-          />
-          <PrivateRoute
-            exact
-            path="/supplierDetails"
-            component={SupplierDetailsMainComponent}
-          />
-          <Route
-            exact
-            path="/quoteGeneration"
-            component={QuoteGenerationMainComponent}
-          />
-          <Route
-            exact
-            path="/addProductDmenu"
-            component={DMenuAddProductMainComponent}
-          />{' '}
-          <Route
-            exact
-            path="/cafeMenuProducts/:category"
-            component={DMenuProductMain}
-          />
-          <Route exact path="/" component={LandingPage} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={LandingPage} />
-          <PrivateRoute exact path="/ownerDashboard" component={Navigation} />
-          <Route exact="/digitalCafeMenu" component={DmenuDisplay} />
-          <Route exact path="/gallery" component={ImageGallery} />
-        </Switch>
+        <AnimatePresence>
+          <Switch>
+            <PrivateRoute
+              exact
+              path="/recipeManagement"
+              component={RecipeManagementMainComponent}
+            />
+            <PrivateRoute
+              exact
+              path="/rawMaterialManagement"
+              component={RawMaterialManagementMainComponent}
+            />
+            <PrivateRoute
+              exact
+              path="/supplierDetails"
+              component={SupplierDetailsMainComponent}
+            />
+            <Route
+              exact
+              path="/quoteGeneration"
+              component={QuoteGenerationMainComponent}
+            />
+            <Route
+              exact
+              path="/addProductDmenu"
+              component={DMenuAddProductMainComponent}
+            />{' '}
+            <Route
+              exact
+              path="/cafeMenuProducts/:category"
+              component={DMenuProductMain}
+            />
+            <Route exact path="/" component={LandingPage} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/login" component={LandingPage} />
+            <PrivateRoute exact path="/ownerDashboard" component={Navigation} />
+            <Route exact="/digitalCafeMenu" component={DmenuDisplay} />
+            <Route exact path="/gallery" component={ImageGallery} />
+          </Switch>
+        </AnimatePresence>
       </React.Suspense>
     </Router>
   );

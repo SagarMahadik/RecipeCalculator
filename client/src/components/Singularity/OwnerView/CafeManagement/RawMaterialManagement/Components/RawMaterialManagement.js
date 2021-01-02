@@ -21,6 +21,8 @@ import Loaders from 'components/Singularity/ApplicationView/Loaders';
 import SupplierRequest from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/Components/APIrequests/SupplierRequest.js';
 import RawMaterialRequest from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/Components/APIrequests/RawMaterialRequest.js';
 
+import { MainContentContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index.js';
+
 const RawMaterialManagement = () => {
   const RawMaterialManagementContext = useContext(rawMaterialManagementContext);
 
@@ -43,15 +45,7 @@ const RawMaterialManagement = () => {
         </RawMMainContainer>
       ) : supplierDetails && supplierDetailsLoaded ? (
         <>
-          <AnimationContainer
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              ease: 'easeOut',
-              duration: 0.8
-            }}
-            exit={{ opacity: 0 }}
-          >
+          <MainContentContainer>
             <SearchUpdateSupplier />
             <RawMaterialDetails />
             <RawMaterialTypeQuantity />
@@ -61,7 +55,7 @@ const RawMaterialManagement = () => {
             <SupplierRequest />
             <RawMaterialRequest />
             <SubmitRawMaterial />
-          </AnimationContainer>
+          </MainContentContainer>
         </>
       ) : null}
     </>
