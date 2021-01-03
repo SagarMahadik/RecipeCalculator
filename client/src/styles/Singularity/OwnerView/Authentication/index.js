@@ -67,4 +67,5 @@ export const ErrorDummyTextContainer = styled(motion.div)`
   justify-content: center;
   flex-direction: column;
   width: 100%;
+  opacity: 0;
 `;

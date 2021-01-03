@@ -5,6 +5,8 @@ import {
   applicationDispatchContext
 } from 'Context/ApplicationContext/applicationContext.js';
 
+import { useLocation } from 'react-router-dom';
+
 function ScrollToTop({ history }) {
   const ApplicationContext = useContext(applicationContext);
   const { loadUser } = ApplicationContext;
@@ -13,16 +15,15 @@ function ScrollToTop({ history }) {
     loadUser();
   }, []);
 
+  const { pathname } = useLocation();
+
   useEffect(() => {
-    const unlisten = history.listen(() => {
-      window.scrollTo(0, 0);
-    });
-    return () => {
-      unlisten();
-    };
-  }, []);
+    console.log('in a scroll');
+    console.log(pathname);
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return null;
 }
 
-export default withRouter(ScrollToTop);
+export default ScrollToTop;

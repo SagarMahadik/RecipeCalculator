@@ -9,7 +9,6 @@ import { GlobalStyle } from 'styles/Singularity/Style1.0/ApplicationStyles/globa
 const App = () => {
   return (
     <ApplicationState>
-      <ScrollToTop />
       <Router>
         <GlobalStyle />
 

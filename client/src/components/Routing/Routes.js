@@ -6,6 +6,8 @@ import {
   useLocation
 } from 'react-router-dom';
 
+import ScrollToTop from 'Utils/ScrollToTop.js';
+
 import { AnimatePresence } from 'framer-motion';
 
 const RecipeManagementMainComponent = React.lazy(() =>
@@ -66,14 +68,9 @@ const LandingPage = React.lazy(() =>
 );
 
 export default function Routes() {
-  const location = useLocation();
-  // Scroll to top if path changes
-  useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-
   return (
     <Router>
+      <ScrollToTop />
       <React.Suspense fallback={<p>...Loading</p>}>
         <AnimatePresence>
           <Switch>
