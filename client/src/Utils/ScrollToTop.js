@@ -19,6 +19,7 @@ function ScrollToTop({ history }) {
 
   useEffect(() => {
     console.log('in a scroll');
+    console.log(window.scrollY);
     console.log(pathname);
     window.scrollTo(0, 0);
   }, [pathname]);

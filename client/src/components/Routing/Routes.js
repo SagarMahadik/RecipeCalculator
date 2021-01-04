@@ -10,6 +10,10 @@ import ScrollToTop from 'Utils/ScrollToTop.js';
 
 import { AnimatePresence } from 'framer-motion';
 
+const FormInput = React.lazy(() =>
+  import('styles/StylesLibrary/Frames/FormInputs/DarkTheme/FormInput.js')
+);
+
 const RecipeManagementMainComponent = React.lazy(() =>
   import(
     'components/Singularity/OwnerView/CafeManagement/RecipeManagement/RecipeManagementMainComponent.js'
@@ -107,6 +111,7 @@ export default function Routes() {
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={LandingPage} />
+            <Route exact path="/styleLibrary" component={FormInput} />
             <PrivateRoute exact path="/ownerDashboard" component={Navigation} />
             <Route exact="/digitalCafeMenu" component={DmenuDisplay} />
             <Route exact path="/gallery" component={ImageGallery} />

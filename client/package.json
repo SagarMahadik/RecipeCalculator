@@ -26,6 +26,7 @@
     "react-reveal": "^1.2.2",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.2.0",
+    "react-router-scroll-memory": "^2.0.7",
     "react-scripts": "3.0.1",
     "react-svg-unique-id": "^1.3.2",
     "react-three-fiber": "^4.2.20",
