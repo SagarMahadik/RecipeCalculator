@@ -2,17 +2,22 @@ import React from 'react';
 
 import {
   TextBox,
-  TextBoxLabel
+  TextBoxLabel,
+  InputTextBoxWrapper
 } from 'styles/StylesLibrary/Atoms/FormElements/InputElements/index.js';
 
-import { CenterAlignedColumnContainer } from 'styles/StylesLibrary/ElementalStyles/PositionStyles';
+import { CenterAlignedColumnContainerWOShadowBackground } from 'styles/StylesLibrary/ElementalStyles/PositionStyles';
 
 const InputTextBox = () => {
   return (
-    <CenterAlignedColumnContainer>
-      <TextBox />
-      <TextBoxLabel />
-    </CenterAlignedColumnContainer>
+    <>
+      <CenterAlignedColumnContainerWOShadowBackground>
+        <InputTextBoxWrapper>
+          <TextBox placeholder=" " />
+          <TextBoxLabel>Supplier Name</TextBoxLabel>
+        </InputTextBoxWrapper>
+      </CenterAlignedColumnContainerWOShadowBackground>
+    </>
   );
 };
 

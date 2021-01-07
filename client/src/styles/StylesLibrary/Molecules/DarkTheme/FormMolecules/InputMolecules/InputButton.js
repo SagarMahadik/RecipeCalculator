@@ -1,22 +1,32 @@
 import React from 'react';
 
 import {
-  InputButton,
+  InputButtonStyle,
   InputBorder,
   InputButtonLabel
 } from 'styles/StylesLibrary/Atoms/FormElements/ButtonElements';
 
-import { CenterAlignedColumnContainer } from 'styles/StylesLibrary/ElementalStyles/PositionStyles';
+import { FormOptionButtonContainer } from 'styles/StylesLibrary/ElementalStyles/PositionStyles';
 
 const InputTextBox = () => {
   return (
-    <CenterAlignedColumnContainer>
-      <InputBorder>
-        <InputButton>
-          <InputButtonLabel>Solid</InputButtonLabel>
-        </InputButton>
+    <FormOptionButtonContainer>
+      <InputBorder selected={false}>
+        <InputButtonStyle selected={false}>
+          <InputButtonLabel selected={false}>Solid</InputButtonLabel>
+        </InputButtonStyle>
       </InputBorder>
-    </CenterAlignedColumnContainer>
+      <InputBorder selected={true}>
+        <InputButtonStyle selected={true}>
+          <InputButtonLabel selected={true}>Liquid</InputButtonLabel>
+        </InputButtonStyle>
+      </InputBorder>
+      <InputBorder selected={false}>
+        <InputButtonStyle selected={false}>
+          <InputButtonLabel selected={false}>Unit</InputButtonLabel>
+        </InputButtonStyle>
+      </InputBorder>
+    </FormOptionButtonContainer>
   );
 };
 

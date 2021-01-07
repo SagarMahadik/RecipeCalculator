@@ -11,30 +11,22 @@ const {
   inputTextBoxTextSize,
   inputTextBoxLabelFont,
   inputTextBoxLabelTextSize,
-  inputTextBoxSelectedLabelTextSize,
-  inputButtonLabelTextSize,
-  inputButtonLabelTextFont
+  inputTextBoxSelectedLabelTextSize
 } = fontStyles;
 
 const {
   textBoxBackgroundColor,
   textBoxTextColor,
-  labelTextColor,
-  inputButtonBackground,
-  inputButtonBorderBackground,
-  InputButtonLabelBackgound,
-  inputButtonShadowColor
+  labelTextColor
 } = colorPalette;
 
-const { textBoxShadowEffect, inputButtonShadow } = filterStyles;
+const { textBoxShadowEffect } = filterStyles;
 
 const { inputTextBoxBorder } = borderStyles;
 
-export const TextBox = styled.input.attrs({
-  type: 'text'
-})`
-  width: 53.3%;
-  height: 35px;
+export const TextBox = styled.input`
+  width: 100%;
+  height: 2.5em;
   text-indent: 5px;
   font-family: ${inputTextBoxTextFont};
   font-size: ${inputTextBoxTextSize};
@@ -43,46 +35,39 @@ export const TextBox = styled.input.attrs({
   background-color: ${textBoxBackgroundColor};
   box-shadow: ${textBoxShadowEffect};
   border: ${inputTextBoxBorder};
-  border-radius: 12px;
+  margin-top: ${props => props.marginTop || '1.5em'};
+  box-sizing: border-box;
+  text-indent: 5px;
+  border-radius: 25px;
+  display: flex;
   &:focus {
     outline: none;
+    text-indent: 8px;
   }
 `;
 
 export const TextBoxLabel = styled.label`
+  position: absolute;
+  top: 2.3em;
+  left: 1em;
   font-family: ${inputTextBoxLabelFont};
   font-size: ${inputTextBoxLabelTextSize};
   color: ${labelTextColor};
+  transition: 0.6s;
+  pointer-events: none;
+  ${TextBox}:focus ~ &,
+  ${TextBox}:not(:placeholder-shown) ~ & {
+    top: 0;
+    left: 0;
+    color: ${labelTextColor};
+    font-size: ${inputTextBoxSelectedLabelTextSize};
+    padding-left: 12px;
+  }
 `;
 
-export const InputBorder = styled.div`
-  background: ${inputButtonBorderBackground};
-  padding: 1.75px;
-  border-radius: 25px;
-  height: 45px;
-`;
-
-export const InputButton = styled.div`
-  background: ${inputButtonBackground};
-  box-shadow: ${inputButtonShadow};
-  border-radius: 25px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 45px;
-`;
-
-export const InputButtonLabel = styled.h1`
-  background: ${InputButtonLabelBackgound};
-  font-family: ${inputButtonLabelTextFont};
-  font-style: normal;
-  font-weight: bold;
-  font-size: ${inputButtonLabelTextSize};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin: 0;
-  padding: 0;
-  padding-right: 12px;
-  padding-left: 12px;
+export const InputTextBoxWrapper = styled.div`
+  position: relative;
+  width: 60%;
+  margin-bottom: 1em;
+  margin-top: 1em;
 `;

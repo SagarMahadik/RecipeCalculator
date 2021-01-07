@@ -14,6 +14,12 @@ const FormInput = React.lazy(() =>
   import('styles/StylesLibrary/Frames/FormInputs/DarkTheme/FormInput.js')
 );
 
+const SampleOwnerDashBoard = React.lazy(() =>
+  import(
+    'styles/StylesLibrary/Frames/FormInputs/DarkTheme/SampleOwnerDashBoard.js'
+  )
+);
+
 const RecipeManagementMainComponent = React.lazy(() =>
   import(
     'components/Singularity/OwnerView/CafeManagement/RecipeManagement/RecipeManagementMainComponent.js'
@@ -112,6 +118,11 @@ export default function Routes() {
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={LandingPage} />
             <Route exact path="/styleLibrary" component={FormInput} />
+            <Route
+              exact
+              path="/sampleOwnerDashboard"
+              component={SampleOwnerDashBoard}
+            />
             <PrivateRoute exact path="/ownerDashboard" component={Navigation} />
             <Route exact="/digitalCafeMenu" component={DmenuDisplay} />
             <Route exact path="/gallery" component={ImageGallery} />
