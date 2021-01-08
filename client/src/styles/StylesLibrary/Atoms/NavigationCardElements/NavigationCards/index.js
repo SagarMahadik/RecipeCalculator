@@ -20,6 +20,44 @@ const {
   navigationCard: { navigationCardTextFont }
 } = fontStyles;
 
+const setNavigationCardBackground = (moduleName, themeName) => {
+  console.log(themeName, moduleName);
+  if (themeName === 'white') {
+    return '#e0e4e9';
+  }
+  if (themeName === 'dark') {
+    switch (moduleName) {
+      case 'rawMaterials':
+        return 'linear-gradient(99.97deg, #1C815C 5.16%, rgba(28, 99, 73, 0) 136.74%)';
+      case 'recipe':
+        return 'linear-gradient(100.43deg, #4A48AA 5.51%, rgba(74, 72, 170, 0) 142.67%)';
+      case 'suppliers':
+        return 'linear-gradient(101.65deg, #B71D1D 2.22%, rgba(134, 39, 39, 0) 146.27%)';
+      case 'quote':
+        return 'linear-gradient(99.47deg, #0B9EA8 1.24%, rgba(37, 122, 128, 0) 163.38%)';
+    }
+  }
+};
+
+const setNavigationCardTextColor = (moduleName, themeName) => {
+  console.log(themeName, moduleName);
+  if (themeName === 'dark') {
+    return '#9B740F';
+  }
+  if (themeName === 'white') {
+    switch (moduleName) {
+      case 'rawMaterials':
+        return 'linear-gradient(278.38deg, #AB7070 30.83%, rgba(255, 0, 0, 0.37) 66.37%)';
+      case 'recipe':
+        return 'linear-gradient(278.38deg, #86AB70 30.83%, rgba(31, 210, 38, 0.74) 66.37%)';
+      case 'suppliers':
+        return ' linear-gradient(278.38deg, #5A9393 30.83%, #6BD5E3 66.37%)';
+      case 'quote':
+        return 'linear-gradient(278.38deg, #7072AB 30.83%, rgba(36, 0, 255, 0.37) 66.37%)';
+    }
+  }
+};
+
 export const DashboardNavigationCard = styled.div`
   width: 100%;
   height: 8em;
@@ -27,24 +65,26 @@ export const DashboardNavigationCard = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    99.97deg,
-    #1c815c 5.16%,
-    rgba(28, 99, 73, 0) 136.74%
-  );
-  box-shadow: ${navigationCardBoxShadow};
+  background: ${({
+    moduleName,
+    theme: {
+      details: { themeName }
+    }
+  }) => setNavigationCardBackground(moduleName, themeName)};
+
   border-radius: 20px;
 `;
 
 export const DashboardNavigationCardBorder = styled.div`
   width: 86%;
   height: 7em;
-  padding: 3px;
+  padding: 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: ${navigationCardBorderColor};
+  background: ${({ theme: { colors } }) => colors.navigationCardBorderColor};
+  box-shadow: ${({ theme: { filters } }) => filters.navigationCardBoxShadow};
   border-radius: 20px;
 `;
 
@@ -57,10 +97,19 @@ export const DashboardNavigationCardText = styled.h1`
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: ${navigationCardTextColor};
+  background: ${({
+    moduleName,
+    theme: {
+      details: { themeName }
+    }
+  }) => setNavigationCardTextColor(moduleName, themeName)};
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
   margin: 0;
   padding: 0;
-  text-shadow: ${navigationCardTextShadow};
+  text-shadow: ${({ theme: { filters } }) => filters.navigationCardTextShadow};
 `;
 
 export const DashboardNavigationCardContainer = styled(

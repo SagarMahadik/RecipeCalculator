@@ -29,8 +29,9 @@ export const PageHeadingsContainer = styled.div`
   grid-template-columns: 1fr 4fr 1fr;
   justify-items: center;
   align-items: center;
-  background: ${pageHeadingBackgroundColor};
-  box-shadow: ${pageHeadingShadowEffect};
+  background: ${({ theme: { colors } }) => colors.pageHeadingBackgroundColor};
+  box-shadow: ${({ theme: { filters } }) => filters.frameShadowEffect};
+  border: ${({ theme: { borders } }) => borders.pageContentContainerBorder};
   border-radius: 5px;
 `;
 
@@ -46,7 +47,7 @@ export const PageHeadingText = styled.h1`
   display: flex;
   align-items: center;
   text-align: center;
-  color: ${pageHeadingTextColor};
-  text-shadow: ${pageHeadingTextShadow};
-  filter: ${pageHeadingTextFilter};
+  color: ${({ theme: { colors } }) => colors.pageHeadingTextColor};
+  text-shadow: ${({ theme: { filters } }) => filters.frameShadowEffect};
+  filter: ${({ theme: { filters } }) => filters.pageHeadingTextFilter};
 `;

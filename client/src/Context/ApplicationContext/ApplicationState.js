@@ -18,6 +18,12 @@ import axios from 'axios';
 
 import { submitVibrations } from 'Utils/vibrations';
 
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
+
+import { whiteTheme } from 'styles/StylesLibrary/Themes/whiteTheme.js';
+
+import { darkTheme } from 'styles/StylesLibrary/Themes/darkTheme.js';
+
 import setAuthToken from 'Utils/setAuthToken.js';
 
 export let util = { validateRegistrationFields: null };
@@ -25,6 +31,7 @@ export let util = { validateRegistrationFields: null };
 function ApplicationState(props) {
   const initialState = {
     userID: '',
+    theme: 'white',
     userBrandName: '',
     brandName: '',
     mobileNumber: '',
@@ -88,6 +95,7 @@ function ApplicationState(props) {
 
   const {
     userID,
+    theme,
     userBrandName,
     brandName,
     mobileNumber,
@@ -230,6 +238,7 @@ function ApplicationState(props) {
     <applicationContext.Provider
       value={{
         userID,
+        theme,
         brandName,
         userBrandName,
         mobileNumber,
@@ -272,9 +281,11 @@ function ApplicationState(props) {
         loadUser
       }}
     >
-      <applicationDispatchContext.Provider value={dispatch}>
-        {props.children}
-      </applicationDispatchContext.Provider>
+      <ThemeProvider theme={theme === 'white' ? whiteTheme : darkTheme}>
+        <applicationDispatchContext.Provider value={dispatch}>
+          {props.children}
+        </applicationDispatchContext.Provider>
+      </ThemeProvider>
     </applicationContext.Provider>
   );
 }

@@ -14,10 +14,6 @@ const {
 const { formSectionHeadingTextColor } = colorPalette;
 
 const {
-  formShortDivider: { formShortDividerBorder }
-} = borderStyles;
-
-const {
   formShortDivider: { formShortDividerTransform },
   formSectionHeading: { formSectionHeadingTextShadow }
 } = filterStyles;
@@ -34,11 +30,13 @@ export const FormSectionHeadingText = styled.h6`
   font-size: ${formSectionHeadingTextSize};
   line-height: ${formSectionHeadingTextLineHeight};
   text-shadow: ${formSectionHeadingTextShadow};
-  color: ${formSectionHeadingTextColor};
+  color: ${({ theme: { colors } }) => colors.formSectionHeadingTextColor};
 `;
 
 export const FormShortDividerBorder = styled.div`
   width: 70%;
-  border: ${formShortDividerBorder};
-  transform: ${formShortDividerTransform};
+  border: ${({ theme: { borders } }) => borders.formShortDividerBorder};
+  transform: ${({ theme: { filters } }) => filters.formShortDividerTransform};
+  filter: blur(1px);
+  box-shadow: ${({ theme: { filters } }) => filters.formShortDividerBoxShadow};
 `;

@@ -5,7 +5,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
-    background: ${styles.backgroundColor};
+    background: ${({ theme: { colors } }) => colors.pageBackgroundColor};
     font-family: Open-Sans, Helvetica, Sans-Serif;
   }
 `;

@@ -1,3 +1,4 @@
+import { filter } from 'lodash';
 import styled from 'styled-components';
 
 import { colorPalette } from 'styles/StylesLibrary/ElementalStyles/ColorPalette';
@@ -24,10 +25,11 @@ export const InputBorder = styled.div`
   margin: 4px;
   padding: 1.75px;
   border-radius: 25px;
-  background: ${props =>
-    props.selected
-      ? `${inputButtonSelectedBorderBackground}`
-      : `${inputButtonBorderBackground}`};
+
+  background: ${({ selected, theme: { colors } }) =>
+    selected
+      ? `${colors.inputButtonSelectedBorderBackground}`
+      : `${colors.inputButtonBorderBackground}`};
 `;
 
 export const InputButtonStyle = styled.div`
@@ -37,11 +39,16 @@ export const InputButtonStyle = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 25px;
-  background: ${props =>
-    props.selected
-      ? `${inputButtonSelectedBackground}`
-      : `${inputButtonBackground}`};
-  box-shadow: ${props => (props.selected ? 'none' : ` ${inputButtonShadow}`)};
+  background: ${({ selected, theme: { colors } }) =>
+    selected
+      ? `${colors.inputButtonSelectedBackground}`
+      : `${colors.inputButtonBackground}`};
+  box-shadow: ${({ selected, theme: { filters } }) =>
+    selected
+      ? `${filters.inputButtonSelectedBoxShadow}`
+      : ` ${filters.inputButtonBoxShadow}`};
+
+  border: ${({ theme: { borders } }) => borders.inputButtonBorder};
 `;
 
 export const InputButtonLabel = styled.h1`
@@ -49,10 +56,10 @@ export const InputButtonLabel = styled.h1`
   padding: 0;
   padding-right: 12px;
   padding-left: 12px;
-  background: ${props =>
-    props.selected
-      ? `${inputButtonSelectedLabelTextColor}`
-      : `${InputButtonLabelBackgound}`};
+  background: ${({ selected, theme: { colors } }) =>
+    selected
+      ? `${colors.inputButtonSelectedLabelTextColor}`
+      : `${colors.inputButtonLabelBackgound}`};
   font-family: ${inputButtonLabelTextFont};
   font-size: ${inputButtonLabelTextSize};
   font-style: normal;

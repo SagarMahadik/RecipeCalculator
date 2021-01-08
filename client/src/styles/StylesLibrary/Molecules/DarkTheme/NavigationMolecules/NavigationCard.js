@@ -12,13 +12,13 @@ import {
   DashboardNavigationCardBorder
 } from 'styles/StylesLibrary/Atoms/NavigationCardElements/NavigationCards/index.js';
 
-const NavigationCard = () => {
+const NavigationCard = ({ module }) => {
   return (
     <CenterAlignedColumnContainer>
       <DashboardNavigationCardContainer>
         <DashboardNavigationCardBorder>
-          <DashboardNavigationCard>
-            <DashboardNavigationCardText>
+          <DashboardNavigationCard moduleName={module}>
+            <DashboardNavigationCardText moduleName={module}>
               Raw Material
             </DashboardNavigationCardText>
           </DashboardNavigationCard>

@@ -14,14 +14,6 @@ const {
   searchResults: { searchResultTextFont }
 } = fontStyles;
 
-const {
-  searchResults: { searchResultContainerBackgroundColor, searchResultColor }
-} = colorPalette;
-
-const {
-  searchResults: { searchResultBoxShadow }
-} = filterStyles;
-
 export const SearchResultContiner = styled(LeftAlignedColumnContainer)`
   width: 90%;
   height: 2em;
@@ -29,8 +21,9 @@ export const SearchResultContiner = styled(LeftAlignedColumnContainer)`
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   padding-left: 0.5em;
-  background: ${searchResultContainerBackgroundColor};
-  box-shadow: ${searchResultBoxShadow};
+  background: ${({ theme: { colors } }) =>
+    colors.searchResultContainerBackgroundColor};
+  box-shadow: ${({ theme: { filters } }) => filters.searchResultBoxShadow};
 `;
 
 export const SearchResultText = styled.h1`
@@ -39,7 +32,7 @@ export const SearchResultText = styled.h1`
   font-size: 10px;
   line-height: 13px;
   font-family: ${searchResultTextFont};
-  color: ${searchResultColor};
+  color: ${({ theme: { colors } }) => colors.searchResultColor};
 `;
 
 export const SearchResultsContainer = styled(

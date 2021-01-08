@@ -38,16 +38,17 @@ export const LeftAlignedColumnContainer = styled(ColumnContainer)`
 export const PageContentContainer = styled(CenterAlignedColumnContainer)`
   width: 94%;
   margin: 12px;
-  background-color: ${pageBackgroundColor};
-  box-shadow: ${frameShadowEffect};
+  background-color: ${({ theme: { colors } }) => colors.pageBackgroundColor};
+  box-shadow: ${({ theme: { filters } }) => filters.frameShadowEffect};
   padding-bottom: 2em;
+  border: ${({ theme: { borders } }) => borders.pageContentContainerBorder};
 `;
 
 export const CenterAlignedColumnContainerWithShadowBackground = styled(
   CenterAlignedColumnContainer
 )`
-  background-color: ${pageBackgroundColor};
-  box-shadow: ${frameShadowEffect};
+  background-color: ${({ theme: { colors } }) => colors.pageBackgroundColor};
+  box-shadow: ${({ theme: { filters } }) => filters.frameShadowEffect};
   margin: auto;
 `;
 
@@ -63,6 +64,7 @@ export const FormOptionButtonContainer = styled(RowContainer)`
   width: 90%;
   justify-content: space-evenly;
   overflow-y: auto;
+  padding: 1em;
   @media (min-width: 765px) {
     width: 60%;
   }

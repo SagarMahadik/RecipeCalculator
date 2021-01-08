@@ -27,7 +27,8 @@ import {
   LOADING_USER_FAILED,
   SET_SUPPLIERDETAILS,
   PLAY_WELCOMETONE,
-  INCREMENT_WELCOMETONECOUNT
+  INCREMENT_WELCOMETONECOUNT,
+  SET_THEME
 } from 'Context/ApplicationContext/types.js';
 
 import { produce } from 'immer';
@@ -250,6 +251,12 @@ export default (state, action) => {
         ...state,
         welcomeTonePlayedCount: 1,
         playWelcomTone: false
+      };
+
+    case SET_THEME:
+      return {
+        ...state,
+        theme: action.payload
       };
   }
 };

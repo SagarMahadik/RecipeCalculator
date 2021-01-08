@@ -13,27 +13,26 @@ const {
 
 export const SubmitButtonStyle = styled.div`
   height: 56px;
-  background: ${submitColorBackgroundColor};
+  background: ${({ theme: { colors } }) => colors.submitButtonBackgroundColor};
   border-radius: 25px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 4px 4px 16px 5px rgba(0, 0, 0, 0.75),
-    -3px -2px 16px 4px rgba(255, 255, 255, 0.75);
 `;
 
 export const SubmitButtonBorder = styled.div`
   height: 56px;
-  padding: 3px;
+  padding: 2px;
   margin: 1.4em;
-  background: ${submitButtonBorderColor};
   border-radius: 25px;
   z-index: 1;
+  background: ${({ theme: { colors } }) => colors.submitButtonBorderColor};
+  box-shadow: ${({ theme: { filters } }) => filters.submitButtonBoxShadow};
 `;
 
 export const SubmitButtonLabel = styled.h1`
-  background: ${submitButtonLabelTextColor};
+  background: ${({ theme: { colors } }) => colors.submitButtonLabelTextColor};
   font-family: ${inputButtonLabelTextFont};
   font-style: normal;
   font-size: ${submitButtonLabelTextSize};

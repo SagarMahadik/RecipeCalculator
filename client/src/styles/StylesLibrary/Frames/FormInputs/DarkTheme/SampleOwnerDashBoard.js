@@ -13,10 +13,10 @@ const SampleOwnerDashBoard = () => {
     <CenterAlignedColumnContainerWOShadowBackground>
       <PageHeading />
       <PageContentContainer>
-        <NavigationCard />
-        <NavigationCard />
-        <NavigationCard />
-        <NavigationCard />
+        <NavigationCard module="rawMaterials" />
+        <NavigationCard module="recipe" />
+        <NavigationCard module="suppliers" />
+        <NavigationCard module="quote" />
       </PageContentContainer>
     </CenterAlignedColumnContainerWOShadowBackground>
   );

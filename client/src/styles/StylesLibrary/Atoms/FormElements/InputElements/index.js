@@ -31,10 +31,10 @@ export const TextBox = styled.input`
   font-family: ${inputTextBoxTextFont};
   font-size: ${inputTextBoxTextSize};
   font-weight: ${inputTextBoxTextWeight};
-  color: ${textBoxTextColor};
-  background-color: ${textBoxBackgroundColor};
-  box-shadow: ${textBoxShadowEffect};
-  border: ${inputTextBoxBorder};
+  color: ${({ theme: { colors } }) => colors.textBoxTextColor};
+  background-color: ${({ theme: { colors } }) => colors.textBoxBackgroundColor};
+  box-shadow: ${({ theme: { filters } }) => filters.textBoxShadowEffect};
+  border: ${({ theme: { borders } }) => borders.inputTextBoxBorder};
   margin-top: ${props => props.marginTop || '1.5em'};
   box-sizing: border-box;
   text-indent: 5px;
@@ -52,14 +52,14 @@ export const TextBoxLabel = styled.label`
   left: 1em;
   font-family: ${inputTextBoxLabelFont};
   font-size: ${inputTextBoxLabelTextSize};
-  color: ${labelTextColor};
+  color: ${({ theme: { colors } }) => colors.labelTextColor};
   transition: 0.6s;
   pointer-events: none;
   ${TextBox}:focus ~ &,
   ${TextBox}:not(:placeholder-shown) ~ & {
     top: 0;
     left: 0;
-    color: ${labelTextColor};
+    color: ${({ theme: { colors } }) => colors.labelTextColor};
     font-size: ${inputTextBoxSelectedLabelTextSize};
     padding-left: 12px;
   }
