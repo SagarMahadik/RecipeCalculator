@@ -2,4 +2,6 @@ import { createContext } from 'react';
 
 const recipeManagementContext = createContext();
 
-export default recipeManagementContext;
+const recipeManagementDispatchContext = createContext();
+
+export { recipeManagementContext, recipeManagementDispatchContext };

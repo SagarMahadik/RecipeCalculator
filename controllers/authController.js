@@ -71,6 +71,7 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
+  console.log(req.params);
   // 1) Getting token and check of it's there
   let token;
 
@@ -116,6 +117,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 exports.restrictToUser = catchAsync(async (req, res, next) => {
+  console.log(req.params);
   if (req.params.userID != req.user.mobileNumber) {
     return next(
       new AppError('You do not have permission to perform this action', 405)

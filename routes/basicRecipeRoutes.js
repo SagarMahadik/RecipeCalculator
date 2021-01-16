@@ -4,9 +4,29 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.route('/').get(basicRecipeController.getAllBasicRecipies);
+router
+  .route('/')
+  .get(
+    authController.protect,
+    authController.restrictTo('admin'),
+    basicRecipeController.getAllBasicRecipies
+  );
 
-router.route('/').post(basicRecipeController.createBasicRecipe);
+router
+  .route('/:userID')
+  .post(
+    authController.protect,
+    authController.restrictToUser,
+    basicRecipeController.createBasicRecipe
+  );
+
+router
+  .route('/:userID')
+  .get(
+    authController.protect,
+    authController.restrictToUser,
+    basicRecipeController.getBasicRecipeDetails
+  );
 
 router.route('/:id').patch(basicRecipeController.updateBasicRecipe);
 

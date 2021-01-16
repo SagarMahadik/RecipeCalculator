@@ -10,20 +10,38 @@ import {
   FormHeadingText,
   FormSectionHeadingTextContainer
 } from 'styles/Singularity/Style1.0/TextStyles';
-import recipeManagementContext from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
+
+import FormSectionHading from 'components/Singularity/ApplicationView/FormHeadings/FormSectionHading.js';
+
+import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
+import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
+import { useRecipeDispatch } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/RecipeManagementState.js';
+
 import { TextRadioButton } from 'styles/Singularity/Style1.0/FormInputStyles';
+
+import StyledRadioButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledRadioButton.js';
 import Loaders from 'components/Singularity/ApplicationView/Loaders';
-const SeachItems = () => {
+
+import { isArrayEmpty } from 'Utils/validations.js';
+const SearchOptions = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);
   let {
     searchFilterDisplay,
     searchFilter,
     rawMaterials,
-    handleSearchFilter,
+
     saveOption
   } = RecipeManagementContext;
 
-  if (rawMaterials.length === 0) {
+  const {
+    rawMaterialDetails,
+    rawMaterialDetailsLoaded,
+    basicRecipes
+  } = useApplicationState();
+
+  const dispatch = useRecipeDispatch();
+
+  if (isArrayEmpty(rawMaterialDetails)) {
     return (
       <>
         <RecipeManagementContainer>
@@ -39,6 +57,33 @@ const SeachItems = () => {
     ];
   }
 
+  const handleSearchFilter = e => {
+    let filter = e.currentTarget.value;
+    let currentArray = [];
+
+    if (filter === 'rawMaterial') {
+      currentArray = [...rawMaterialDetails];
+    }
+    if (filter === 'basicRecipe') {
+      currentArray = [...basicRecipes];
+    }
+    if (filter === 'product') {
+      currentArray = [];
+    }
+    {
+      dispatch({
+        type: 'CLEAR_SEARCHRESULTS',
+        payload: []
+      });
+    }
+
+    dispatch({
+      type: 'SET_SEARCHFILTER',
+      payload: filter,
+      temparray: currentArray
+    });
+  };
+
   return (
     <AnimationContainer
       initial={{ opacity: 0 }}
@@ -50,25 +95,16 @@ const SeachItems = () => {
       exit={{ opacity: 0 }}
     >
       <RecipeManagementContainer>
-        <FormHeadingText>
-          <FormSectionHeadingTextContainer>
-            Search
-          </FormSectionHeadingTextContainer>
-        </FormHeadingText>
+        <FormSectionHading sectionName="Search" />
         <SearchFilterContainer>
           {searchFilterDisplay.map((item, index) => {
             return (
-              <TextRadioButton
+              <StyledRadioButton
                 value={item.filterValue}
                 selected={searchFilter === `${item.filterValue}`}
                 onClick={handleSearchFilter}
-              >
-                <RadioButtonText
-                  selected={searchFilter === `${item.filterValue}`}
-                >
-                  <TextContainer>{item.filterDisplay}</TextContainer>
-                </RadioButtonText>
-              </TextRadioButton>
+                display={item.filterDisplay}
+              />
             );
           })}
         </SearchFilterContainer>
@@ -77,4 +113,4 @@ const SeachItems = () => {
   );
 };
 
-export default SeachItems;
+export default SearchOptions;

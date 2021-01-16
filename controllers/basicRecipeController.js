@@ -11,7 +11,7 @@ exports.getAllBasicRecipies = factory.getBasicRecipes(
 
 exports.updateBasicRecipe = factory.updateOne(BasicRecipe);
 
-exports.getBasicRecipeDetails = factory.getOne(
+exports.getBasicRecipeDetails = factory.getBasicRecipes(
   BasicRecipe,
   'details.rawmaterialdetails'
 );

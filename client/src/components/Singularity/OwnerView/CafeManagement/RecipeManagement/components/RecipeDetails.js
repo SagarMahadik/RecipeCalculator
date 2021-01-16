@@ -6,7 +6,7 @@ import {
 } from 'styles/Singularity/Style1.0/FormInputStyles';
 import { RecipeManagementContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
-import recipeManagementContext from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
+import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
 
 const RecipeNameComponent = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);

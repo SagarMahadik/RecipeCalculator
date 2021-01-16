@@ -26,6 +26,8 @@ import {
   INITIIATE_REGISTRATIONREQEST,
   LOADING_USER_FAILED,
   SET_SUPPLIERDETAILS,
+  SET_RAWMATERIALS,
+  SET_BASICRECIPES,
   PLAY_WELCOMETONE,
   INCREMENT_WELCOMETONECOUNT,
   SET_THEME
@@ -239,6 +241,54 @@ export default (state, action) => {
         supplierDetails: [...action.payload],
         supplierDetailsLoaded: true
       };
+
+    case SET_RAWMATERIALS:
+      return {
+        ...state,
+        rawMaterialDetails: [...action.payload],
+        rawMaterialDetailsLoaded: true
+      };
+
+    case SET_BASICRECIPES:
+      return produce(state, draftState => {
+        draftState.basicRecipes = action.payload;
+
+        draftState.basicRecipes.forEach(item => {
+          item.details.forEach(detail => {
+            const {
+              _id,
+              brandName,
+              name,
+              type,
+              baseQuantity,
+              baseUnit,
+              rate,
+              recipeUnit
+            } = detail['rawmaterialdetails'];
+            detail._id = _id;
+            detail.brandName = brandName;
+            detail.name = name;
+            detail.type = type;
+            detail.baseQuantity = baseQuantity;
+            detail.baseUnit = baseUnit;
+            detail.rate = rate;
+            detail.recipeUnit = recipeUnit;
+          });
+        });
+
+        draftState.basicRecipes.forEach(item => {
+          item.details.forEach(detail => {
+            detail.costOfRawMaterial = 0;
+            detail.quantityPerUnit =
+              detail.quantityInRecipe / item.unitPerBaseQuantity;
+          });
+        });
+        draftState.basicRecipes.forEach(item => {
+          item.showSearchBox = false;
+          item.showItem = false;
+          item.showAddIcon = false;
+        });
+      });
 
     case PLAY_WELCOMETONE:
       return {

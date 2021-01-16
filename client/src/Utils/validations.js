@@ -43,3 +43,19 @@ export const areNotSame = (firstEntry, secondEntry) => {
     return false;
   }
 };
+
+export const isArrayEmpty = arrayName => {
+  if (arrayName.length === 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const isArrayNonEmpty = arrayName => {
+  if (arrayName.length != 0) {
+    return true;
+  } else {
+    return false;
+  }
+};

@@ -6,7 +6,7 @@ import {
 } from 'styles/Singularity/Style1.0/TextStyles';
 import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
 
-import recipeManagementContext from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
+import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
 
 const ProductRecipes = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);

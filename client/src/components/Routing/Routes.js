@@ -20,6 +20,10 @@ const SampleOwnerDashBoard = React.lazy(() =>
   )
 );
 
+const LoginPage = React.lazy(() =>
+  import('styles/StylesLibrary/Frames/FormInputs/DarkTheme/LoginPage.js')
+);
+
 const RecipeManagementMainComponent = React.lazy(() =>
   import(
     'components/Singularity/OwnerView/CafeManagement/RecipeManagement/RecipeManagementMainComponent.js'
@@ -118,6 +122,7 @@ export default function Routes() {
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={LandingPage} />
             <Route exact path="/styleLibrary" component={FormInput} />
+            <Route exact path="/sampleLogin" component={LoginPage} />
             <Route
               exact
               path="/sampleOwnerDashboard"

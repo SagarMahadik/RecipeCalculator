@@ -9,7 +9,7 @@ import {
 import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
 import { RecipeManagementContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 
-import recipeManagementContext from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
+import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
 const TotalCost = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);
   const {

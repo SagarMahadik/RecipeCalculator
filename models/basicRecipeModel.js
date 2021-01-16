@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const basicRecipeSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Basic Reccipe Must have a name']
+    required: [true, 'Basic Recipe Must have a name']
+  },
+  userID: {
+    type: String
   },
   details: [
     {

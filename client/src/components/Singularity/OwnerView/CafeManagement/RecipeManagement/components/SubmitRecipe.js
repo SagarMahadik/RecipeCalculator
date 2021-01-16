@@ -9,7 +9,7 @@ import {
   RecipeSubmitButton,
   AnimationContainer
 } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
-import recipeManagementContext from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
+import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
 const SubmitRecipe = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);
   const { onSubmit } = RecipeManagementContext;

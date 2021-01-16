@@ -42,6 +42,8 @@ function ApplicationState(props) {
     loginPassword: '',
     categoryData: [],
     supplierDetails: [],
+    rawMaterialDetails: [],
+    basicRecipes: [],
     dMenuProductData: [],
     selectedCategory: '',
     loading: false,
@@ -87,6 +89,8 @@ function ApplicationState(props) {
     initiateRegRequest: false,
     fetchAppData: false,
     supplierDetailsLoaded: false,
+    rawMaterialDetailsLoaded: false,
+    basicRecipesLoaded: false,
     playWelcomTone: false,
     welcomeTonePlayedCount: 0
   };
@@ -134,20 +138,34 @@ function ApplicationState(props) {
     fetchAppData,
     supplierDetails,
     supplierDetailsLoaded,
+    rawMaterialDetails,
+    rawMaterialDetailsLoaded,
+    basicRecipes,
+    basicRecipesLoaded,
     playWelcomTone,
     welcomeTonePlayedCount
   } = state;
 
   useEffect(() => {
     if (fetchAppData) {
-      getData(`/api/v1/supplier/${userID}`, 'SET_SUPPLIERDETAILS');
+      getData(`/api/v1/supplier/${userID}`, 'SET_SUPPLIERDETAILS', 'supplier');
+      getData(
+        `/api/v1/rawMaterial/${userID}`,
+        'SET_RAWMATERIALS',
+        'raw Material'
+      );
+      getData(
+        `/api/v1/basicRecipe/${userID}`,
+        'SET_BASICRECIPES',
+        'basic recipe'
+      );
     }
   }, [fetchAppData]);
 
   const { sendRequest } = useHttpClient();
   const { sendStepStatusRequest } = useStepStatusRequest();
 
-  const getData = async (url, typeString) => {
+  const getData = async (url, typeString, module) => {
     try {
       let res = await sendRequest(url);
 
@@ -158,13 +176,13 @@ function ApplicationState(props) {
 
       sendStepStatusRequest(
         `${userID}`,
-        `Successfully fecthed supplier details for ${userID}`,
+        `Successfully fecthed ${module} data for ${userID}`,
         'success'
       );
     } catch (err) {
       sendStepStatusRequest(
         `${userID}`,
-        `Fetching supplier failed for ${userID}`,
+        `Fetching ${module} data failed for ${userID}`,
         'failure'
       );
     }
@@ -273,6 +291,10 @@ function ApplicationState(props) {
         registrationRequiredFields,
         supplierDetails,
         supplierDetailsLoaded,
+        rawMaterialDetails,
+        rawMaterialDetailsLoaded,
+        basicRecipes,
+        basicRecipesLoaded,
         playWelcomTone,
         welcomeTonePlayedCount,
         handleChangeFor,

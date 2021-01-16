@@ -151,6 +151,7 @@ exports.getBasicRecipes = (Model, popOptions) =>
     //console.log(Model);
     let filter = {};
     let selectFields = {};
+    if (req.params.userID) filter = { userID: req.params.userID };
     let features = Model.find(filter);
 
     if (popOptions) features = Model.find(filter).populate(popOptions);

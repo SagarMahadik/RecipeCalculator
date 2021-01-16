@@ -10,7 +10,7 @@ import HideIcon from 'components/Singularity/ApplicationView/Icons/HideIcon.js';
 import { RecipeManagementContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
 
-import recipeManagementContext from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
+import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
 import {
   AnimationContainer,
   RawMaterial,
@@ -36,10 +36,8 @@ import {
   BasicRecipeCostQuantityContainer
 } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
 
-import SearchBoxResults from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SearchBoxResults.js';
+import SearchBoxResults from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/Search/SearchBoxResults.js';
 import { AnimatePresence, motion } from 'framer-motion';
-
-import animation from 'styles/Singularity/GSAPAnimations';
 
 import { gsap } from 'gsap';
 

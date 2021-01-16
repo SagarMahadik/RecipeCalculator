@@ -36,7 +36,7 @@ const App = () => {
     <ApplicationState>
       <Router>
         <GlobalStyle />
-        <button onClick={toggleTheme}>Toggle theme</button>
+
         <Switch>
           <Route component={Routes} />
         </Switch>

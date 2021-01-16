@@ -4,12 +4,36 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.route('/').get(rawMaterialController.getAllRawMaterials);
-
 router
   .route('/')
-  .post(authController.protect, rawMaterialController.createRawMaterial);
+  .get(
+    authController.protect,
+    authController.restrictTo('admin'),
+    rawMaterialController.getAllRawMaterials
+  );
 
-router.route('/:id').patch(rawMaterialController.updateRawMaterial);
+router
+  .route('/:userID')
+  .post(
+    authController.protect,
+    authController.restrictToUser,
+    rawMaterialController.createRawMaterial
+  );
+
+router
+  .route('/:userID')
+  .get(
+    authController.protect,
+    authController.restrictToUser,
+    rawMaterialController.getCustomerRawMaterials
+  );
+
+router
+  .route('/:userID/:id')
+  .patch(
+    authController.protect,
+    authController.restrictToUser,
+    rawMaterialController.updateRawMaterial
+  );
 
 module.exports = router;

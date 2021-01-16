@@ -1,26 +1,18 @@
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useReducer, useState, useEffect, useContext } from 'react';
 
-import recipeManagementContext from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
+import {
+  recipeManagementContext,
+  recipeManagementDispatchContext
+} from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
 import recipeManagementReducer from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementReducer.js';
 
 import {
   SET_LOADING,
-  SET_RAWMATERIALS,
   UPDATE_FIELD,
-  UPDATE_SEARCHSTRING,
-  UPDATE_SEARCHRESULTS,
   CLEAR_SEARCHRESULTS,
-  UPDATE_RAWMATERIALS,
-  REMOVE_RAWMATERIAL,
-  UPDATE_RAWMATERIALNAME,
-  UPDATE_RAWMATERIAL_PRICE,
-  UPDATE_RAWMATERIAL_RATE,
   COMPLETE_FORM,
   SHOW_LOADER,
   COMPLETE_RAWMATERIAL,
-  SET_BASICRECIPES,
-  SET_SEARCHFILTER,
-  UPDATE_BASICRECIPE,
   UPDATE_BASICRECIPEUNITS,
   UPDATE_BASICRECIPEQUANTITY,
   UPDATE_BASICRECIPERATE,
@@ -28,15 +20,16 @@ import {
   REMOVE_BASICRECIPE,
   SET_BASICRECIPERMSEARCHFILTER,
   HANDLE_BASICRECIPESEARCHDISPLAY,
-  ADD_BASICRECCIPESEARCHRM,
   SET_SAVEOPTION,
-  SET_RECIPES,
-  UPDATE_RECIPE,
   HANDLE_BASICRECIPEDISPLAY,
   HIDE_BASICRECIPERMONDELETE,
   CALCULATE_RECIPERMQTYANDCOST,
   CALCULATE_SINGLEBASICRECIPEQTYANDCOST,
-  CALCULATE_TOTALBASICRECIPERMQTYANDCOST
+  CALCULATE_TOTALBASICRECIPERMQTYANDCOST,
+  REMOVE_RAWMATERIAL,
+  UPDATE_RAWMATERIALNAME,
+  UPDATE_RAWMATERIAL_PRICE,
+  UPDATE_RAWMATERIAL_RATE
 } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/types.js';
 
 import { useHttpClient } from 'Hooks/httpsHooks';
@@ -44,6 +37,7 @@ import { useHttpClient } from 'Hooks/httpsHooks';
 import axios from 'axios';
 import produce from 'immer';
 import { BasicRecipeCostQuantityContainer } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement/index';
+import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
 
 const RecipeManagementState = props => {
   const saveOptions = [
@@ -87,6 +81,37 @@ const RecipeManagementState = props => {
   };
   const [state, dispatch] = useReducer(recipeManagementReducer, initialState);
 
+  const {
+    loading,
+    rawMaterials,
+    basicRecipe,
+    recipe,
+    recipeName,
+    searchFilter,
+    searchString,
+    brandName,
+    recipeUrl,
+    recipeRawMaterials,
+    totalRawMQuantityInRecipe,
+    totalRawMaterialCostInRecipe,
+    totalBasicRecipeRAWMQuantity,
+    totalBasicRecipeRAWMCost,
+    recipeBasicRecipes,
+    recipeProducts,
+    recipeBasicRecipeRMDetails,
+    searchResults,
+    searchArray,
+    recipeYield,
+    finalUnits,
+    searchFilterDisplay,
+    saveOptionDisplay,
+    saveOption,
+    isDataUploaded,
+    showLoader,
+    isRawmUploaded,
+    showBasicRecipeSearch
+  } = state;
+
   useEffect(() => {
     dispatch({
       type: CALCULATE_RECIPERMQTYANDCOST
@@ -111,6 +136,8 @@ const RecipeManagementState = props => {
       }
     });
   }
+
+  const { userID } = useApplicationState();
 
   const addDataToDB = async (
     recipeName,
@@ -159,6 +186,7 @@ const RecipeManagementState = props => {
     let weightPerUnit = baseQuantity / finalUnits;
 
     const body = JSON.stringify({
+      userID,
       name,
       details,
       baseQuantity,
@@ -178,7 +206,7 @@ const RecipeManagementState = props => {
       }
     };
 
-    const res = await axios.post('/api/v1/basicRecipe', body, config);
+    const res = await axios.post(`/api/v1/basicRecipe/${userID}`, body, config);
     setLoading();
 
     if (res.data.status === 'success') {
@@ -247,7 +275,11 @@ const RecipeManagementState = props => {
       }
     };
 
-    const res = await axios.patch(`/api/v1/rawMaterial/${id}`, body, config);
+    const res = await axios.patch(
+      `/api/v1/rawMaterial/${userID}/${id}`,
+      body,
+      config
+    );
 
     setLoading();
 
@@ -314,11 +346,6 @@ const RecipeManagementState = props => {
   const setShowLoader = () => dispatch({ type: SHOW_LOADER });
 
   useEffect(() => {
-    getData('/api/v1/rawMaterial');
-    getBasicRecipe('/api/v1/basicRecipe');
-    getRecipe('/api/v1/recipe');
-  }, []);
-  useEffect(() => {
     if (state.searchString === '') {
       {
         dispatch({
@@ -329,37 +356,43 @@ const RecipeManagementState = props => {
     }
   }, [state.searchString, state.searchFilter]);
 
-  const getData = async url => {
-    try {
-      let res = await sendRequest(url);
-
-      dispatch({
-        type: SET_RAWMATERIALS,
-        payload: res
-      });
-    } catch (err) {}
+  const handleRemoveRawMaterial = id => {
+    dispatch({
+      type: REMOVE_RAWMATERIAL,
+      payload: id
+    });
   };
 
-  const getBasicRecipe = async url => {
-    try {
-      let res = await sendRequest(url);
+  const handleRawMaterialNameChange = index => e => {
+    let newRawMaterialName = e.target.value;
+    let rawMaterialIndex = index;
 
-      dispatch({
-        type: SET_BASICRECIPES,
-        payload: res
-      });
-    } catch (err) {}
+    dispatch({
+      type: UPDATE_RAWMATERIALNAME,
+      name1: newRawMaterialName,
+      index1: rawMaterialIndex
+    });
   };
 
-  const getRecipe = async url => {
-    try {
-      let res = await sendRequest(url);
+  const handleQuantityChange = (id, index) => e => {
+    let quantity = e.target.value;
 
-      dispatch({
-        type: SET_RECIPES,
-        payload: res
-      });
-    } catch (err) {}
+    dispatch({
+      type: UPDATE_RAWMATERIAL_PRICE,
+      id1: id,
+      index1: index,
+      value: quantity
+    });
+  };
+
+  const handleRateChange = id => e => {
+    let rate = e.target.value;
+
+    dispatch({
+      type: UPDATE_RAWMATERIAL_RATE,
+      id1: id,
+      value: rate
+    });
   };
 
   const handleChangeFor = input => e => {
@@ -369,33 +402,6 @@ const RecipeManagementState = props => {
         payload: { input, value: e.target.value }
       });
     }
-  };
-
-  const handleSearchFilter = e => {
-    let filter = e.currentTarget.value;
-    let currentArray = [];
-
-    if (filter === 'rawMaterial') {
-      currentArray = [...state.rawMaterials];
-    }
-    if (filter === 'basicRecipe') {
-      currentArray = [...state.basicRecipe];
-    }
-    if (filter === 'product') {
-      currentArray = [...state.recipe];
-    }
-    {
-      dispatch({
-        type: CLEAR_SEARCHRESULTS,
-        payload: []
-      });
-    }
-
-    dispatch({
-      type: SET_SEARCHFILTER,
-      payload: filter,
-      temparray: currentArray
-    });
   };
 
   const handleBasicRecipeMSearchFilter = id => {
@@ -410,71 +416,6 @@ const RecipeManagementState = props => {
     dispatch({
       type: HANDLE_BASICRECIPESEARCHDISPLAY,
       id1: id
-    });
-  };
-
-  const handleSearchText = e => {
-    let string = e.currentTarget.value;
-
-    {
-      dispatch({
-        type: UPDATE_SEARCHSTRING,
-        payload: string
-      });
-    }
-
-    let filterOptions = state.searchArray
-      .filter(
-        material =>
-          material.name.toLowerCase().indexOf(string.toLowerCase()) > -1
-      )
-      .slice(0, 4);
-
-    {
-      dispatch({
-        type: UPDATE_SEARCHRESULTS,
-        payload: filterOptions
-      });
-    }
-  };
-
-  const handleSearchItemClick = (item, index, basicRecipeId) => {
-    if (state.searchFilter === 'rawMaterial') {
-      dispatch({
-        type: UPDATE_RAWMATERIALS,
-        payload: item
-      });
-    }
-    if (state.searchFilter === 'basicRecipe') {
-      dispatch({
-        type: UPDATE_BASICRECIPE,
-        payload: item,
-        rmdetails: item.details
-      });
-    }
-    if (state.searchFilter === 'basicRecipeRawMaterial') {
-      dispatch({
-        type: ADD_BASICRECCIPESEARCHRM,
-        index1: index,
-        item1: item,
-        id1: basicRecipeId
-      });
-    }
-
-    if (state.searchFilter === 'product') {
-      dispatch({
-        type: UPDATE_RECIPE,
-        rawMaterial: item.rawMaterialDetails,
-        basicRecipes: item.basicRecipeDetails,
-        productDetails: item
-      });
-    }
-  };
-
-  const handleRemoveRawMaterial = id => {
-    dispatch({
-      type: REMOVE_RAWMATERIAL,
-      payload: id
     });
   };
 
@@ -547,38 +488,6 @@ const RecipeManagementState = props => {
     dispatch({
       type: REMOVE_BASICRECIPE,
       id1: id
-    });
-  };
-
-  const handleRawMaterialNameChange = index => e => {
-    let newRawMaterialName = e.target.value;
-    let rawMaterialIndex = index;
-
-    dispatch({
-      type: UPDATE_RAWMATERIALNAME,
-      name1: newRawMaterialName,
-      index1: rawMaterialIndex
-    });
-  };
-
-  const handleQuantityChange = (id, index) => e => {
-    let quantity = e.target.value;
-
-    dispatch({
-      type: UPDATE_RAWMATERIAL_PRICE,
-      id1: id,
-      index1: index,
-      value: quantity
-    });
-  };
-
-  const handleRateChange = id => e => {
-    let rate = e.target.value;
-
-    dispatch({
-      type: UPDATE_RAWMATERIAL_RATE,
-      id1: id,
-      value: rate
     });
   };
 
@@ -744,43 +653,36 @@ const RecipeManagementState = props => {
   return (
     <recipeManagementContext.Provider
       value={{
-        loading: state.loading,
-        rawMaterials: state.rawMaterials,
-        recipe: state.recipe,
-        recipeName: state.recipeName,
-        searchFilter: state.searchFilter,
-        searchString: state.searchString,
-        recipeRawMaterials: state.recipeRawMaterials,
-        searchResults: state.searchResults,
-        searchArray: state.searchArray,
-        searchFilterDisplay: state.searchFilterDisplay,
-        saveOptionDisplay: state.saveOptionDisplay,
-        saveOption: state.saveOption,
-        showLoader: state.showLoader,
-        isDataUploaded: state.isDataUploaded,
-        basicRecipe: state.basicRecipe,
-        recipeProducts: state.recipeProducts,
-        recipeBasicRecipes: state.recipeBasicRecipes,
-        recipeBasicRecipeRMDetails: state.recipeBasicRecipeRMDetails,
-        showBasicRecipeSearch: state.showBasicRecipeSearch,
-        brandName: state.brandName,
-        recipeUrl: state.recipeUrl,
-        recipeYield: state.recipeYield,
-        finalUnits: state.finalUnits,
-        totalRawMQuantityInRecipe: state.totalRawMQuantityInRecipe,
-        totalRawMaterialCostInRecipe: state.totalRawMaterialCostInRecipe,
-        totalBasicRecipeRAWMQuantity: state.totalBasicRecipeRAWMQuantity,
-        totalBasicRecipeRAWMCost: state.totalBasicRecipeRAWMCost,
-        getData,
+        loading,
+        rawMaterials,
+        basicRecipe,
+        recipe,
+        recipeName,
+        searchFilter,
+        searchString,
+        brandName,
+        recipeUrl,
+        recipeRawMaterials,
+        totalRawMQuantityInRecipe,
+        totalRawMaterialCostInRecipe,
+        totalBasicRecipeRAWMQuantity,
+        totalBasicRecipeRAWMCost,
+        recipeBasicRecipes,
+        recipeProducts,
+        recipeBasicRecipeRMDetails,
+        searchResults,
+        searchArray,
+        recipeYield,
+        finalUnits,
+        searchFilterDisplay,
+        saveOptionDisplay,
+        saveOption,
+        isDataUploaded,
+        showLoader,
+        isRawmUploaded,
+        showBasicRecipeSearch,
         handleChangeFor,
-        handleSearchText,
-        handleSearchItemClick,
-        handleRemoveRawMaterial,
-        handleQuantityChange,
-        handleRateChange,
         onSubmit,
-        handleSearchFilter,
-        handleRawMaterialNameChange,
         handleBasicRecipeUnits,
         handleBasicRecipeRMQuantityChange,
         handleBasicRecipeRMRateChange,
@@ -789,12 +691,35 @@ const RecipeManagementState = props => {
         handleBasicRecipeMSearchFilter,
         handleSaveOption,
         handleBasicRecipeDisplay,
-        hideBasicRecipeRMOnDelete
+        hideBasicRecipeRMOnDelete,
+        handleRemoveRawMaterial,
+        handleRawMaterialNameChange,
+        handleRateChange,
+        handleQuantityChange
       }}
     >
-      {props.children}
+      <recipeManagementDispatchContext.Provider value={dispatch}>
+        {props.children}
+      </recipeManagementDispatchContext.Provider>
     </recipeManagementContext.Provider>
   );
 };
 
-export default RecipeManagementState;
+function useRecipeState() {
+  const context = useContext(recipeManagementContext);
+
+  if (context === undefined) {
+    throw new Error('useRecipeState must be used within a CountProvider');
+  }
+  return context;
+}
+
+function useRecipeDispatch() {
+  const context = useContext(recipeManagementDispatchContext);
+  if (context === undefined) {
+    throw new Error('useRecipeDispatch must be used within a CountProvider');
+  }
+  return context;
+}
+
+export { RecipeManagementState, useRecipeState, useRecipeDispatch };

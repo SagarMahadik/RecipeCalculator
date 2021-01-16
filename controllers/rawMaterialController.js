@@ -6,4 +6,6 @@ exports.createRawMaterial = factory.createOne(RawMaterial);
 
 exports.getAllRawMaterials = factory.getAll(RawMaterial);
 
+exports.getCustomerRawMaterials = factory.getAll(RawMaterial);
+
 exports.updateRawMaterial = factory.updateOne(RawMaterial);

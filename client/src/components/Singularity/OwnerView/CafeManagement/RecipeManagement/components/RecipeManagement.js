@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';
-import RecipeName from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeName.js';
+import RecipeDetails from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeDetails.js';
 import ProductRecipes from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/ProductRecipes.js';
-import SearchItems from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SeachItems.js';
-import SearchBoxResults from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SearchBoxResults.js';
-import RecipeRawMaterials from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeRawMaterials.js';
+import SearchOptions from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/Search/SeachOptions.js';
+import SearchBoxResults from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/Search/SearchBoxResults.js';
+import RecipeRawMaterials from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeRawMaterials/RecipeRawMaterials.js';
 import TotalCost from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/TotalCost.js';
 import SaveRecipeOptions from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SaveRecipeOptions.js';
 import YieldUnits from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/YieldUnits.js';
@@ -12,11 +12,11 @@ import YieldUnits from 'components/Singularity/OwnerView/CafeManagement/RecipeMa
 import SubmitRecipe from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitRecipe.js';
 import Ball from 'components/Singularity/ApplicationView/Loaders/Ball';
 
-import recipeManagementContext from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
+import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
 import RecipeBasicRecipies from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeBasicRecipes.js';
-import ProductDetails from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/Components/ProductDetails';
 import RecipeProductPricing from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeProductPricing.js';
-import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index';
+
+import { isArrayNonEmpty } from 'Utils/validations.js';
 
 const RecipeManagement = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);
@@ -35,33 +35,29 @@ const RecipeManagement = () => {
   }
   return (
     <>
-      <CenterAlignedColumnContainer
-        style={{ height: '100vh' }}
-        backGroundColor={'#514E4E'}
-      >
-        <FormHeadings heading="Start Building Your Recipe" />
-        <SaveRecipeOptions />
-        <RecipeName />
+      <FormHeadings heading="Start Building Your Recipe" />
+      <SaveRecipeOptions />
+      <RecipeDetails />
 
-        {!showBasicRecipeSearch && (
-          <>
-            {' '}
-            <SearchItems />
-            <SearchBoxResults />
-          </>
-        )}
-        {Object.keys(recipeProducts).length > 0 ? <ProductRecipes /> : null}
-        {recipeRawMaterials.length > 0 ? <RecipeRawMaterials /> : null}
-        {recipeBasicRecipes.length > 0 ? <RecipeBasicRecipies /> : null}
-        {recipeBasicRecipes.length > 0 || recipeRawMaterials.length > 0 ? (
-          <>
-            <TotalCost />
-            <YieldUnits />
-            <RecipeProductPricing />
-            <SubmitRecipe />
-          </>
-        ) : null}
-      </CenterAlignedColumnContainer>
+      {!showBasicRecipeSearch && (
+        <>
+          {' '}
+          <SearchOptions />
+          <SearchBoxResults />
+        </>
+      )}
+      {Object.keys(recipeProducts).length > 0 ? <ProductRecipes /> : null}
+      {isArrayNonEmpty(recipeRawMaterials) ? <RecipeRawMaterials /> : null}
+      {isArrayNonEmpty(recipeBasicRecipes) ? <RecipeBasicRecipies /> : null}
+      {isArrayNonEmpty(recipeBasicRecipes) ||
+      isArrayNonEmpty(recipeRawMaterials) ? (
+        <>
+          <TotalCost />
+          <YieldUnits />
+          <RecipeProductPricing />
+          <SubmitRecipe />
+        </>
+      ) : null}
     </>
   );
 };
