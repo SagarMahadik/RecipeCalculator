@@ -13,6 +13,11 @@ import FormSectionHading from 'components/Singularity/ApplicationView/FormHeadin
 import { AnimatePresence } from 'framer-motion';
 import { useRecipeDispatch } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/RecipeManagementState.js';
 
+import Anime from '@mollycule/react-anime';
+import { Transition, TransitionGroup } from 'react-transition-group';
+
+import { motion } from 'framer-motion';
+
 const RecipeRawMaterials = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);
   const { recipeRawMaterials } = RecipeManagementContext;
@@ -59,59 +64,49 @@ const RecipeRawMaterials = () => {
   };
 
   return (
-    <AnimatePresence>
-      <AnimationContainer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{
-          ease: 'easeOut',
-          duration: 1.2
-        }}
-        exit={{ opacity: 0 }}
-        key="rawMaterialContainer"
-      >
-        <RecipeManagementContainer>
-          <FormSectionHading sectionName="Raw Materials" />
+    <RecipeManagementContainer>
+      <FormSectionHading sectionName="Raw Materials" />
 
-          <GridLabel />
-          {recipeRawMaterials.map((material, index) => {
-            return (
-              <>
-                <AnimatePresence>
-                  <AnimationContainer
-                    key={`${index} rawmaterial`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{
-                      ease: 'easeOut',
-                      duration: 1.2
-                    }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <RawMaterialDetailsCard
-                      index={index}
-                      name={material.name}
-                      handleRawMaterialNameChange={handleRawMaterialNameChange}
-                      quantityInRecipe={material.quantityInRecipe}
-                      materialId={material._id}
-                      handleQuantityChange={handleQuantityChange}
-                      recipeUnit={material.recipeUnit}
-                      rate={material.rate}
-                      handleRateChange={handleRateChange}
-                      baseQuantity={material.baseQuantity}
-                      baseUnit={material.baseUnit}
-                      handleRemoveRawMaterial={handleRemoveRawMaterial}
-                    />
-                  </AnimationContainer>
-                </AnimatePresence>
-              </>
-            );
-          })}
-
-          <TotalRawMaterialCost />
-        </RecipeManagementContainer>
-      </AnimationContainer>
-    </AnimatePresence>
+      <GridLabel />
+      <TransitionGroup>
+        {recipeRawMaterials.map((material, index) => {
+          return (
+            <Anime
+              appear
+              onEntering={{
+                opacity: [0.5, 1],
+                easing: 'linear',
+                duration: 800
+              }}
+              onExiting={{
+                translateX: '-100%',
+                easing: 'easeInOutQuad',
+                duration: 1000
+              }}
+              duration={800}
+            >
+              <div>
+                <RawMaterialDetailsCard
+                  index={index}
+                  name={material.name}
+                  handleRawMaterialNameChange={handleRawMaterialNameChange}
+                  quantityInRecipe={material.quantityInRecipe}
+                  materialId={material._id}
+                  handleQuantityChange={handleQuantityChange}
+                  recipeUnit={material.recipeUnit}
+                  rate={material.rate}
+                  handleRateChange={handleRateChange}
+                  baseQuantity={material.baseQuantity}
+                  baseUnit={material.baseUnit}
+                  handleRemoveRawMaterial={handleRemoveRawMaterial}
+                />
+              </div>
+            </Anime>
+          );
+        })}
+      </TransitionGroup>
+      <TotalRawMaterialCost />
+    </RecipeManagementContainer>
   );
 };
 

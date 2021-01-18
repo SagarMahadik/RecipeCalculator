@@ -13,6 +13,7 @@ import SearchResultsContainer from 'components/Singularity/OwnerView/CafeManagem
 import SearchBox from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/Search/SearchBox.js';
 
 import { useRecipeDispatch } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/RecipeManagementState.js';
+import { AnimatePresence } from 'framer-motion';
 
 const SearchBoxResults = props => {
   const RecipeManagementContext = useContext(recipeManagementContext);
@@ -20,7 +21,8 @@ const SearchBoxResults = props => {
     searchString,
     searchResults,
     searchArray,
-    searchFilter
+    searchFilter,
+    hideSearchResults
   } = RecipeManagementContext;
 
   const { rawMaterialDetails } = useApplicationState();
@@ -93,41 +95,48 @@ const SearchBoxResults = props => {
   }
 
   return (
-    <AnimationContainer
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      <RecipeManagementContainer>
-        <SearchBox
-          placeholder=" "
-          value={searchString}
-          onChange={handleSearchText}
-        />
+    <RecipeManagementContainer>
+      <SearchBox
+        placeholder=" "
+        value={searchString}
+        onChange={handleSearchText}
+      />
+      <AnimatePresence>
+        {!hideSearchResults
+          ? searchResults.map((result, index) => {
+              return (
+                <AnimationContainer
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    ease: 'easeOut',
+                    duration: 0.8
+                  }}
+                  exit={{ opacity: 0, scaleY: 0 }}
+                >
+                  <SearchResultsContainer
+                    onClick={() =>
+                      handleSearchItemClick(
+                        result,
+                        props.arrayIndex,
+                        props.basicRecipeID
+                      )
+                    }
+                    key={index}
+                    itemName={result.name}
+                    itemBaseQuantity={result.baseQuantity}
+                    brandName={result.brandName}
+                    itemRate={result.rate}
+                    itemBaseUnit={result.baseUnit}
+                  />
+                </AnimationContainer>
+              );
+            })
+          : null}
+      </AnimatePresence>
 
-        {searchResults.map((result, index) => {
-          return (
-            <SearchResultsContainer
-              onClick={() =>
-                handleSearchItemClick(
-                  result,
-                  props.arrayIndex,
-                  props.basicRecipeID
-                )
-              }
-              key={index}
-              itemName={result.name}
-              itemBaseQuantity={result.baseQuantity}
-              brandName={result.brandName}
-              itemRate={result.rate}
-              itemBaseUnit={result.baseUnit}
-            />
-          );
-        })}
-
-        <PartialWidthDivider />
-      </RecipeManagementContainer>
-    </AnimationContainer>
+      <PartialWidthDivider />
+    </RecipeManagementContainer>
   );
 };
 

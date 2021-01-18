@@ -18,6 +18,9 @@ import RecipeProductPricing from 'components/Singularity/OwnerView/CafeManagemen
 
 import { isArrayNonEmpty } from 'Utils/validations.js';
 
+import { AnimatePresence } from 'framer-motion';
+import { AnimationContainer } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
+
 const RecipeManagement = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);
   const {
@@ -47,7 +50,21 @@ const RecipeManagement = () => {
         </>
       )}
       {Object.keys(recipeProducts).length > 0 ? <ProductRecipes /> : null}
-      {isArrayNonEmpty(recipeRawMaterials) ? <RecipeRawMaterials /> : null}
+      <AnimatePresence>
+        {isArrayNonEmpty(recipeRawMaterials) ? (
+          <AnimationContainer
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              ease: 'easeOut',
+              duration: 0.8
+            }}
+            exit={{ opacity: 0 }}
+          >
+            <RecipeRawMaterials />
+          </AnimationContainer>
+        ) : null}
+      </AnimatePresence>
       {isArrayNonEmpty(recipeBasicRecipes) ? <RecipeBasicRecipies /> : null}
       {isArrayNonEmpty(recipeBasicRecipes) ||
       isArrayNonEmpty(recipeRawMaterials) ? (

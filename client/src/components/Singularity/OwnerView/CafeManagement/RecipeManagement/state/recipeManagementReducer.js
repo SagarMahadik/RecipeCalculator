@@ -33,7 +33,8 @@ import {
   HIDE_BASICRECIPERMONDELETE,
   CALCULATE_RECIPERMQTYANDCOST,
   CALCULATE_SINGLEBASICRECIPEQTYANDCOST,
-  CALCULATE_TOTALBASICRECIPERMQTYANDCOST
+  CALCULATE_TOTALBASICRECIPERMQTYANDCOST,
+  INITIATE_BASICRECIPESSUBMISSION
 } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/types.js';
 
 import { produce } from 'immer';
@@ -145,12 +146,14 @@ export default (state, action) => {
     case UPDATE_SEARCHRESULTS: {
       return {
         ...state,
+        hideSearchResults: false,
         searchResults: action.payload
       };
     }
     case CLEAR_SEARCHRESULTS: {
       return {
         ...state,
+        hideSearchResults: true,
         searchResults: action.payload
       };
     }
@@ -417,6 +420,12 @@ export default (state, action) => {
         ...state,
         loading: false,
         isRawmUploaded: true
+      };
+
+    case INITIATE_BASICRECIPESSUBMISSION:
+      return {
+        ...state,
+        initiateBasicRecipesSubmission: true
       };
   }
 };

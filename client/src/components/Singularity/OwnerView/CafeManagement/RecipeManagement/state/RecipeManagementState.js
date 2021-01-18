@@ -25,11 +25,7 @@ import {
   HIDE_BASICRECIPERMONDELETE,
   CALCULATE_RECIPERMQTYANDCOST,
   CALCULATE_SINGLEBASICRECIPEQTYANDCOST,
-  CALCULATE_TOTALBASICRECIPERMQTYANDCOST,
-  REMOVE_RAWMATERIAL,
-  UPDATE_RAWMATERIALNAME,
-  UPDATE_RAWMATERIAL_PRICE,
-  UPDATE_RAWMATERIAL_RATE
+  CALCULATE_TOTALBASICRECIPERMQTYANDCOST
 } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/types.js';
 
 import { useHttpClient } from 'Hooks/httpsHooks';
@@ -77,7 +73,9 @@ const RecipeManagementState = props => {
     isDataUploaded: false,
     showLoader: false,
     isRawmUploaded: false,
-    showBasicRecipeSearch: false
+    showBasicRecipeSearch: false,
+    initiateBasicRecipesSubmission: false,
+    hideSearchResults: false
   };
   const [state, dispatch] = useReducer(recipeManagementReducer, initialState);
 
@@ -109,7 +107,9 @@ const RecipeManagementState = props => {
     isDataUploaded,
     showLoader,
     isRawmUploaded,
-    showBasicRecipeSearch
+    showBasicRecipeSearch,
+    initiateBasicRecipesSubmission,
+    hideSearchResults
   } = state;
 
   useEffect(() => {
@@ -356,45 +356,6 @@ const RecipeManagementState = props => {
     }
   }, [state.searchString, state.searchFilter]);
 
-  const handleRemoveRawMaterial = id => {
-    dispatch({
-      type: REMOVE_RAWMATERIAL,
-      payload: id
-    });
-  };
-
-  const handleRawMaterialNameChange = index => e => {
-    let newRawMaterialName = e.target.value;
-    let rawMaterialIndex = index;
-
-    dispatch({
-      type: UPDATE_RAWMATERIALNAME,
-      name1: newRawMaterialName,
-      index1: rawMaterialIndex
-    });
-  };
-
-  const handleQuantityChange = (id, index) => e => {
-    let quantity = e.target.value;
-
-    dispatch({
-      type: UPDATE_RAWMATERIAL_PRICE,
-      id1: id,
-      index1: index,
-      value: quantity
-    });
-  };
-
-  const handleRateChange = id => e => {
-    let rate = e.target.value;
-
-    dispatch({
-      type: UPDATE_RAWMATERIAL_RATE,
-      id1: id,
-      value: rate
-    });
-  };
-
   const handleChangeFor = input => e => {
     {
       dispatch({
@@ -504,6 +465,9 @@ const RecipeManagementState = props => {
     e.preventDefault();
     setShowLoader();
     if (state.saveOption === 'basicRecipe') {
+      dispatch({
+        type: 'INITIATE_BASICRECIPESSUBMISSION'
+      });
       let updatedRAWM = produce(state, draftState => {
         if (!('multidelete' in Object.prototype)) {
           Object.defineProperty(Object.prototype, 'multidelete', {
@@ -681,6 +645,8 @@ const RecipeManagementState = props => {
         showLoader,
         isRawmUploaded,
         showBasicRecipeSearch,
+        initiateBasicRecipesSubmission,
+        hideSearchResults,
         handleChangeFor,
         onSubmit,
         handleBasicRecipeUnits,
@@ -691,11 +657,7 @@ const RecipeManagementState = props => {
         handleBasicRecipeMSearchFilter,
         handleSaveOption,
         handleBasicRecipeDisplay,
-        hideBasicRecipeRMOnDelete,
-        handleRemoveRawMaterial,
-        handleRawMaterialNameChange,
-        handleRateChange,
-        handleQuantityChange
+        hideBasicRecipeRMOnDelete
       }}
     >
       <recipeManagementDispatchContext.Provider value={dispatch}>
