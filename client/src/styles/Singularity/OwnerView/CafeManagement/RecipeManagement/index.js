@@ -47,8 +47,9 @@ export const GridContainenr = styled.div`
   color: ${props => (props.clicked ? `#ffffff` : `${styles.formContentColor}`)};
   font-size: 0.8em;
   font-family: PT Sans;
-  transition: color ease-out 1.2s;
-
+  transition: transform ease-out 0.8s;
+  //transform: translateX(${props => (props.animate ? '-100%' : '0')});
+  //opacity: ${props => (props.animate ? '0' : '1')};
   background-color: ${props => (props.isEven ? `#ffffff` : `#f6f6f6`)};
 `;
 
@@ -93,7 +94,7 @@ export const TotalCostQuantityContainer = styled(DetailsContainer)`
 export const BasicRecipeNameContainer = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: 3fr 1.5fr 1.5fr 1fr 1fr;
+  grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr 1fr 1fr;
   height: 40px;
   grid-auto-rows: 45px;
   align-items: center;

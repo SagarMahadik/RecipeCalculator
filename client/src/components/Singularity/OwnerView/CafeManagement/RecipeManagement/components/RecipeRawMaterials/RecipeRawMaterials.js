@@ -1,33 +1,37 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback, useRef } from 'react';
 
 import { RecipeManagementContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
-
 import GridLabel from './GridLabels.js';
 import RawMaterialDetailsCard from './RawMaterialDetailsCard';
 import TotalRawMaterialCost from './TotalRawMaterialCost';
 import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
-import { AnimationContainer } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
 
 import FormSectionHading from 'components/Singularity/ApplicationView/FormHeadings/FormSectionHading.js';
-
-import { AnimatePresence } from 'framer-motion';
 import { useRecipeDispatch } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/RecipeManagementState.js';
 
-import Anime from '@mollycule/react-anime';
 import { Transition, TransitionGroup } from 'react-transition-group';
 
-import { motion } from 'framer-motion';
+import anime from 'animejs/lib/anime.es.js';
 
 const RecipeRawMaterials = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);
   const { recipeRawMaterials } = RecipeManagementContext;
 
+  const rawMaterialRef = useRef([]);
+  rawMaterialRef.current = [];
+
+  const addToRefs = el => {
+    if (el && !rawMaterialRef.current.includes(el)) {
+      rawMaterialRef.current.push(el);
+    }
+  };
+
   const dispatch = useRecipeDispatch();
 
-  const handleRemoveRawMaterial = id => {
+  const handleRemoveRawMaterial = index => {
     dispatch({
       type: 'REMOVE_RAWMATERIAL',
-      payload: id
+      payload: index
     });
   };
 
@@ -53,12 +57,13 @@ const RecipeRawMaterials = () => {
     });
   };
 
-  const handleRateChange = id => e => {
+  const handleRateChange = (id, index) => e => {
     let rate = e.target.value;
 
     dispatch({
       type: 'UPDATE_RAWMATERIAL_RATE',
       id1: id,
+      rawMaterialIndex: index,
       value: rate
     });
   };
@@ -71,40 +76,53 @@ const RecipeRawMaterials = () => {
       <TransitionGroup>
         {recipeRawMaterials.map((material, index) => {
           return (
-            <Anime
+            <Transition
+              timeout={800}
               appear
-              onEntering={{
-                opacity: [0.5, 1],
-                easing: 'linear',
-                duration: 800
+              key={`${material._id}${material.uniueId}`}
+              mountOnEnter
+              unmountOnExit
+              onEntering={node => {
+                anime({
+                  targets: node,
+                  opacity: [0, 1],
+                  height: 'auto',
+                  duration: 800,
+                  easing: 'easeOutQuad'
+                });
               }}
-              onExiting={{
-                translateX: '-100%',
-                easing: 'easeInOutQuad',
-                duration: 1000
+              onExiting={node => {
+                console.log(node);
+                anime({
+                  targets: node,
+                  duration: 400,
+                  height: 0,
+                  easing: 'easeInSine'
+                });
               }}
-              duration={800}
             >
-              <div>
-                <RawMaterialDetailsCard
-                  index={index}
-                  name={material.name}
-                  handleRawMaterialNameChange={handleRawMaterialNameChange}
-                  quantityInRecipe={material.quantityInRecipe}
-                  materialId={material._id}
-                  handleQuantityChange={handleQuantityChange}
-                  recipeUnit={material.recipeUnit}
-                  rate={material.rate}
-                  handleRateChange={handleRateChange}
-                  baseQuantity={material.baseQuantity}
-                  baseUnit={material.baseUnit}
-                  handleRemoveRawMaterial={handleRemoveRawMaterial}
-                />
-              </div>
-            </Anime>
+              <RawMaterialDetailsCard
+                createRef={addToRefs}
+                key={index}
+                index={index}
+                name={material.name}
+                handleRawMaterialNameChange={handleRawMaterialNameChange}
+                quantityInRecipe={material.quantityInRecipe}
+                materialId={material._id}
+                handleQuantityChange={handleQuantityChange}
+                recipeUnit={material.recipeUnit}
+                rate={material.rate}
+                handleRateChange={handleRateChange}
+                baseQuantity={material.baseQuantity}
+                baseUnit={material.baseUnit}
+                animateBeforeExit={material.animateBeforeExit}
+                handleRemoveRawMaterial={handleRemoveRawMaterial}
+              />
+            </Transition>
           );
         })}
       </TransitionGroup>
+
       <TotalRawMaterialCost />
     </RecipeManagementContainer>
   );

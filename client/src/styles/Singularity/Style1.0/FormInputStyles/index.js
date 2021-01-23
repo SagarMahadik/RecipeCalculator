@@ -269,6 +269,7 @@ export const TextRadioButton = styled.button`
   border-radius: 20px;
   margin: 6px;
   outline: none;
+
   border: ${props =>
     props.selected
       ? `0.1px solid ${styles.themecolor}`
@@ -276,7 +277,8 @@ export const TextRadioButton = styled.button`
   transition: all ease-out 0.8s;
 
   &:active {
-    transform: translateY(-20px);
+    transform: scaleX(0.5);
+    border-radius: 50%;
   }
 `;
 

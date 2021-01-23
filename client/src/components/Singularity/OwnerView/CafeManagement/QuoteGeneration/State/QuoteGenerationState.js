@@ -20,13 +20,15 @@ import {
 } from 'components/Singularity/OwnerView/CafeManagement/QuoteGeneration/State/types.js';
 
 import { useHttpClient } from 'Hooks/httpsHooks';
+
+import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
+
 import axios from 'axios';
 
 const QuoteGenerationState = props => {
   const initialState = {
     orderName: '',
     orderTag: '',
-    recipes: [],
     searchString: '',
     searchResults: [],
     quoteproducts: [],
@@ -35,20 +37,17 @@ const QuoteGenerationState = props => {
   };
   const [state, dispatch] = useReducer(quoteGenerationReducer, initialState);
 
+  const { recipes } = useApplicationState();
+
   const {
     orderName,
     orderTag,
-    recipes,
     searchString,
     searchResults,
     quoteproducts,
     totalQuoteQuantity,
     totalQuoteCost
   } = state;
-
-  useEffect(() => {
-    getData('/api/v1/recipe');
-  }, []);
 
   useEffect(() => {
     if (searchString === '') {
@@ -68,19 +67,6 @@ const QuoteGenerationState = props => {
     dispatch({ type: CALCULATE_RECIPEFINALBRRMQTYCOST });
     dispatch({ type: CALCULATE_QUOTEFINALQTYCOST });
   }, [quoteproducts]);
-
-  const { sendRequest, error } = useHttpClient();
-
-  const getData = async url => {
-    try {
-      let res = await sendRequest(url);
-
-      dispatch({
-        type: SET_RECIPE,
-        payload: res
-      });
-    } catch (err) {}
-  };
 
   const handleChangeFor = input => e => {
     {

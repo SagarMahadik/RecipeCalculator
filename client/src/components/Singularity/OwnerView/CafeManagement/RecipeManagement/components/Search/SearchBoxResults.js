@@ -1,21 +1,23 @@
-import React, { useContext, useRef } from 'react';
-import { RecipeManagementContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
-import { AnimationContainer } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
-
-import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
-
-import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
-
-import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
-import { isArrayEmpty } from 'Utils/validations.js';
+import React, { useContext, useState } from 'react';
 
 import SearchResultsContainer from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/Search/SearchResultsContainer.js';
 import SearchBox from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/Search/SearchBox.js';
 
-import { useRecipeDispatch } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/RecipeManagementState.js';
+import { RecipeManagementContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
+import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
+
+import { AnimationContainer } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
 import { AnimatePresence } from 'framer-motion';
 
+import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
+import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
+import { useRecipeDispatch } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/RecipeManagementState.js';
+
+import { isArrayEmpty } from 'Utils/validations.js';
+
 const SearchBoxResults = props => {
+  const { rawMaterialDetails } = useApplicationState();
+
   const RecipeManagementContext = useContext(recipeManagementContext);
   const {
     searchString,
@@ -25,12 +27,9 @@ const SearchBoxResults = props => {
     hideSearchResults
   } = RecipeManagementContext;
 
-  const { rawMaterialDetails } = useApplicationState();
-
-  const searchResultRefs = useRef([]);
-  searchResultRefs.current = [];
-
   const dispatch = useRecipeDispatch();
+
+  const [count, setCount] = useState(0);
 
   const handleSearchText = e => {
     let string = e.currentTarget.value;
@@ -59,15 +58,25 @@ const SearchBoxResults = props => {
 
   const handleSearchItemClick = (item, index, basicRecipeId) => {
     if (searchFilter === 'rawMaterial') {
+      setCount(count + 1);
+
+      let newItem = {};
+
+      newItem = { ...item, uniueId: count };
       dispatch({
         type: 'UPDATE_RAWMATERIALS',
-        payload: item
+        payload: newItem
       });
     }
     if (searchFilter === 'basicRecipe') {
+      setCount(count + 1);
+
+      let newItem = {};
+
+      newItem = { ...item, uniueId: count };
       dispatch({
         type: 'UPDATE_BASICRECIPE',
-        payload: item,
+        payload: newItem,
         rmdetails: item.details
       });
     }
@@ -107,12 +116,12 @@ const SearchBoxResults = props => {
               return (
                 <AnimationContainer
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  animate={{ opacity: 1, height: 'auto' }}
                   transition={{
                     ease: 'easeOut',
                     duration: 0.8
                   }}
-                  exit={{ opacity: 0, scaleY: 0 }}
+                  exit={{ height: 0 }}
                 >
                   <SearchResultsContainer
                     onClick={() =>

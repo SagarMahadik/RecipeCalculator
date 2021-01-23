@@ -1,318 +1,151 @@
-import React, { useContext, useRef, useEffect, useState } from 'react';
-import {
-  FormHeadingText,
-  FormSectionHeadingTextContainer
-} from 'styles/Singularity/Style1.0/TextStyles';
-
+import React, { useContext } from 'react';
 import AddIcon from 'components/Singularity/ApplicationView/Icons/AddIcon.js';
-import DeleteIcon from 'components/Singularity/ApplicationView/Icons/DeleteIcon.js';
-import HideIcon from 'components/Singularity/ApplicationView/Icons/HideIcon.js';
 import { RecipeManagementContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
-
+import BasicRecipeDisplay from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeBasicRecipes/BasicRecipeDisplay.js';
 import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
-import {
-  AnimationContainer,
-  RawMaterial,
-  Quantity,
-  QuantityUnit,
-  BaseRate,
-  CostOfRawMaterial,
-  BaseRateUnit,
-  GridContainenr,
-  QuantityDisplay,
-  DetailsContainer,
-  TotalCostLabel,
-  FinalRawMaterialCost,
-  BasicRecipeNameContainer,
-  TotalQuantity,
-  RotateIcon,
-  BasicRecipeName,
-  LabelGridContainenr,
-  TableContainer,
-  QuantityDisplayProduction,
-  NumberOfUnits,
-  BaseRecipeCostForUnits,
-  BasicRecipeCostQuantityContainer
-} from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
-
+import { AnimationContainer } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
 import SearchBoxResults from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/Search/SearchBoxResults.js';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
+import BasicRecipeRawMaterialLabel from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeBasicRecipes/BasicRecipeRawMaterialLabel.js';
+import BasicRecipeTotalQtyCost from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeBasicRecipes/BasicRecipeTotalQtyCost.js';
+import TotalBasicRecipeRMQty from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeBasicRecipes/TotalBasicRecipeRMQty.js';
+import BasicRecipesRawMaterialDetails from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeBasicRecipes/BasicRecipesRawMaterialDetails.js';
+import BasicRecipeCardElements from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/Animations/BasicRecipeCardElements.js';
 
-import { gsap } from 'gsap';
+import Anime from '@mollycule/react-anime';
+import { Transition, TransitionGroup } from 'react-transition-group';
+
+import anime from 'animejs/lib/anime.es.js';
 
 const RecipeBasicRecipies = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);
   const {
     recipeBasicRecipes,
-    handleBasicRecipeRMQuantityChange,
-    handleBasicRecipeRMRateChange,
-    handleBasicRecipeRMDelete,
-    handleRemoveBasicRecipe,
-    handleBasicRecipeMSearchFilter,
-    handleBasicRecipeDisplay,
-    hideBasicRecipeRMOnDelete,
-    handleBasicRecipeUnits,
-    totalBasicRecipeRAWMQuantity,
-    totalBasicRecipeRAWMCost
+    handleBasicRecipeMSearchFilter
   } = RecipeManagementContext;
 
-  const basicRcipeRefs = useRef([]);
-  basicRcipeRefs.current = [];
-
-  const basicRcipeRMRefs = useRef([]);
-  basicRcipeRMRefs.current = [];
-
-  const addToRefs = el => {
-    if (el && !basicRcipeRefs.current.includes(el)) {
-      basicRcipeRefs.current.push(el);
-    }
-  };
-
-  const addRMToRefs = el => {
-    if (el && !basicRcipeRMRefs.current.includes(el)) {
-      basicRcipeRMRefs.current.push(el);
-      console.log(basicRcipeRMRefs);
-    }
-  };
-
-  useEffect(() => {
-    console.log(basicRcipeRefs);
-    console.log(basicRcipeRMRefs);
-
-    gsap.fromTo(
-      basicRcipeRefs.current,
-      { opacity: 0 },
-      {
-        opacity: 1,
-        x: 0,
-        stagger: 0.1,
-        delay: 0.4,
-        duration: 0.8,
-        ease: 'Power3.easeIn'
-      }
-    );
-
-    return () => {};
-  }, []);
-
-  const [hideItem, setHideItem] = useState(true);
-
   return (
-    <AnimatePresence>
-      <AnimationContainer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{
-          ease: 'easeOut',
-          duration: 0.8
-        }}
-        exit={{ opacity: 0 }}
-      >
-        <RecipeManagementContainer>
-          <AnimatePresence>
-            {hideItem
-              ? recipeBasicRecipes.length > 0
-                ? recipeBasicRecipes.map((material, index) => {
-                    return (
-                      <RecipeManagementContainer key={index}>
-                        <BasicRecipeNameContainer>
-                          <BasicRecipeName>{material.name}</BasicRecipeName>
-                          <NumberOfUnits
-                            type="number"
-                            defaultValue={material.unitPerBaseQuantity}
-                            onChange={handleBasicRecipeUnits(index)}
-                          />
-                          <BaseRecipeCostForUnits>
-                            Rs.{material.totalCostOfRMInBR}
-                          </BaseRecipeCostForUnits>
-                          <DeleteIcon
-                            onClick={() =>
-                              handleRemoveBasicRecipe(material._id)
-                            }
-                          />
-                          <RotateIcon clicked={material.showItem}>
-                            <HideIcon
+    <RecipeManagementContainer>
+      <TransitionGroup children>
+        {recipeBasicRecipes.length > 0
+          ? recipeBasicRecipes.map((material, index) => {
+              return (
+                <Transition
+                  timeout={800}
+                  appear
+                  key={`${material.name}${material.uniueId}`}
+                  mountOnEnter
+                  unmountOnExit
+                  onEntering={node => {
+                    anime({
+                      targets: node,
+                      opacity: [0, 1],
+                      height: 'auto',
+                      duration: 800,
+                      easing: 'easeInOutBounce'
+                    });
+                  }}
+                  onExiting={node => {
+                    material.showItem
+                      ? anime({
+                          targets: node,
+                          duration: 800,
+                          opacity: 0,
+                          scale: 0,
+                          height: 0,
+                          easing: 'easeInQuint'
+                        })
+                      : anime({
+                          targets: node,
+                          duration: 600,
+                          height: 0,
+                          opacity: [0.3, 0],
+                          easing: 'easeInQuint'
+                        });
+                  }}
+                >
+                  <RecipeManagementContainer key={index}>
+                    <BasicRecipeDisplay
+                      name={material.name}
+                      unitPerBaseQuantity={material.unitPerBaseQuantity}
+                      showItem={material.showItem}
+                      id={material._id}
+                      totalCostOfRMInBR={material.totalCostOfRMInBR}
+                      basicRecipeBaseQuantity={material.baseQuantity}
+                      index={index}
+                    />
+                    <AnimatePresence>
+                      {material.showItem ? (
+                        <>
+                          {material.showSearchBox && (
+                            <SearchBoxResults
+                              arrayIndex={index}
+                              basicRecipeID={material._id}
+                            />
+                          )}
+                          <BasicRecipeCardElements delay={0.2}>
+                            <BasicRecipeRawMaterialLabel />
+                          </BasicRecipeCardElements>
+
+                          {material.details.map((item, index1) => {
+                            return (
+                              <>
+                                <BasicRecipeCardElements delay={0.4}>
+                                  <BasicRecipesRawMaterialDetails
+                                    basicRecipeName={material.name}
+                                    basicRecipeIndex={index}
+                                    basicRecipeID={material._id}
+                                    rawMaterialName={item.name}
+                                    rawMaterialIndex={index1}
+                                    rawMaterialID={item._id}
+                                    hideRM={item.hiddeRM}
+                                    rawMaterialRecipeUnit={item.recipeUnit}
+                                    rawMaterialQtyInRecipe={
+                                      item.quantityInRecipe
+                                    }
+                                    rawMaterialRate={item.rate}
+                                    rawMaterialBaseQty={item.baseQuantity}
+                                    rawmaterialbaseUnit={item.baseUnit}
+                                    rawmaterialQtyPerUnit={item.quantityPerUnit}
+                                    basicRecipeUnitPerbaseQty={
+                                      material.unitPerBaseQuantity
+                                    }
+                                  />
+                                </BasicRecipeCardElements>
+                              </>
+                            );
+                          })}
+                          {material.showAddIcon && (
+                            <AddIcon
                               onClick={() =>
-                                handleBasicRecipeDisplay(material._id)
+                                handleBasicRecipeMSearchFilter(material._id)
                               }
                             />
-                          </RotateIcon>
-                        </BasicRecipeNameContainer>
-                        {material.showItem ? (
-                          <>
-                            {material.showSearchBox && (
-                              <SearchBoxResults
-                                arrayIndex={index}
-                                basicRecipeID={material._id}
-                              />
-                            )}
-                            <LabelGridContainenr>
-                              <RawMaterial style={{ fontWeight: 'bold' }}>
-                                Raw Material
-                              </RawMaterial>
-                              <QuantityDisplay style={{ fontWeight: 'bold' }}>
-                                Quantity
-                              </QuantityDisplay>
+                          )}
+                          <BasicRecipeCardElements delay={0.5}>
+                            <BasicRecipeTotalQtyCost
+                              basicRecipeName={material.name}
+                              basicRecipeCostofRM={material.totalCostOfRMInBR}
+                              basicRecipeRMTotalQty={
+                                material.totalRMQuantityInBR
+                              }
+                            />
+                          </BasicRecipeCardElements>
+                        </>
+                      ) : null}
+                    </AnimatePresence>
+                  </RecipeManagementContainer>
+                </Transition>
+              );
+            })
+          : null}
+      </TransitionGroup>
 
-                              <BaseRate style={{ fontWeight: 'bold' }}>
-                                Rate{' '}
-                              </BaseRate>
-
-                              <CostOfRawMaterial style={{ fontWeight: 'bold' }}>
-                                Cost Rs.
-                              </CostOfRawMaterial>
-                              <h6 style={{ margin: '0', opacity: '0' }}>
-                                Delete
-                              </h6>
-                            </LabelGridContainenr>
-
-                            {material.details.map((item, index1) => {
-                              return (
-                                <>
-                                  <AnimationContainer
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{
-                                      ease: 'easeOut',
-                                      duration: 0.5
-                                    }}
-                                    exit={{ opacity: 0 }}
-                                  >
-                                    <GridContainenr
-                                      className="basicReccipe"
-                                      ref={addToRefs}
-                                      clicked={item.hiddeRM}
-                                      isEven={index1 % 2 === 0}
-                                    >
-                                      <RawMaterial>{item.name}</RawMaterial>
-                                      <div
-                                        style={{
-                                          display: 'flex',
-                                          flexDirecction: 'row',
-                                          alignItems: 'baseline',
-                                          justifyContent: 'center',
-                                          marginLeft: '-10px'
-                                        }}
-                                      >
-                                        <QuantityDisplayProduction
-                                          isEven={index1 % 2 === 0}
-                                          clicked={item.hiddeRM}
-                                        >
-                                          {Math.round(item.quantityInRecipe)}
-                                        </QuantityDisplayProduction>
-
-                                        <QuantityUnit>
-                                          {item.recipeUnit}
-                                        </QuantityUnit>
-                                      </div>
-                                      <div
-                                        style={{
-                                          display: 'flex',
-                                          flexDirecction: 'row',
-                                          alignItems: 'baseline',
-                                          justifyContent: 'center',
-                                          padding: 0
-                                        }}
-                                      >
-                                        <Quantity
-                                          type="number"
-                                          value={item.rate}
-                                          clicked={item.hiddeRM}
-                                          onChange={handleBasicRecipeRMRateChange(
-                                            item._id,
-                                            material.name,
-                                            index
-                                          )}
-                                          isEven={index1 % 2 === 0}
-                                        />
-                                        <BaseRateUnit>
-                                          /{item.baseQuantity}
-                                          {item.baseUnit}
-                                        </BaseRateUnit>
-                                      </div>
-                                      <CostOfRawMaterial>
-                                        {Math.round(
-                                          (item.rate *
-                                            item.quantityPerUnit *
-                                            material.unitPerBaseQuantity) /
-                                            item.baseQuantity,
-                                          0
-                                        )}
-                                      </CostOfRawMaterial>
-                                      <DeleteIcon
-                                        ref={addRMToRefs}
-                                        onClick={() => {
-                                          hideBasicRecipeRMOnDelete(
-                                            index,
-                                            index1
-                                          );
-                                          setTimeout(() => {
-                                            handleBasicRecipeRMDelete(
-                                              index,
-                                              index1,
-                                              item._id,
-                                              material._id
-                                            );
-                                          }, 1200);
-                                        }}
-                                      />
-                                    </GridContainenr>
-                                  </AnimationContainer>
-                                </>
-                              );
-                            })}
-                            {material.showAddIcon && (
-                              <AddIcon
-                                onClick={() =>
-                                  handleBasicRecipeMSearchFilter(material._id)
-                                }
-                              />
-                            )}
-
-                            <BasicRecipeCostQuantityContainer>
-                              <TotalCostLabel>{`${
-                                material.name
-                              }`}</TotalCostLabel>
-
-                              <FinalRawMaterialCost>
-                                Rs. {material.totalCostOfRMInBR}
-                              </FinalRawMaterialCost>
-                              <TotalQuantity>
-                                <FinalRawMaterialCost>
-                                  /{material.totalRMQuantityInBR}
-                                </FinalRawMaterialCost>
-                                <BaseRateUnit style={{ marginLeft: '2px' }}>
-                                  gm
-                                </BaseRateUnit>
-                              </TotalQuantity>
-                            </BasicRecipeCostQuantityContainer>
-                          </>
-                        ) : null}
-                      </RecipeManagementContainer>
-                    );
-                  })
-                : null
-              : null}
-          </AnimatePresence>
-          <PartialWidthDivider />
-          <DetailsContainer>
-            <TotalCostLabel>Total Basic Recipe Cost</TotalCostLabel>
-
-            <FinalRawMaterialCost>
-              Rs. {totalBasicRecipeRAWMCost}
-            </FinalRawMaterialCost>
-            <TotalQuantity>
-              <FinalRawMaterialCost>
-                /{totalBasicRecipeRAWMQuantity}
-              </FinalRawMaterialCost>
-              <BaseRateUnit>gm</BaseRateUnit>
-            </TotalQuantity>
-          </DetailsContainer>
-          <PartialWidthDivider />
-        </RecipeManagementContainer>
-      </AnimationContainer>
-    </AnimatePresence>
+      <PartialWidthDivider />
+      <TotalBasicRecipeRMQty />
+      <PartialWidthDivider />
+    </RecipeManagementContainer>
   );
 };
 

@@ -13,25 +13,24 @@ import {
 const RawMaterialDetailsCard = ({
   index,
   name,
-
   quantityInRecipe,
   materialId,
-
   recipeUnit,
   rate,
-
+  animateBeforeExit,
   baseQuantity,
   baseUnit,
   handleRemoveRawMaterial,
   handleRawMaterialNameChange,
   handleRateChange,
-  handleQuantityChange
+  handleQuantityChange,
+  createRef
 }) => {
   const RecipeManagementContext = useContext(recipeManagementContext);
   const { recipeRawMaterials } = RecipeManagementContext;
 
   return (
-    <GridContainenr isEven={index % 2 === 0}>
+    <GridContainenr isEven={index % 2 === 0} ref={createRef}>
       <RawmateriaName
         value={name}
         type="text"
@@ -67,9 +66,10 @@ const RawMaterialDetailsCard = ({
         <Quantity
           type="number"
           value={rate}
-          onChange={handleRateChange(materialId)}
+          onChange={handleRateChange(materialId, index)}
           isEven={index % 2 === 0}
         />
+
         <BaseRateUnit>
           /{baseQuantity}
           {baseUnit}
@@ -79,7 +79,7 @@ const RawMaterialDetailsCard = ({
         {((rate * quantityInRecipe) / baseQuantity).toFixed(2)}
       </CostOfRawMaterial>
       <DeleteIcon
-        onClick={() => handleRemoveRawMaterial(materialId)}
+        onClick={() => handleRemoveRawMaterial(index)}
         style={{ margin: '0' }}
       />
     </GridContainenr>

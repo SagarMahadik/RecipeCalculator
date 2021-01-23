@@ -46,26 +46,23 @@ export default {
     );
   },
   SlideInleftSolwer(target) {
-    console.log('In a slowewr');
     return gsap.fromTo(
       target,
+      {
+        x: 0,
+        ease: 'power3.easeOut',
+        autoAlpha: 1
+      },
       {
         x: -100,
         ease: 'power3.easeOut',
         autoAlpha: 0,
-        scale: 0.3
-      },
-      {
-        x: 0,
-        ease: 'power3.easeOut',
-        autoAlpha: 1,
         duration: 1.22,
         scale: 1
       }
     );
   },
   bounceElement(target, index) {
-    console.log(`in a bouncelement moving element ${index}`);
     gsap.to(target[index], 0.5, {
       y: -15,
       ease: 'power2.easeOut'
@@ -75,6 +72,19 @@ export default {
       ease: 'bounce.easeOut',
       delay: 0.1
     });
+  },
+  slideElementToRight(target, index) {
+    return gsap.fromTo(
+      target[index],
+      {
+        x: 0
+      },
+      {
+        duration: 1.0,
+        translateX: '100%',
+        ease: 'power3.easeOut'
+      }
+    );
   },
   SildeLeftContainer(target) {
     return gsap.fromTo(

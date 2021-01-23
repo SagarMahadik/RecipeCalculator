@@ -8,4 +8,9 @@ exports.getAllRawMaterials = factory.getAll(RawMaterial);
 
 exports.getCustomerRawMaterials = factory.getAll(RawMaterial);
 
+exports.getCustomerRawMaterialRate = factory.getAllWithSelectedFields(
+  RawMaterial,
+  '_id name rate'
+);
+
 exports.updateRawMaterial = factory.updateOne(RawMaterial);

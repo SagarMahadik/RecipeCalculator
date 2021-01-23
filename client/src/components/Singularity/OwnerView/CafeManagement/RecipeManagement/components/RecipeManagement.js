@@ -8,6 +8,11 @@ import RecipeRawMaterials from 'components/Singularity/OwnerView/CafeManagement/
 import TotalCost from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/TotalCost.js';
 import SaveRecipeOptions from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SaveRecipeOptions.js';
 import YieldUnits from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/YieldUnits.js';
+import PrepareRawMaterialUpate from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitBasicRecipes/PrepareRawMaterialUpate.js';
+import UpdateRawMaterialRate from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitBasicRecipes/UpdateRawMaterialRate.js';
+import POSTBRrequest from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitBasicRecipes/POSTBRrequest.js';
+import PrepareRMBRforUpdate from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitRecipes/PrepareRMBRforUpdate.js';
+import POSTRecipeRequest from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitRecipes/POSTRecipeRequest.js';
 
 import SubmitRecipe from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitRecipe.js';
 import Ball from 'components/Singularity/ApplicationView/Loaders/Ball';
@@ -20,6 +25,7 @@ import { isArrayNonEmpty } from 'Utils/validations.js';
 
 import { AnimatePresence } from 'framer-motion';
 import { AnimationContainer } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
+import Anime from '@mollycule/react-anime';
 
 const RecipeManagement = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);
@@ -54,27 +60,60 @@ const RecipeManagement = () => {
         {isArrayNonEmpty(recipeRawMaterials) ? (
           <AnimationContainer
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={{ opacity: 1, height: 'auto' }}
             transition={{
               ease: 'easeOut',
               duration: 0.8
             }}
-            exit={{ opacity: 0 }}
+            exit={{ height: 0 }}
           >
             <RecipeRawMaterials />
           </AnimationContainer>
         ) : null}
       </AnimatePresence>
-      {isArrayNonEmpty(recipeBasicRecipes) ? <RecipeBasicRecipies /> : null}
-      {isArrayNonEmpty(recipeBasicRecipes) ||
-      isArrayNonEmpty(recipeRawMaterials) ? (
-        <>
-          <TotalCost />
-          <YieldUnits />
-          <RecipeProductPricing />
-          <SubmitRecipe />
-        </>
-      ) : null}
+      <AnimatePresence>
+        {isArrayNonEmpty(recipeBasicRecipes) ? (
+          <AnimationContainer
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            transition={{
+              ease: 'easeOut',
+              duration: 0.8,
+              delay: 1.1
+            }}
+            exit={{ height: 0 }}
+          >
+            <RecipeBasicRecipies />
+          </AnimationContainer>
+        ) : null}
+      </AnimatePresence>
+      <AnimatePresence>
+        {isArrayNonEmpty(recipeBasicRecipes) ||
+        isArrayNonEmpty(recipeRawMaterials) ? (
+          <>
+            <AnimationContainer
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              transition={{
+                ease: 'easeOut',
+                duration: 0.1
+              }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <TotalCost />
+              <YieldUnits />
+              <RecipeProductPricing />
+              <SubmitRecipe />
+            </AnimationContainer>
+          </>
+        ) : null}
+      </AnimatePresence>
+
+      <PrepareRawMaterialUpate />
+      <UpdateRawMaterialRate />
+      <POSTBRrequest />
+      <PrepareRMBRforUpdate />
+      <POSTRecipeRequest />
     </>
   );
 };

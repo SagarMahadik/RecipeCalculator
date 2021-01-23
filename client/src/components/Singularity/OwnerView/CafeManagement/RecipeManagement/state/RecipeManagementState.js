@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect, useContext } from 'react';
+import React, { useReducer, useEffect, useContext } from 'react';
 
 import {
   recipeManagementContext,
@@ -10,10 +10,7 @@ import {
   SET_LOADING,
   UPDATE_FIELD,
   CLEAR_SEARCHRESULTS,
-  COMPLETE_FORM,
   SHOW_LOADER,
-  COMPLETE_RAWMATERIAL,
-  UPDATE_BASICRECIPEUNITS,
   UPDATE_BASICRECIPEQUANTITY,
   UPDATE_BASICRECIPERATE,
   REMOVE_BASICRECIPERM,
@@ -27,13 +24,6 @@ import {
   CALCULATE_SINGLEBASICRECIPEQTYANDCOST,
   CALCULATE_TOTALBASICRECIPERMQTYANDCOST
 } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/types.js';
-
-import { useHttpClient } from 'Hooks/httpsHooks';
-
-import axios from 'axios';
-import produce from 'immer';
-import { BasicRecipeCostQuantityContainer } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement/index';
-import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
 
 const RecipeManagementState = props => {
   const saveOptions = [
@@ -65,8 +55,7 @@ const RecipeManagementState = props => {
     finalUnits: '',
     searchFilterDisplay: [
       { filterDisplay: 'Raw Material', filterValue: 'rawMaterial' },
-      { filterDisplay: 'Basic Recipe', filterValue: 'basicRecipe' },
-      { filterDisplay: 'Product', filterValue: 'product' }
+      { filterDisplay: 'Basic Recipe', filterValue: 'basicRecipe' }
     ],
     saveOptionDisplay: [...saveOptions],
     saveOption: '',
@@ -75,7 +64,24 @@ const RecipeManagementState = props => {
     isRawmUploaded: false,
     showBasicRecipeSearch: false,
     initiateBasicRecipesSubmission: false,
-    hideSearchResults: false
+    hideSearchResults: false,
+    brRawMaterialUpdate: false,
+    brRawMaterialRateUpdateArray: [],
+    initiateBRrawMRateUpdate: false,
+    makeBRrequest: false,
+    recipePrepareRMBRforUpdate: false,
+    recipeRequestDetails: {
+      recipeUniqueRawMaterials: [],
+      recipeFinalRMDetails: [],
+      recipeFinalBRDetails: []
+    },
+    initiateRecipeRawMaterialRateUpdate: false,
+    makeRecipeRequest: false,
+    rateUpdatedRM: [],
+    uploadedDefaultRM: [],
+    defaultRMDataUploadComplete: false,
+    transformedRawMaterials: false,
+    noOfDefaultRMUsed: 0
   };
   const [state, dispatch] = useReducer(recipeManagementReducer, initialState);
 
@@ -109,7 +115,11 @@ const RecipeManagementState = props => {
     isRawmUploaded,
     showBasicRecipeSearch,
     initiateBasicRecipesSubmission,
-    hideSearchResults
+    hideSearchResults,
+    brRawMaterialUpdate,
+    brRawMaterialRateUpdateArray,
+    rateUpdatedRM,
+    uploadedDefaultRM
   } = state;
 
   useEffect(() => {
@@ -126,224 +136,6 @@ const RecipeManagementState = props => {
       type: CALCULATE_TOTALBASICRECIPERMQTYANDCOST
     });
   }, [state.recipeBasicRecipes]);
-
-  if (!('multidelete' in Object.prototype)) {
-    Object.defineProperty(Object.prototype, 'multidelete', {
-      value: function() {
-        for (var i = 0; i < arguments.length; i++) {
-          delete this[arguments[i]];
-        }
-      }
-    });
-  }
-
-  const { userID } = useApplicationState();
-
-  const addDataToDB = async (
-    recipeName,
-    recipeRawMaterials,
-    brandName,
-    recipeUrl,
-    recipeYield,
-    finalUnits,
-    totalRawMQuantityInRecipe,
-    totalRawMaterialCostInRecipe
-  ) => {
-    let updatedRAWM = produce(state, draftState => {
-      draftState.recipeRawMaterials.forEach(material => {
-        material.rawmaterialdetails = material._id;
-        material.quantityPerUnit = material.quantityInRecipe / state.finalUnits;
-      });
-      draftState.recipeRawMaterials.forEach(material =>
-        material.multidelete(
-          'brandName',
-          'type',
-          'name',
-          'baseQuantity',
-          'baseUnit',
-          'recipeUnit',
-          '__v',
-          'costOfRawMaterial',
-          'rate',
-          '_id'
-        )
-      );
-      return draftState;
-    });
-
-    let name = recipeName;
-    let details = updatedRAWM.recipeRawMaterials;
-    let baseQuantity = totalRawMQuantityInRecipe;
-    let baseUnit = 'gm';
-    let rate = totalRawMaterialCostInRecipe;
-
-    let yieldBasicRecipe = recipeYield;
-
-    let unitPerBaseQuantity = finalUnits;
-
-    let costPerUnit = rate / finalUnits;
-
-    let weightPerUnit = baseQuantity / finalUnits;
-
-    const body = JSON.stringify({
-      userID,
-      name,
-      details,
-      baseQuantity,
-      baseUnit,
-      rate,
-      brandName,
-      recipeUrl,
-      yieldBasicRecipe,
-      unitPerBaseQuantity,
-      costPerUnit,
-      weightPerUnit
-    });
-    console.log(body);
-    const config = {
-      headers: {
-        'Content-Type': 'application/JSON'
-      }
-    };
-
-    const res = await axios.post(`/api/v1/basicRecipe/${userID}`, body, config);
-    setLoading();
-
-    if (res.data.status === 'success') {
-      dispatch({
-        type: COMPLETE_FORM
-      });
-    }
-  };
-
-  const addRecipeToDB = async (
-    recipeName,
-    recipeRawMaterials,
-    recipeBasicRecipes,
-    brandName,
-    recipeUrl,
-    finalUnits
-  ) => {
-    let name = recipeName;
-    let rawMaterialDetails = [...recipeRawMaterials];
-    let basicRecipeDetails = [...recipeBasicRecipes];
-
-    let baseQuantity =
-      state.totalRawMQuantityInRecipe + state.totalBasicRecipeRAWMQuantity;
-    let baseUnit = 'gm';
-    let rate =
-      Number(state.totalRawMaterialCostInRecipe) +
-      Number(state.totalBasicRecipeRAWMCost);
-    let unitPerBaseQuantity = state.finalUnits;
-
-    const body = JSON.stringify({
-      name,
-      rawMaterialDetails,
-      basicRecipeDetails,
-      baseQuantity,
-      baseUnit,
-      rate,
-      brandName,
-      recipeUrl,
-      unitPerBaseQuantity
-    });
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/JSON'
-      }
-    };
-
-    const res = await axios.post('/api/v1/recipe', body, config);
-    setLoading();
-
-    if (res.data.status === 'success') {
-      dispatch({
-        type: COMPLETE_FORM
-      });
-    }
-  };
-
-  const updateRawMaterialsDB = async (id, rate, index) => {
-    const body = JSON.stringify({
-      rate
-    });
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/JSON'
-      }
-    };
-
-    const res = await axios.patch(
-      `/api/v1/rawMaterial/${userID}/${id}`,
-      body,
-      config
-    );
-
-    setLoading();
-
-    if (state.recipeRawMaterials.length - 1 === index) {
-      dispatch({
-        type: COMPLETE_RAWMATERIAL
-      });
-    }
-  };
-
-  const updateBasicRecipeDB = async (id, details, index) => {
-    const body = JSON.stringify({
-      details
-    });
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/JSON'
-      }
-    };
-
-    const res = await axios.patch(`/api/v1/basicRecipe/${id}`, body, config);
-  };
-
-  const initiateSubmit = async (
-    recipeRawMaterials,
-    finalRMDetails,
-    finalBasicRecipeDetails
-  ) => {
-    const arrayofPromises = recipeRawMaterials.map((item, index) => {
-      updateRawMaterialsDB(item._id, item.rate, index);
-    });
-
-    Promise.all(arrayofPromises).then(() => {
-      // addDataToDB
-      if (state.saveOption === 'basicRecipe') {
-        addDataToDB(
-          state.recipeName,
-          state.recipeRawMaterials,
-          state.brandName,
-          state.recipeUrl,
-          state.recipeYield,
-          state.finalUnits,
-          state.totalRawMQuantityInRecipe,
-          state.totalRawMaterialCostInRecipe
-        );
-      }
-      if (state.saveOption === 'product') {
-        addRecipeToDB(
-          state.recipeName,
-          finalRMDetails,
-          finalBasicRecipeDetails,
-          state.brandName,
-          state.recipeUrl,
-          state.finalUnits
-        );
-      }
-    });
-  };
-
-  const { sendRequest, error } = useHttpClient();
-
-  const setLoading = () => dispatch({ type: SET_LOADING });
-  const setShowLoader = () => dispatch({ type: SHOW_LOADER });
 
   useEffect(() => {
     if (state.searchString === '') {
@@ -390,9 +182,18 @@ const RecipeManagementState = props => {
   const handleBasicRecipeUnits = index => e => {
     let newUnits = e.target.value;
     dispatch({
-      type: UPDATE_BASICRECIPEUNITS,
+      type: 'UPDATE_BASICRECIPEUNITS',
       index1: index,
       value: newUnits
+    });
+  };
+
+  const handleBasicRecipeBaseQty = index => e => {
+    let newBaseQuantity = e.target.value;
+    dispatch({
+      type: 'UPDATE_BASICRECIPE_BASEQUANTITY',
+      index1: index,
+      value: newBaseQuantity
     });
   };
 
@@ -445,10 +246,10 @@ const RecipeManagementState = props => {
     }
   };
 
-  const handleRemoveBasicRecipe = id => {
+  const handleRemoveBasicRecipe = index => {
     dispatch({
       type: REMOVE_BASICRECIPE,
-      id1: id
+      payload: index
     });
   };
 
@@ -463,160 +264,24 @@ const RecipeManagementState = props => {
 
   const onSubmit = e => {
     e.preventDefault();
-    setShowLoader();
+
     if (state.saveOption === 'basicRecipe') {
       dispatch({
-        type: 'INITIATE_BASICRECIPESSUBMISSION'
+        type: 'BR_PREPARE_RAWMATERIALRATEUPDATE'
       });
-      let updatedRAWM = produce(state, draftState => {
-        if (!('multidelete' in Object.prototype)) {
-          Object.defineProperty(Object.prototype, 'multidelete', {
-            value: function() {
-              for (var i = 0; i < arguments.length; i++) {
-                delete this[arguments[i]];
-              }
-            }
-          });
-        }
-
-        draftState.recipeRawMaterials.forEach(
-          material => (material.rawmaterialdetails = material._id)
-        );
-        draftState.recipeRawMaterials.forEach(material =>
-          material.multidelete(
-            'brandName',
-            'type',
-            'name',
-            'baseQuantity',
-            'baseUnit',
-            'recipeUnit',
-            '__v'
-          )
-        );
-        return draftState;
-      });
-
-      initiateSubmit(updatedRAWM.recipeRawMaterials);
     }
 
     if (state.saveOption === 'product') {
-      let updatedState = produce(state, draft => {
-        const items2ById = {};
-        for (const item of draft.recipeBasicRecipes) {
-          items2ById[item._id] = item;
-        }
-        const items2DetailsById = {};
-
-        for (const detail of draft.recipeBasicRecipes.flatMap(
-          ({ details }) => details
-        )) {
-          items2DetailsById[detail._id] = detail;
-        }
-        for (const item of draft.basicRecipe) {
-          if (!items2ById[item._id]) continue;
-          for (const detail of item.details) {
-            if (items2DetailsById[detail._id]) {
-              detail.rate = items2DetailsById[detail._id].rate;
-            }
-          }
-        }
-
-        return draft;
+      dispatch({
+        type: 'RECIPE_PREPARE_RMBR_FORUPDATE'
       });
-
-      const operation = (list1, list2, isUnion = false) =>
-        list1.filter(
-          (set => a => isUnion === set.has(a._id))(
-            new Set(list2.map(b => b._id))
-          )
-        );
-
-      const inBoth = (list1, list2) => operation(list1, list2, true),
-        inFirstOnly = operation,
-        inSecondOnly = (list1, list2) => inFirstOnly(list2, list1);
-
-      let finalRecipeBasicRecipes = [
-        ...inBoth(updatedState.basicRecipe, state.recipeBasicRecipes)
-      ];
-
-      let basicRecipeRM = produce(state, draft => {
-        let newBasiccRRecipeRMArray = [];
-        draft.recipeBasicRecipes.forEach(item =>
-          newBasiccRRecipeRMArray.push(item.details)
-        );
-        return newBasiccRRecipeRMArray;
-      });
-
-      let finalBasicRecipeRM = basicRecipeRM.flat();
-
-      let finalRecipeRawMaterial = [
-        ...state.recipeRawMaterials,
-        ...finalBasicRecipeRM
-      ];
-
-      const uniqueRawMaterial = finalRecipeRawMaterial.reduce(
-        (acc, current) => {
-          const x = acc.find(item => item._id === current._id);
-          if (!x) {
-            return acc.concat([current]);
-          } else {
-            return acc;
-          }
-        },
-        []
-      );
-
-      let newState = produce(state, draftState => {
-        draftState.recipeRawMaterials.forEach(material => {
-          material.details = material._id;
-          material.multidelete(
-            'brandName',
-            'type',
-            'name',
-            'baseQuantity',
-            'baseUnit',
-            'recipeUnit',
-            '__v'
-          );
-        });
-        draftState.recipeBasicRecipes.forEach(basicRecipe => {
-          basicRecipe.details = basicRecipe._id;
-          basicRecipe.unitInRecipe = basicRecipe.unitPerBaseQuantity;
-
-          basicRecipe.multidelete(
-            'brandName',
-            'type',
-            'name',
-            'baseQuantity',
-            'baseUnit',
-            'recipeUnit',
-            '__v',
-            'unitPerBaseQuantity',
-            'costPerUnit',
-            'weightPerUnit',
-            'showSearchBox',
-            'showAddIcon',
-            'totalcostofRMInBR',
-            'totalRMQuantityInBR'
-          );
-        });
-      });
-
-      let finalRMDetails = newState.recipeRawMaterials;
-
-      let finalBasicRecipeDetails = newState.recipeBasicRecipes;
-
-      initiateSubmit(
-        uniqueRawMaterial,
-        finalRMDetails,
-        finalBasicRecipeDetails
-      );
     }
   };
 
   return (
     <recipeManagementContext.Provider
       value={{
+        state,
         loading,
         rawMaterials,
         basicRecipe,
@@ -647,6 +312,10 @@ const RecipeManagementState = props => {
         showBasicRecipeSearch,
         initiateBasicRecipesSubmission,
         hideSearchResults,
+        brRawMaterialUpdate,
+        brRawMaterialRateUpdateArray,
+        rateUpdatedRM,
+        uploadedDefaultRM,
         handleChangeFor,
         onSubmit,
         handleBasicRecipeUnits,
@@ -657,7 +326,8 @@ const RecipeManagementState = props => {
         handleBasicRecipeMSearchFilter,
         handleSaveOption,
         handleBasicRecipeDisplay,
-        hideBasicRecipeRMOnDelete
+        hideBasicRecipeRMOnDelete,
+        handleBasicRecipeBaseQty
       }}
     >
       <recipeManagementDispatchContext.Provider value={dispatch}>

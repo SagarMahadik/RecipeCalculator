@@ -29,6 +29,14 @@ router
   );
 
 router
+  .route('/:userID/rate')
+  .get(
+    authController.protect,
+    authController.restrictToUser,
+    rawMaterialController.getCustomerRawMaterialRate
+  );
+
+router
   .route('/:userID/:id')
   .patch(
     authController.protect,

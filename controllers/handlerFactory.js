@@ -91,19 +91,48 @@ exports.getSearchOutcomes = (Model, fieldsString) =>
 
 // This Route return the only selected fields
 
-exports.getAll = (Model, popOptions, popOption1) =>
+exports.getAll = (Model, popOptions, popOption1, fieldsString) =>
   catchAsync(async (req, res, next) => {
     //console.log(Model);
     let filter = {};
     if (req.params.userID) filter = { userID: req.params.userID };
 
     let selectFields = {};
+    console.log(fieldsString);
+
     let features = Model.find(filter);
+    selectFields = fieldsString;
 
     if (popOptions)
       features = Model.find(filter)
         .populate(popOption1)
-        .populate(popOptions);
+        .populate(popOptions)
+        .select(selectFields);
+    // const doc = await features.query.explain();
+
+    const doc = await features;
+
+    // SEND RESPONSE
+    res.status(200).json({
+      status: 'success',
+      results: doc.length,
+      data: {
+        data: doc
+      }
+    });
+  });
+
+exports.getAllWithSelectedFields = (Model, fieldsString) =>
+  catchAsync(async (req, res, next) => {
+    //console.log(Model);
+    let filter = {};
+    if (req.params.userID) filter = { userID: req.params.userID };
+
+    let selectFields = {};
+    console.log(fieldsString);
+    selectFields = fieldsString;
+    let features = Model.find(filter).select(selectFields);
+
     // const doc = await features.query.explain();
 
     const doc = await features;
@@ -123,6 +152,7 @@ exports.getRecipe = (Model, popOption1, popOption2, popOption3) =>
     //console.log(Model);
     let filter = {};
     let selectFields = {};
+    if (req.params.userID) filter = { userID: req.params.userID };
     let features = Model.find(filter);
 
     if (popOption1)

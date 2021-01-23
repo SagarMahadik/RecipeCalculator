@@ -5,6 +5,9 @@ const recipeSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Recipe Must have a name']
   },
+  userID: {
+    type: String
+  },
   rate: {
     type: Number
   },

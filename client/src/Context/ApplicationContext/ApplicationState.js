@@ -43,7 +43,9 @@ function ApplicationState(props) {
     categoryData: [],
     supplierDetails: [],
     rawMaterialDetails: [],
+    rawMaterialRates: [],
     basicRecipes: [],
+    recipes: [],
     dMenuProductData: [],
     selectedCategory: '',
     loading: false,
@@ -140,8 +142,10 @@ function ApplicationState(props) {
     supplierDetailsLoaded,
     rawMaterialDetails,
     rawMaterialDetailsLoaded,
+    rawMaterialRates,
     basicRecipes,
     basicRecipesLoaded,
+    recipes,
     playWelcomTone,
     welcomeTonePlayedCount
   } = state;
@@ -158,6 +162,12 @@ function ApplicationState(props) {
         `/api/v1/basicRecipe/${userID}`,
         'SET_BASICRECIPES',
         'basic recipe'
+      );
+      getData(`/api/v1/recipe/${userID}`, 'SET_RECIPES', 'recipe');
+      getData(
+        `/api/v1/rawMaterial/${userID}/rate`,
+        'SET_RAWMATERIALRATE',
+        'raw Material rates'
       );
     }
   }, [fetchAppData]);
@@ -297,6 +307,8 @@ function ApplicationState(props) {
         basicRecipesLoaded,
         playWelcomTone,
         welcomeTonePlayedCount,
+        recipes,
+        rawMaterialRates,
         handleChangeFor,
         registerUser,
         loginUser,

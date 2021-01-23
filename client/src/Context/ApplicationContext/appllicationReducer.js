@@ -27,11 +27,15 @@ import {
   LOADING_USER_FAILED,
   SET_SUPPLIERDETAILS,
   SET_RAWMATERIALS,
+  SET_RAWMATERIALRATE,
   SET_BASICRECIPES,
+  SET_RECIPES,
   PLAY_WELCOMETONE,
   INCREMENT_WELCOMETONECOUNT,
   SET_THEME
 } from 'Context/ApplicationContext/types.js';
+
+import { defaultRawMaterialOPtion } from 'Context/ApplicationContext/SeedData/defaultRawMaterialOptions.js';
 
 import { produce } from 'immer';
 
@@ -243,11 +247,22 @@ export default (state, action) => {
       };
 
     case SET_RAWMATERIALS:
-      return {
-        ...state,
-        rawMaterialDetails: [...action.payload],
-        rawMaterialDetailsLoaded: true
-      };
+      return produce(state, draftState => {
+        draftState.rawMaterialDetails = [
+          ...action.payload,
+          ...defaultRawMaterialOPtion
+        ];
+        draftState.rawMaterialDetails.forEach(material => {
+          material.animateBeforeExit = false;
+          material.count = 0;
+        });
+        draftState.rawMaterialDetailsLoaded = true;
+      });
+
+    case SET_RAWMATERIALRATE:
+      return produce(state, draftState => {
+        draftState.rawMaterialRates = action.payload;
+      });
 
     case SET_BASICRECIPES:
       return produce(state, draftState => {
@@ -287,6 +302,94 @@ export default (state, action) => {
           item.showSearchBox = false;
           item.showItem = false;
           item.showAddIcon = false;
+          item.quantityPerUnit = item.baseQuantity / item.unitPerBaseQuantity;
+          item.unitPerBaseQuantity = item.baseQuantity / item.quantityPerUnit;
+        });
+      });
+
+    case SET_RECIPES:
+      return produce(state, draftState => {
+        draftState.recipes = action.payload;
+        draftState.recipes.forEach(recipe => {
+          recipe.showDetails = false;
+        });
+        draftState.recipes.forEach(recipe => {
+          recipe.basicRecipeDetails.forEach(basicRecipe => {
+            basicRecipe.showItem = false;
+          });
+        });
+        draftState.recipes.forEach(recipe => {
+          recipe.rawMaterialDetails.forEach(rawMaterial => {
+            const {
+              _id,
+              brandName,
+              name,
+              type,
+              baseQuantity,
+              baseUnit,
+              rate,
+              recipeUnit,
+              quantityPerUnit
+            } = rawMaterial['details'];
+            rawMaterial._id = _id;
+            rawMaterial.brandName = brandName;
+            rawMaterial.name = name;
+            rawMaterial.type = type;
+            rawMaterial.baseQuantity = baseQuantity;
+            rawMaterial.baseUnit = baseUnit;
+            rawMaterial.rate = rate;
+            rawMaterial.recipeUnit = recipeUnit;
+            rawMaterial.quantityInRecipePerUnit =
+              rawMaterial.quantityInRecipe / recipe.unitPerBaseQuantity;
+            rawMaterial.quantityInRecipe =
+              rawMaterial.quantityInRecipePerUnit * recipe.unitPerBaseQuantity;
+            rawMaterial.costOfRawMaterial =
+              (rawMaterial.quantityInRecipe * rawMaterial.rate) /
+              rawMaterial.baseQuantity;
+          });
+          draftState.recipes.forEach(recipe => {
+            recipe.basicRecipeDetails.forEach(basicRecipe => {
+              basicRecipe.perProduct = Math.round(
+                Number(basicRecipe.unitInRecipe) /
+                  Number(recipe.unitPerBaseQuantity)
+              );
+              basicRecipe.unitInRecipe = Math.round(
+                Number(basicRecipe.perProduct) *
+                  Number(recipe.unitPerBaseQuantity)
+              );
+              basicRecipe.details.forEach(detail => {
+                detail.details.forEach(rawMaterial => {
+                  const {
+                    _id,
+                    brandName,
+                    name,
+                    type,
+                    baseQuantity,
+                    baseUnit,
+                    rate,
+                    recipeUnit
+                  } = rawMaterial['rawmaterialdetails'];
+                  rawMaterial._id = _id;
+                  rawMaterial.brandName = brandName;
+                  rawMaterial.name = name;
+                  rawMaterial.type = type;
+                  rawMaterial.baseQuantity = baseQuantity;
+                  rawMaterial.baseUnit = baseUnit;
+                  rawMaterial.rate = rate;
+                  rawMaterial.recipeUnit = recipeUnit;
+                  rawMaterial.quantityInRecipe =
+                    rawMaterial.quantityPerUnit * basicRecipe.unitInRecipe;
+                  rawMaterial.quantityPerProduct =
+                    rawMaterial.quantityInRecipe / recipe.unitPerBaseQuantity;
+                  rawMaterial.quantityInRecipe =
+                    rawMaterial.quantityPerProduct * recipe.unitPerBaseQuantity;
+                  rawMaterial.costOfRawMaterial =
+                    (rawMaterial.quantityInRecipe * rawMaterial.rate) /
+                    rawMaterial.baseQuantity;
+                });
+              });
+            });
+          });
         });
       });
 

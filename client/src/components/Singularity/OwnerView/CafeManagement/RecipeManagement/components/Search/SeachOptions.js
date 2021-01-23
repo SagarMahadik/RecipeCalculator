@@ -1,43 +1,30 @@
 import React, { useContext } from 'react';
+
+import StyledRadioButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledRadioButton.js';
+import Loaders from 'components/Singularity/ApplicationView/Loaders';
+import FormSectionHading from 'components/Singularity/ApplicationView/FormHeadings/FormSectionHading.js';
+
 import {
   RecipeManagementContainer,
   SearchFilterContainer
 } from 'styles/Singularity/Style1.0/ContainerStyles';
-import { AnimationContainer } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
-import {
-  RadioButtonText,
-  TextContainer,
-  FormHeadingText,
-  FormSectionHeadingTextContainer
-} from 'styles/Singularity/Style1.0/TextStyles';
 
-import FormSectionHading from 'components/Singularity/ApplicationView/FormHeadings/FormSectionHading.js';
+import { AnimationContainer } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
 
 import { recipeManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
 import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
 import { useRecipeDispatch } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/RecipeManagementState.js';
-
-import { TextRadioButton } from 'styles/Singularity/Style1.0/FormInputStyles';
-
-import StyledRadioButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledRadioButton.js';
-import Loaders from 'components/Singularity/ApplicationView/Loaders';
-
 import { isArrayEmpty } from 'Utils/validations.js';
+
 const SearchOptions = () => {
   const RecipeManagementContext = useContext(recipeManagementContext);
   let {
     searchFilterDisplay,
     searchFilter,
-    rawMaterials,
-
     saveOption
   } = RecipeManagementContext;
 
-  const {
-    rawMaterialDetails,
-    rawMaterialDetailsLoaded,
-    basicRecipes
-  } = useApplicationState();
+  const { rawMaterialDetails, basicRecipes } = useApplicationState();
 
   const dispatch = useRecipeDispatch();
 
@@ -100,6 +87,7 @@ const SearchOptions = () => {
           {searchFilterDisplay.map((item, index) => {
             return (
               <StyledRadioButton
+                key={item.filterValue}
                 value={item.filterValue}
                 selected={searchFilter === `${item.filterValue}`}
                 onClick={handleSearchFilter}
