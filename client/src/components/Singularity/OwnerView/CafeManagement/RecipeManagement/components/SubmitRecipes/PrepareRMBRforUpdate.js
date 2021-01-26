@@ -8,7 +8,12 @@ import {
 import produce from 'immer';
 
 const PrepareRMBRforUpdate = () => {
-  const { state } = useRecipeState();
+  const {
+    state,
+    state: {
+      trialRecipeFlow: { trialRecipeFlowComplete }
+    }
+  } = useRecipeState();
   const dispatch = useRecipeDispatch();
 
   useEffect(() => {
@@ -16,6 +21,14 @@ const PrepareRMBRforUpdate = () => {
       prepareRMBRforUpdate(state);
     }
   }, [state.recipePrepareRMBRforUpdate]);
+
+  useEffect(() => {
+    console.log('in a prepare Recipe post trial');
+    console.log(trialRecipeFlowComplete);
+    if (trialRecipeFlowComplete) {
+      prepareRMBRforUpdate(state);
+    }
+  }, [trialRecipeFlowComplete]);
 
   const prepareRMBRforUpdate = state => {
     let basicRecipeRM = produce(state, draft => {

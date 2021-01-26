@@ -7,7 +7,8 @@ import {
   CostOfRawMaterial,
   BaseRateUnit,
   GridContainenr,
-  QuantityDisplayProduction
+  QuantityDisplayProduction,
+  RawmateriaName
 } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
 
 import DeleteIcon from 'components/Singularity/ApplicationView/Icons/DeleteIcon.js';
@@ -34,7 +35,8 @@ const BasicRecipesRawMaterialDetails = ({
   const {
     handleBasicRecipeRMRateChange,
     handleBasicRecipeRMDelete,
-    hideBasicRecipeRMOnDelete
+    handleBasicRecipeRMQuantityChange,
+    handleBasicRecipeRawMaterialNameChange
   } = RecipeManagementContext;
   return (
     <GridContainenr
@@ -42,7 +44,15 @@ const BasicRecipesRawMaterialDetails = ({
       clicked={hideRM}
       isEven={rawMaterialIndex % 2 === 0}
     >
-      <RawMaterial>{rawMaterialName}</RawMaterial>
+      <RawmateriaName
+        value={rawMaterialName}
+        type="text"
+        onChange={handleBasicRecipeRawMaterialNameChange(
+          rawMaterialIndex,
+          basicRecipeIndex
+        )}
+        isEven={rawMaterialIndex % 2 === 0}
+      />
       <div
         style={{
           display: 'flex',
@@ -52,12 +62,16 @@ const BasicRecipesRawMaterialDetails = ({
           marginLeft: '-10px'
         }}
       >
-        <QuantityDisplayProduction
-          isEven={rawMaterialIndex % 2 === 0}
+        <Quantity
+          type="number"
+          value={rawMaterialQtyInRecipe}
           clicked={hideRM}
-        >
-          {Math.round(rawMaterialQtyInRecipe)}
-        </QuantityDisplayProduction>
+          onChange={handleBasicRecipeRMQuantityChange(
+            rawMaterialIndex,
+            basicRecipeIndex
+          )}
+          isEven={rawMaterialIndex % 2 === 0}
+        />
 
         <QuantityUnit>{rawMaterialRecipeUnit}</QuantityUnit>
       </div>
@@ -97,15 +111,12 @@ const BasicRecipesRawMaterialDetails = ({
       </CostOfRawMaterial>
       <DeleteIcon
         onClick={() => {
-          hideBasicRecipeRMOnDelete(basicRecipeIndex, rawMaterialIndex);
-          setTimeout(() => {
-            handleBasicRecipeRMDelete(
-              basicRecipeIndex,
-              rawMaterialIndex,
-              rawMaterialID,
-              basicRecipeID
-            );
-          }, 1200);
+          handleBasicRecipeRMDelete(
+            basicRecipeIndex,
+            rawMaterialIndex,
+            rawMaterialID,
+            basicRecipeID
+          );
         }}
       />
     </GridContainenr>

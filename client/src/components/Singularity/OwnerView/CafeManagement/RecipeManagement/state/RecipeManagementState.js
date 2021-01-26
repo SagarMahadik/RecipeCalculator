@@ -6,6 +6,8 @@ import {
 } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementContext.js';
 import recipeManagementReducer from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/recipeManagementReducer.js';
 
+import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
+
 import {
   SET_LOADING,
   UPDATE_FIELD,
@@ -28,7 +30,8 @@ import {
 const RecipeManagementState = props => {
   const saveOptions = [
     { option: 'Basic Recipe', optionValue: 'basicRecipe' },
-    { option: 'Product', optionValue: 'product' }
+    { option: 'Product', optionValue: 'product' },
+    { option: 'Trial', optionValue: 'trial' }
   ];
 
   const initialState = {
@@ -81,7 +84,31 @@ const RecipeManagementState = props => {
     uploadedDefaultRM: [],
     defaultRMDataUploadComplete: false,
     transformedRawMaterials: false,
-    noOfDefaultRMUsed: 0
+    noOfDefaultRMUsed: 0,
+    trialRecipeFlow: {
+      initiateTrialRecipeFlow: false,
+      trialRecipeDefaultRM: [],
+      updateDefaultRM: false,
+      uploadedDefaultRM: [],
+      defaultRMuploadComplete: false,
+      basicRecipeWODefault: [],
+      transformBasicRecipes: false,
+      basicRecipeCheckComplete: false,
+      transformBasicRecipesComplete: false,
+      basicRecipeWithChange: [],
+      basicRecipeWithDeletedRM: [],
+      basicRecipeWithDefaultRM: [],
+      basicRecipeWithNoDefaultRM: [],
+      basicRecipeWithChangeInNameOrQtY: [],
+      uploadedChangedBasicRecipes: [],
+      copyOfStateBeforeSubmission: {
+        totalRawMaterialCostInRecipe: 0,
+        totalBasicRecipeRAWMCost: 0,
+        totalRawMQuantityInRecipe: 0,
+        totalBasicRecipeRAWMQuantity: 0
+      },
+      trialRecipeFlowComplete: false
+    }
   };
   const [state, dispatch] = useReducer(recipeManagementReducer, initialState);
 
@@ -122,6 +149,8 @@ const RecipeManagementState = props => {
     uploadedDefaultRM
   } = state;
 
+  const { rawMaterialDetails } = useApplicationState();
+
   useEffect(() => {
     dispatch({
       type: CALCULATE_RECIPERMQTYANDCOST
@@ -160,7 +189,7 @@ const RecipeManagementState = props => {
   const handleBasicRecipeMSearchFilter = id => {
     let filter = 'basicRecipeRawMaterial';
     let currentArray = [];
-    currentArray = [...state.rawMaterials];
+    currentArray = [...rawMaterialDetails];
     dispatch({
       type: SET_BASICRECIPERMSEARCHFILTER,
       payload: filter,
@@ -197,13 +226,26 @@ const RecipeManagementState = props => {
     });
   };
 
-  const handleBasicRecipeRMQuantityChange = (id, name, index) => e => {
+  const handleBasicRecipeRMQuantityChange = (rmIndex, index) => e => {
     let quantity = e.target.value;
     dispatch({
       type: UPDATE_BASICRECIPEQUANTITY,
-      id1: id,
+      rmIndex: rmIndex,
       index1: index,
       value: quantity
+    });
+    dispatch({
+      type: 'UPDATE_BASICRECIPE_BASEQTY',
+      index1: index
+    });
+  };
+
+  const handleBasicRecipeRawMaterialNameChange = (rmIndex, brIndex) => e => {
+    let newRawMaterialName = e.target.value;
+
+    dispatch({
+      type: 'UPDATE_BASICRECIPERM_NAME',
+      payload: { rmIndex, brIndex, newRawMaterialName }
     });
   };
 
@@ -243,6 +285,10 @@ const RecipeManagementState = props => {
         index1: index,
         basicRMIndex1: basicRMIndex
       });
+      dispatch({
+        type: 'UPDATE_BASICRECIPE_BASEQTY',
+        index1: index
+      });
     }
   };
 
@@ -274,6 +320,12 @@ const RecipeManagementState = props => {
     if (state.saveOption === 'product') {
       dispatch({
         type: 'RECIPE_PREPARE_RMBR_FORUPDATE'
+      });
+    }
+
+    if (state.saveOption === 'trial') {
+      dispatch({
+        type: 'INITIATE_TRIALFLOW'
       });
     }
   };
@@ -327,7 +379,8 @@ const RecipeManagementState = props => {
         handleSaveOption,
         handleBasicRecipeDisplay,
         hideBasicRecipeRMOnDelete,
-        handleBasicRecipeBaseQty
+        handleBasicRecipeBaseQty,
+        handleBasicRecipeRawMaterialNameChange
       }}
     >
       <recipeManagementDispatchContext.Provider value={dispatch}>

@@ -19,6 +19,44 @@ const POSTRecipeRequest = () => {
     }
   }, [state.makeRecipeRequest]);
 
+  /**
+   * 
+  const setTotalCost = state => {
+    if (state.saveoption === 'trial') {
+      return (
+        state.trialRecipeFlow.copyOfStateBeforeSubmission
+          .totalRawMaterialCostInRecipe +
+        state.trialRecipeFlow.copyOfStateBeforeSubmission
+          .totalBasicRecipeRAWMCost
+      );
+    }
+    if (state.saveoption === 'product') {
+      return (
+        Number(state.totalRawMaterialCostInRecipe) +
+        Number(state.totalBasicRecipeRAWMCost)
+      );
+    }
+  };
+
+  const setTotalRawMaterialQty = state => {
+    if (state.saveoption === 'trial') {
+      return (
+        state.trialRecipeFlow.copyOfStateBeforeSubmission
+          .totalRawMQuantityInRecipe +
+        state.trialRecipeFlow.copyOfStateBeforeSubmission
+          .totalBasicRecipeRAWMQuantity
+      );
+    }
+    if (state.saveoption === 'product') {
+      return (
+        Number(state.totalBasicRecipeRAWMQuantity) +
+        Number(state.totalRawMQuantityInRecipe)
+      );
+    }
+  };
+   * 
+   */
+
   const addRecipeToDB = async state => {
     const {
       recipeName,
@@ -26,7 +64,8 @@ const POSTRecipeRequest = () => {
       recipeBasicRecipes,
       brandName,
       recipeUrl,
-      finalUnits
+      finalUnits,
+      saveoption
     } = state;
     let name = recipeName;
     let rawMaterialDetails = [
@@ -35,14 +74,29 @@ const POSTRecipeRequest = () => {
     let basicRecipeDetails = [
       ...state.recipeRequestDetails.recipeFinalBRDetails
     ];
+    let baseUnit = 'gm';
 
     let baseQuantity =
-      state.totalRawMQuantityInRecipe + state.totalBasicRecipeRAWMQuantity;
-    let baseUnit = 'gm';
+      Number(
+        state.trialRecipeFlow.copyOfStateBeforeSubmission
+          .totalRawMQuantityInRecipe
+      ) +
+      Number(
+        state.trialRecipeFlow.copyOfStateBeforeSubmission
+          .totalBasicRecipeRAWMQuantity
+      );
+
     let rate =
-      Number(state.totalRawMaterialCostInRecipe) +
-      Number(state.totalBasicRecipeRAWMCost);
-    let unitPerBaseQuantity = state.finalUnits;
+      Number(
+        state.trialRecipeFlow.copyOfStateBeforeSubmission
+          .totalRawMaterialCostInRecipe
+      ) +
+      Number(
+        state.trialRecipeFlow.copyOfStateBeforeSubmission
+          .totalBasicRecipeRAWMCost
+      );
+
+    let unitPerBaseQuantity = Number(state.finalUnits);
 
     const body = JSON.stringify({
       userID,

@@ -45,7 +45,20 @@ import {
   CREATE_DEFAULTRMDATA,
   UPLOAD_DEFAULTRMDATA_COMPLETE,
   TRANSFORM_RAWMATERIALS,
-  SET_NUMBER_OF_DEFULAT_RM_USED
+  SET_NUMBER_OF_DEFULAT_RM_USED,
+  INITIATE_TRIALFLOW,
+  UPDATE_BASICRECIPE_BASEQTY,
+  RECIPE_UPDATE_DEFAULTRM,
+  RECIPE_DEFAULTRM_UPLAODED,
+  RECIPE_DEFAULTRM_UPLAOD_COMPLETE,
+  TRIAL_TRANSFORM_BASIC_RECIPES,
+  TRIAL_RECIPE_SET_BR_CHANGE,
+  TRIAL_RECIPE_SET_BR_NOCHANGE,
+  TRIAL_RECIPE_SETRM_QTYNAMECHANGE,
+  UPDATE_BASICRECIPERM_NAME,
+  TRIAL_BASIC_RECIPE_CHANGE_CHECK_COMPLETE,
+  TRIAL_RECIPE_UPDATE_CHANGEDBR,
+  TRANSFORM_RECIPE_BASICRECIPES
 } from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/state/types.js';
 
 import { produce } from 'immer';
@@ -186,6 +199,14 @@ export default (state, action) => {
       });
     }
 
+    case UPDATE_BASICRECIPERM_NAME:
+      return produce(state, draftState => {
+        const { rmIndex, brIndex, newRawMaterialName } = action.payload;
+        let selectedBasicRecipe = draftState.recipeBasicRecipes[brIndex];
+        let selectedRawMaterial = selectedBasicRecipe.details[rmIndex];
+        selectedRawMaterial.name = newRawMaterialName;
+      });
+
     case UPDATE_BASICRECIPE_BASEQUANTITY:
       return produce(state, draftState => {
         const selectedBasicRecipe =
@@ -198,6 +219,25 @@ export default (state, action) => {
           detail.quantityInRecipe =
             detail.quantityPerUnit * selectedBasicRecipe.unitPerBaseQuantity;
         });
+      });
+
+    case UPDATE_BASICRECIPE_BASEQTY:
+      return produce(state, draftState => {
+        draftState.recipeBasicRecipes[
+          action.index1
+        ].baseQuantity = draftState.recipeBasicRecipes[action.index1].details
+          .reduce(
+            (total, obj) =>
+              obj.quantityPerUnit *
+                draftState.recipeBasicRecipes[action.index1]
+                  .unitPerBaseQuantity +
+              total,
+            0
+          )
+          .toFixed(0);
+        draftState.recipeBasicRecipes[action.index1].quantityPerUnit =
+          draftState.recipeBasicRecipes[action.index1].baseQuantity /
+          draftState.recipeBasicRecipes[action.index1].unitPerBaseQuantity;
       });
 
     case UPDATE_BASICRECIPEUNITS: {
@@ -216,13 +256,18 @@ export default (state, action) => {
     }
     case UPDATE_BASICRECIPEQUANTITY: {
       return produce(state, draftState => {
-        draftState.recipeBasicRecipes[action.index1].details.forEach(detail => {
-          if (detail._id === action.id1) {
-            detail.quantityInRecipe = action.value;
-            detail.costOfRawMaterial =
-              (detail.rate * action.value) / detail.baseQuantity;
-          }
-        });
+        let selectedBasicRecipe = draftState.recipeBasicRecipes[action.index1];
+        let selectedBasicRecipeRM =
+          draftState.recipeBasicRecipes[action.index1].details[action.rmIndex];
+        selectedBasicRecipeRM.quantityInRecipe = Number(action.value);
+        selectedBasicRecipeRM.unitPerBaseQuantity =
+          selectedBasicRecipe.unitPerBaseQuantity;
+        selectedBasicRecipeRM.quantityPerUnit =
+          selectedBasicRecipeRM.quantityInRecipe /
+          selectedBasicRecipe.unitPerBaseQuantity;
+        selectedBasicRecipeRM.costOfRawMaterial =
+          (selectedBasicRecipeRM.rate * Number(action.value)) /
+          selectedBasicRecipeRM.baseQuantity;
       });
     }
     case UPDATE_BASICRECIPERATE: {
@@ -497,21 +542,127 @@ export default (state, action) => {
           material => material._id != 'bennyRawMaterial'
         );
 
-        let tempRawM = draftState.uploadedDefaultRM.forEach(rm => {
-          let selectedRM = defaultRawM.filter(
-            rawMaterial => rawMaterial.name == rm.name
-          );
-          rm.quantityInRecipe = selectedRM.quantityInRecipe;
-        });
-
-        draftState.newRawmaterials = [...tempRawM, ...rawMaterialWODefaultRM];
+        let newRawmaterials = [
+          ...draftState.uploadedDefaultRM,
+          ...rawMaterialWODefaultRM
+        ];
 
         draftState.transformedRawMaterials = true;
-        draftState.brRawMaterialRateUpdateArray = [
-          ...draftState.newRawmaterials
-        ];
-        draftState.recipeRawMaterials = [...draftState.newRawmaterials];
+        draftState.brRawMaterialRateUpdateArray = [...newRawmaterials];
+        draftState.recipeRawMaterials = [...newRawmaterials];
         draftState.initiateBRrawMRateUpdate = true;
+      });
+
+    case INITIATE_TRIALFLOW:
+      return produce(state, draftState => {
+        draftState.trialRecipeFlow.copyOfStateBeforeSubmission.totalRawMaterialCostInRecipe =
+          draftState.totalRawMaterialCostInRecipe;
+        draftState.trialRecipeFlow.copyOfStateBeforeSubmission.totalBasicRecipeRAWMCost =
+          draftState.totalBasicRecipeRAWMCost;
+        draftState.trialRecipeFlow.copyOfStateBeforeSubmission.totalRawMQuantityInRecipe =
+          draftState.totalRawMQuantityInRecipe;
+        draftState.trialRecipeFlow.copyOfStateBeforeSubmission.totalBasicRecipeRAWMQuantity =
+          draftState.totalBasicRecipeRAWMQuantity;
+        draftState.trialRecipeFlow.initiateTrialRecipeFlow = true;
+      });
+
+    case RECIPE_UPDATE_DEFAULTRM:
+      return produce(state, draftState => {
+        draftState.trialRecipeFlow.trialRecipeDefaultRM.push(action.payload);
+        draftState.trialRecipeFlow.updateDefaultRM = true;
+      });
+
+    case RECIPE_DEFAULTRM_UPLAODED:
+      return produce(state, draftState => {
+        draftState.trialRecipeFlow.uploadedDefaultRM.push(action.payload);
+      });
+
+    case TRIAL_RECIPE_UPDATE_CHANGEDBR:
+      return produce(state, draftState => {
+        draftState.trialRecipeFlow.uploadedChangedBasicRecipes.push(
+          action.payload
+        );
+      });
+
+    case RECIPE_DEFAULTRM_UPLAOD_COMPLETE:
+      return produce(state, draftState => {
+        draftState.trialRecipeFlow.defaultRMuploadComplete = true;
+      });
+
+    case TRIAL_TRANSFORM_BASIC_RECIPES:
+      return produce(state, draftState => {
+        draftState.recipeBasicRecipes.forEach(br => {
+          br.details = br.details.filter(x => x._id != 'bennyRawMaterial');
+          draftState.trialRecipeFlow.uploadedDefaultRM.forEach(rm => {
+            if (rm.basicRecipe === br._id) {
+              br.details.push(rm);
+            }
+          });
+        });
+
+        draftState.trialRecipeFlow.basicRecipeWithChange = draftState.recipeBasicRecipes.filter(
+          br => br.changeInBasicRecipe
+        );
+
+        draftState.trialRecipeFlow.transformBasicRecipesComplete = true;
+      });
+
+    case TRIAL_RECIPE_SET_BR_CHANGE:
+      return produce(state, draftState => {
+        let selectedBasicRecipe = draftState.recipeBasicRecipes[action.payload];
+        selectedBasicRecipe.changeInBasicRecipe = true;
+        selectedBasicRecipe.changeInBasicRecipeType = action.changeType;
+      });
+
+    case TRIAL_RECIPE_SET_BR_NOCHANGE:
+      return produce(state, draftState => {
+        let selectedBasicRecipe = draftState.recipeBasicRecipes[action.payload];
+        selectedBasicRecipe.changeInBasicRecipe = false;
+      });
+
+    case TRIAL_RECIPE_SETRM_QTYNAMECHANGE:
+      return produce(state, draftState => {
+        draftState.recipeBasicRecipes[action.basicRecipeIndex].details[
+          action.rawMaterialIndex
+        ].changeInBasicRecipeRM = 1;
+      });
+
+    case TRIAL_BASIC_RECIPE_CHANGE_CHECK_COMPLETE:
+      return produce(state, draftState => {
+        draftState.trialRecipeFlow.basicRecipeWithChange = draftState.recipeBasicRecipes.filter(
+          br => br.changeInBasicRecipe
+        );
+        let changedBasicRecipeArray =
+          draftState.trialRecipeFlow.basicRecipeWithChange;
+        draftState.trialRecipeFlow.basicRecipeWithDefaultRM = changedBasicRecipeArray.filter(
+          br => br.changeInBasicRecipeType === 'NewRawMWithDefaultAdded'
+        );
+        draftState.trialRecipeFlow.basicRecipeWithNoDefaultRM = changedBasicRecipeArray.filter(
+          br => br.changeInBasicRecipeType === 'NewRawMWithNoDefaultAdded'
+        );
+        draftState.trialRecipeFlow.basicRecipeWithChangeInNameOrQtY = changedBasicRecipeArray.filter(
+          br => br.changeInBasicRecipeType === 'ChangeInRMQtyName'
+        );
+        draftState.trialRecipeFlow.basicRecipeWithDeletedRM = changedBasicRecipeArray.filter(
+          br => br.changeInBasicRecipeType === 'RawMaterialDeleted'
+        );
+        draftState.trialRecipeFlow.basicRecipeCheckComplete = true;
+      });
+
+    case TRANSFORM_RECIPE_BASICRECIPES:
+      return produce(state, draftState => {
+        let tempArrayWithNoChange = draftState.recipeBasicRecipes.filter(
+          br => !br.changeInBasicRecipe
+        );
+
+        let newArray = [
+          ...draftState.trialRecipeFlow.uploadedChangedBasicRecipes,
+          ...tempArrayWithNoChange
+        ];
+
+        draftState.recipeBasicRecipes = [...newArray];
+
+        draftState.trialRecipeFlow.trialRecipeFlowComplete = true;
       });
   }
 };

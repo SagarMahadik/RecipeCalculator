@@ -42,6 +42,7 @@ const PrepareRawMaterialUpate = () => {
   ]);
 
   const transformTheRecipeRawMaterials = state => {
+    console.log(state.uploadedDefaultRM);
     dispatch({
       type: 'TRANSFORM_RAWMATERIALS'
     });
@@ -67,7 +68,10 @@ const PrepareRawMaterialUpate = () => {
         baseQuantity: item.baseQuantity,
         baseUnit: item.baseUnit,
         recipeUnit: item.recipeUnit,
-        displayRateUnit: item.displayRateUnit
+        displayRateUnit: item.displayRateUnit,
+        quantityInRecipe: item.quantityInRecipe,
+        GSTPercent: item.GSTPercent,
+        supplier: item.supplier
       });
 
       const config = {
@@ -82,6 +86,8 @@ const PrepareRawMaterialUpate = () => {
         body,
         config
       );
+
+      console.log(res);
 
       dispatch({
         type: 'CREATE_DEFAULTRMDATA',

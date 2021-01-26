@@ -38,6 +38,7 @@ import {
 import { defaultRawMaterialOPtion } from 'Context/ApplicationContext/SeedData/defaultRawMaterialOptions.js';
 
 import { produce } from 'immer';
+import { v4 as uuidv4 } from 'uuid';
 
 export default (state, action) => {
   switch (action.type) {
@@ -255,6 +256,7 @@ export default (state, action) => {
         draftState.rawMaterialDetails.forEach(material => {
           material.animateBeforeExit = false;
           material.count = 0;
+          //material.quantityInRecipe = 0;
         });
         draftState.rawMaterialDetailsLoaded = true;
       });
@@ -288,6 +290,10 @@ export default (state, action) => {
             detail.baseUnit = baseUnit;
             detail.rate = rate;
             detail.recipeUnit = recipeUnit;
+            detail.uniqueID = uuidv4();
+            if (detail.hasOwnProperty('rawMaterialName')) {
+              detail.name = detail.rawMaterialName;
+            }
           });
         });
 
@@ -301,7 +307,7 @@ export default (state, action) => {
         draftState.basicRecipes.forEach(item => {
           item.showSearchBox = false;
           item.showItem = false;
-          item.showAddIcon = false;
+          item.showAddIcon = true;
           item.quantityPerUnit = item.baseQuantity / item.unitPerBaseQuantity;
           item.unitPerBaseQuantity = item.baseQuantity / item.quantityPerUnit;
         });
@@ -346,6 +352,9 @@ export default (state, action) => {
             rawMaterial.costOfRawMaterial =
               (rawMaterial.quantityInRecipe * rawMaterial.rate) /
               rawMaterial.baseQuantity;
+            if (rawMaterial.hasOwnProperty('rawMaterialName')) {
+              rawMaterial.name = rawMaterial.rawMaterialName;
+            }
           });
           draftState.recipes.forEach(recipe => {
             recipe.basicRecipeDetails.forEach(basicRecipe => {
@@ -386,6 +395,9 @@ export default (state, action) => {
                   rawMaterial.costOfRawMaterial =
                     (rawMaterial.quantityInRecipe * rawMaterial.rate) /
                     rawMaterial.baseQuantity;
+                  if (rawMaterial.hasOwnProperty('rawMaterialName')) {
+                    rawMaterial.name = rawMaterial.rawMaterialName;
+                  }
                 });
               });
             });

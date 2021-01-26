@@ -46,7 +46,7 @@ const SearchBoxResults = props => {
         material =>
           material.name.toLowerCase().indexOf(string.toLowerCase()) > -1
       )
-      .slice(0, 4);
+      .slice(0, 9);
 
     {
       dispatch({
@@ -81,6 +81,7 @@ const SearchBoxResults = props => {
       });
     }
     if (searchFilter === 'basicRecipeRawMaterial') {
+      console.log(index);
       dispatch({
         type: 'ADD_BASICRECCIPESEARCHRM',
         index1: index,
@@ -110,39 +111,28 @@ const SearchBoxResults = props => {
         value={searchString}
         onChange={handleSearchText}
       />
-      <AnimatePresence>
-        {!hideSearchResults
-          ? searchResults.map((result, index) => {
-              return (
-                <AnimationContainer
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  transition={{
-                    ease: 'easeOut',
-                    duration: 0.8
-                  }}
-                  exit={{ height: 0 }}
-                >
-                  <SearchResultsContainer
-                    onClick={() =>
-                      handleSearchItemClick(
-                        result,
-                        props.arrayIndex,
-                        props.basicRecipeID
-                      )
-                    }
-                    key={index}
-                    itemName={result.name}
-                    itemBaseQuantity={result.baseQuantity}
-                    brandName={result.brandName}
-                    itemRate={result.rate}
-                    itemBaseUnit={result.baseUnit}
-                  />
-                </AnimationContainer>
-              );
-            })
-          : null}
-      </AnimatePresence>
+
+      {!hideSearchResults
+        ? searchResults.map((result, index) => {
+            return (
+              <SearchResultsContainer
+                onClick={() =>
+                  handleSearchItemClick(
+                    result,
+                    props.arrayIndex,
+                    props.basicRecipeID
+                  )
+                }
+                key={index}
+                itemName={result.name}
+                itemBaseQuantity={result.baseQuantity}
+                brandName={result.brandName}
+                itemRate={result.rate}
+                itemBaseUnit={result.baseUnit}
+              />
+            );
+          })
+        : null}
 
       <PartialWidthDivider />
     </RecipeManagementContainer>

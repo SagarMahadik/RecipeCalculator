@@ -62,6 +62,11 @@ const UpdateRawMaterialRate = () => {
         type: 'MAKE_RECIPE_REQUEST'
       });
     }
+    if (saveOption === 'trial') {
+      dispatch({
+        type: 'MAKE_RECIPE_REQUEST'
+      });
+    }
   };
 
   const intiateRawMaterialRateUpdate = async allRawMaterialsArray => {
