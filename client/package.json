@@ -34,6 +34,7 @@
     "react-three-fiber": "^4.2.20",
     "react-transition-group": "^4.4.1",
     "react-use-dimensions": "^1.2.1",
+    "react-use-localstorage": "^3.5.3",
     "react-uuid": "^1.0.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",

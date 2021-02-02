@@ -10,6 +10,7 @@ import {
   LOAD_USER,
   SET_AUTHTOKEN
 } from 'Context/ApplicationContext/types.js';
+
 import { useHttpClient } from 'Hooks/httpsHooks';
 
 import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
@@ -25,6 +26,11 @@ import { whiteTheme } from 'styles/StylesLibrary/Themes/whiteTheme.js';
 import { darkTheme } from 'styles/StylesLibrary/Themes/darkTheme.js';
 
 import setAuthToken from 'Utils/setAuthToken.js';
+
+import useRawMaterialRate from 'Hooks/APICalls/RawMaterials/useRawMaterialRate.js';
+import useRawMaterials from 'Hooks/APICalls/RawMaterials/useRawMaterials.js';
+import useBasicRecipes from 'Hooks/APICalls/BasicRecipes/useBasicRecipe.js';
+import useRecipes from 'Hooks/APICalls/Recipes/useRecipes.js';
 
 export let util = { validateRegistrationFields: null };
 
@@ -150,25 +156,58 @@ function ApplicationState(props) {
     welcomeTonePlayedCount
   } = state;
 
+  const { data: rawMaterialRate } = useRawMaterialRate(userID);
+
+  const { rawMaterials, rawMaterialFetchSuccess } = useRawMaterials(userID);
+
+  const { basicRecipes: data, basicRecipeFetchSuccess } = useBasicRecipes(
+    userID
+  );
+
+  const { appRecipes, recipeFetchSuccess, isError, error } = useRecipes(userID);
+
+  useEffect(() => {
+    if (rawMaterialFetchSuccess && rawMaterials.length > 0) {
+      dispatch({ type: 'SET_RAWMATERIALS', payload: rawMaterials });
+    }
+  }, [rawMaterialFetchSuccess, rawMaterials]);
+
+  useEffect(() => {
+    if (basicRecipeFetchSuccess && data.length > 0) {
+      dispatch({ type: 'SET_BASICRECIPES', payload: data });
+    }
+  }, [basicRecipeFetchSuccess, data]);
+  useEffect(() => {
+    if (recipeFetchSuccess && appRecipes.length > 0) {
+      dispatch({ type: 'SET_RECIPES', payload: appRecipes });
+    }
+  }, [recipeFetchSuccess, appRecipes]);
+
   useEffect(() => {
     if (fetchAppData) {
-      getData(`/api/v1/supplier/${userID}`, 'SET_SUPPLIERDETAILS', 'supplier');
-      getData(
+      //getData(`/api/v1/supplier/${userID}`, 'SET_SUPPLIERDETAILS', 'supplier');
+      /**
+      *       getData(
         `/api/v1/rawMaterial/${userID}`,
         'SET_RAWMATERIALS',
         'raw Material'
       );
-      getData(
+      */
+      /**
+       *       getData(
         `/api/v1/basicRecipe/${userID}`,
         'SET_BASICRECIPES',
         'basic recipe'
       );
-      getData(`/api/v1/recipe/${userID}`, 'SET_RECIPES', 'recipe');
-      getData(
-        `/api/v1/rawMaterial/${userID}/rate`,
+       */
+      //getData(`/api/v1/recipe/${userID}`, 'SET_RECIPES', 'recipe');
+      /**
+       *       getData(
+        `/api/v1/rawMaterial/9921514875/rate`,
         'SET_RAWMATERIALRATE',
         'raw Material rates'
       );
+       */
     }
   }, [fetchAppData]);
 

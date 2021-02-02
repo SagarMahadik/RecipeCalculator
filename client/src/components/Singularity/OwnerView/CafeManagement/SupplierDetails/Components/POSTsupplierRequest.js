@@ -4,12 +4,10 @@ import {
   useSupplierDetailsState,
   useSupplierDetailsDispatch
 } from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/SupplierDetailsState.js';
-import axios from 'axios';
 
-import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
+import useCreateSupplier from 'Hooks/APICalls/useCreateSupplier.js';
 
 const POSTsupplierRequest = () => {
-  const { sendStepStatusRequest } = useStepStatusRequest();
   const {
     userID,
     supplierName,
@@ -20,6 +18,14 @@ const POSTsupplierRequest = () => {
     supplierGSTNumber,
     initiatePostSupplierRequest
   } = useSupplierDetailsState();
+
+  const {
+    mutateAsync: createSupplier,
+    isError,
+    error,
+    isSuccess,
+    status
+  } = useCreateSupplier();
   const dispatch = useSupplierDetailsDispatch();
 
   useEffect(() => {
@@ -38,6 +44,20 @@ const POSTsupplierRequest = () => {
       );
     }
   }, [initiatePostSupplierRequest]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch({
+        type: 'COMPLETE_FORM'
+      });
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      console.log('there was error');
+    }
+  }, [isError]);
 
   const addSupplierToDB = async (
     userID,
@@ -58,35 +78,11 @@ const POSTsupplierRequest = () => {
       supplierGSTNumber
     });
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/JSON',
-        Authorization: `Bearer ${localStorage.token}`
-      }
-    };
-    const res = await axios.post('/api/v1/supplier', body, config);
+    const res = await createSupplier(body);
+
     dispatch({
       type: 'SET_LOADING'
     });
-
-    if (res.data.status === 'success') {
-      dispatch({
-        type: 'COMPLETE_FORM'
-      });
-      sendStepStatusRequest(
-        `${userID}`,
-        `Supplier created successfully for ${userID}`,
-        'success'
-      );
-    }
-
-    if (res.data.status === 'failure') {
-      sendStepStatusRequest(
-        `${userID}`,
-        `Supplier creation failed for ${userID}`,
-        'failure'
-      );
-    }
   };
 
   return <div />;

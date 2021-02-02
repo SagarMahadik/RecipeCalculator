@@ -14,6 +14,8 @@ const PrepareRMBRforUpdate = () => {
       trialRecipeFlow: { trialRecipeFlowComplete }
     }
   } = useRecipeState();
+
+  console.log(trialRecipeFlowComplete);
   const dispatch = useRecipeDispatch();
 
   useEffect(() => {

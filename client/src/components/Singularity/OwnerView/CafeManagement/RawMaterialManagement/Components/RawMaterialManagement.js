@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 
-import { rawMaterialManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
+import { useRawMaterialsState } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
 import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';
 import {
   RawMMainContainer,
@@ -14,39 +14,38 @@ import SearchUpdateSupplier from 'components/Singularity/OwnerView/CafeManagemen
 import RawMaterialValidations from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/Components/Validations/RawMaterialValidations.js';
 import CalculatePricePostGST from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/Components/Utilities/CalculatePricePostGST.js';
 
-import { applicationContext } from 'Context/ApplicationContext/applicationContext.js';
-
 import Ball from 'components/Singularity/ApplicationView/Loaders/Ball';
 import Loaders from 'components/Singularity/ApplicationView/Loaders';
 import SupplierRequest from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/Components/APIrequests/SupplierRequest.js';
 import RawMaterialRequest from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/Components/APIrequests/RawMaterialRequest.js';
 
 import { MainContentContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index.js';
+import useSupplier from 'Hooks/APICalls/useSupplier.js';
 
 const RawMaterialManagement = () => {
-  const RawMaterialManagementContext = useContext(rawMaterialManagementContext);
+  const { loading, showLoader, isDataUploaded } = useRawMaterialsState();
 
-  const { loading, showLoader, isDataUploaded } = RawMaterialManagementContext;
-
-  const ApplicationContext = useContext(applicationContext);
-
-  const { supplierDetails, supplierDetailsLoaded } = ApplicationContext;
+  const { status, data: supplierData, isError, error } = useSupplier();
 
   if (showLoader) {
     return <Ball loading={loading} isComplete={isDataUploaded} />;
   }
 
+  if (isError) {
+    console.log(error);
+  }
+
   return (
     <>
       <FormHeadings heading="Raw Material Details" />
-      {supplierDetails.length === 0 && !supplierDetailsLoaded ? (
+      {status === 'loading' ? (
         <RawMMainContainer>
           <Loaders />
         </RawMMainContainer>
-      ) : supplierDetails && supplierDetailsLoaded ? (
+      ) : supplierData && supplierData.length > 0 ? (
         <>
           <MainContentContainer>
-            <SearchUpdateSupplier />
+            <SearchUpdateSupplier supplierDetails={supplierData} />
             <RawMaterialDetails />
             <RawMaterialTypeQuantity />
             <PriceGSTDetails />

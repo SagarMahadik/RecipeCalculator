@@ -39,6 +39,7 @@ export default (state, action) => {
       };
     case UPDATE_FIELD:
       const { input, value } = action.payload;
+      localStorage.setItem(`${input}`, `${value}`);
       return {
         ...state,
         [input]: value

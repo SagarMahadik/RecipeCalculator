@@ -22,11 +22,14 @@ import {
   pageVariant
 } from 'styles/Singularity/Style1.0/FramerAnimations';
 
+import { useQueryClient } from 'react-query';
+
 const Navigation = () => {
   const {
     isAuthenticated,
     playWelcomTone,
-    welcomeTonePlayedCount
+    welcomeTonePlayedCount,
+    userID
   } = useApplicationState();
 
   const dispatch = useApplicationDispatch();

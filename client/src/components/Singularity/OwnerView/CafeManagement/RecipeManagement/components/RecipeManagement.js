@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';
 import RecipeDetails from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeDetails.js';
 import ProductRecipes from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/ProductRecipes.js';
@@ -14,6 +14,10 @@ import POSTBRrequest from 'components/Singularity/OwnerView/CafeManagement/Recip
 import PrepareRMBRforUpdate from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitRecipes/PrepareRMBRforUpdate.js';
 import POSTRecipeRequest from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitRecipes/POSTRecipeRequest.js';
 
+import useRawMaterialRate from 'Hooks/APICalls/RawMaterials/useRawMaterialRate.js';
+import useRawMaterials from 'Hooks/APICalls/RawMaterials/useRawMaterials.js';
+import useBasicRecipes from 'Hooks/APICalls/BasicRecipes/useBasicRecipe.js';
+
 import InitiateTrialRecipeFlow from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitTrialRecipes/InitiateTrialRecipeFlow.js';
 import UpdateDefaultRawMaterials from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitTrialRecipes/UpdateDefaultRawMaterials.js';
 import UpdateChangedBasicRecipes from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/SubmitTrialRecipes/UpdateChangedBasicRecipes.js';
@@ -26,12 +30,20 @@ import RecipeBasicRecipies from 'components/Singularity/OwnerView/CafeManagement
 import RecipeProductPricing from 'components/Singularity/OwnerView/CafeManagement/RecipeManagement/components/RecipeProductPricing.js';
 
 import { isArrayNonEmpty } from 'Utils/validations.js';
+import { applicationContext } from 'Context/ApplicationContext/applicationContext.js';
 
 import { AnimatePresence } from 'framer-motion';
 import { AnimationContainer } from 'styles/Singularity/OwnerView/CafeManagement/RecipeManagement';
 import Anime from '@mollycule/react-anime';
 
+import {
+  useApplicationDispatch,
+  useApplicationState
+} from 'Context/ApplicationContext/ApplicationState.js';
+
 const RecipeManagement = () => {
+  const dispatch = useApplicationDispatch();
+
   const RecipeManagementContext = useContext(recipeManagementContext);
   const {
     isDataUploaded,
@@ -78,11 +90,11 @@ const RecipeManagement = () => {
       <PrepareRawMaterialUpate />
       <UpdateRawMaterialRate />
       <POSTBRrequest />
-      <PrepareRMBRforUpdate />
-      <POSTRecipeRequest />
       <InitiateTrialRecipeFlow />
       <UpdateDefaultRawMaterials />
       <UpdateChangedBasicRecipes />
+      <PrepareRMBRforUpdate />
+      <POSTRecipeRequest />
     </>
   );
 };

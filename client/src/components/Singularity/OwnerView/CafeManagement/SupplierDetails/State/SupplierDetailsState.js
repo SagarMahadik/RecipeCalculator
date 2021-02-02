@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer, useContext, useState } from 'react';
 
 import {
   supplierDetailsContext,
@@ -8,9 +8,13 @@ import supplierDetailsReducer from 'components/Singularity/OwnerView/CafeManagem
 
 import { applicationContext } from 'Context/ApplicationContext/applicationContext.js';
 
+import useLocalStorage from 'react-use-localstorage';
+
+import { setFieldInitialValue } from 'Utils/setFieldValueInLocalStorage.js';
+
 function SupplierDetailsState({ children }) {
   const initialState = {
-    supplierName: '',
+    supplierName: setFieldInitialValue('supplierName'),
     supplierPersonDetails: '',
     supplierMobileNumber: '',
     supplierAddress: '',
@@ -85,7 +89,7 @@ function useSupplierDetailsState() {
 
   if (context === undefined) {
     throw new Error(
-      'useSupplierDetailsState must be used within a CountProvider'
+      'useSupplierDetailsState must be used within a SupplierDetailsProvider'
     );
   }
   return context;
@@ -95,7 +99,7 @@ function useSupplierDetailsDispatch() {
   const context = useContext(supplierDetailsDispatchContext);
   if (context === undefined) {
     throw new Error(
-      'useSupplierDetailsDispatch must be used within a CountProvider'
+      'useSupplierDetailsDispatch must be used within a SupplierDetailsDispatchProvider'
     );
   }
   return context;

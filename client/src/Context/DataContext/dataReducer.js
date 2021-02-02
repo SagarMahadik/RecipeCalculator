@@ -249,19 +249,16 @@ export default (state, action) => {
 
     case SET_RAWMATERIALS:
       return produce(state, draftState => {
+        console.log(action.payload);
         draftState.rawMaterialDetails = [
           ...action.payload,
           ...defaultRawMaterialOPtion
         ];
-        let temparray = draftState.rawMaterialDetails.map(material => ({
-          ...material,
-          animateBeforeExit: false,
-          count: 0,
-          quantityInRecipe: 0
-        }));
-
-        draftState.rawMaterialDetails = [...temparray];
-
+        draftState.rawMaterialDetails.forEach(material => {
+          material.animateBeforeExit = false;
+          material.count = 0;
+          material.quantityInRecipe = 0;
+        });
         draftState.rawMaterialDetailsLoaded = true;
       });
 

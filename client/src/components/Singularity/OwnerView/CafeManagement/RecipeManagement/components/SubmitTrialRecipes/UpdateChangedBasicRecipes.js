@@ -72,13 +72,22 @@ const UpdateChangedBasicRecipes = () => {
   ]);
 
   useEffect(() => {
-    if (basicRecipeCount === uploadedChangedBasicRecipes.length) {
+    console.log(basicRecipeCount);
+    console.log(uploadedChangedBasicRecipes.length);
+    console.log(basicRecipeWithChange.length);
+    if (
+      uploadedChangedBasicRecipes.length !== 0 &&
+      basicRecipeWithChange.length !== 0 &&
+      uploadedChangedBasicRecipes.length === basicRecipeWithChange.length
+    ) {
       console.log('proceed with updating state basic recipes');
+      console.log(basicRecipeCount);
+      console.log(uploadedChangedBasicRecipes.length);
       dispatch({
         type: 'TRANSFORM_RECIPE_BASICRECIPES'
       });
     }
-  }, [uploadedChangedBasicRecipes, basicRecipeCount]);
+  }, [uploadedChangedBasicRecipes, basicRecipeCount, basicRecipeWithChange]);
 
   var removeObjectProperties = function(obj, props) {
     for (var i = 0; i < props.length; i++) {

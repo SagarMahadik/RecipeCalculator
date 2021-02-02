@@ -11,15 +11,14 @@ import {
 
 import { applicationContext } from 'Context/ApplicationContext/applicationContext.js';
 
-const SearchUpdateSupplier = () => {
+import useSupplier from 'Hooks/APICalls/useSupplier.js';
+
+const SearchUpdateSupplier = ({ supplierDetails }) => {
   const ApplicationContext = useContext(applicationContext);
 
-  const { supplierDetails } = ApplicationContext;
-  const {
-    searchString,
+  //console.log(supplierDetails);
 
-    searchResults
-  } = useRawMaterialsState();
+  const { searchString, searchResults } = useRawMaterialsState();
 
   const dispatch = useRawMaterialsDispatch();
 

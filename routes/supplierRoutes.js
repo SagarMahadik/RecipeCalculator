@@ -21,8 +21,12 @@ router
   );
 
 router
-  .route('/')
-  .post(authController.protect, supplierController.createSupplier);
+  .route('/:userID')
+  .post(
+    authController.protect,
+    authController.restrictToUser,
+    supplierController.createSupplier
+  );
 
 router.route('/:id').patch(supplierController.updateSupplier);
 

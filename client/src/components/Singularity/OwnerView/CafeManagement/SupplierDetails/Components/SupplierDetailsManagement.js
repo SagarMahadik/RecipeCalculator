@@ -19,9 +19,12 @@ const SupplierDetailsManagement = () => {
     isComplete
   } = useSupplierDetailsState();
 
-  if (showLoader) {
+  /**
+   *   if (showLoader) {
     return <Ball loading={loading} isComplete={isComplete} />;
   }
+   */
+
   return (
     <>
       <FormHeadings heading="Supplier Details" />
