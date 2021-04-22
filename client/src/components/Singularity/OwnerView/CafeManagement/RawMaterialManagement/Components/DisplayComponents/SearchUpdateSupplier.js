@@ -1,23 +1,17 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
+
 import {
   RawMMainContainer,
   SearchResultContainer
 } from 'styles/Singularity/OwnerView/CafeManagement/RawMaterialManagement';
 import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
+
 import {
   useRawMaterialsDispatch,
   useRawMaterialsState
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
 
-import { applicationContext } from 'Context/ApplicationContext/applicationContext.js';
-
-import useSupplier from 'Hooks/APICalls/useSupplier.js';
-
 const SearchUpdateSupplier = ({ supplierDetails }) => {
-  const ApplicationContext = useContext(applicationContext);
-
-  //console.log(supplierDetails);
-
   const { searchString, searchResults } = useRawMaterialsState();
 
   const dispatch = useRawMaterialsDispatch();

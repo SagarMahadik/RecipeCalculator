@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {
-  LandingPageContainer,
-  LoginContainer
-} from 'styles/Singularity/OwnerView/Authentication/index.js';
+import { LoginContainer } from 'styles/Singularity/OwnerView/Authentication/index.js';
 import LoginMainComponent from './LoginMainComponent';
 import {
   PageAnimationContainer,

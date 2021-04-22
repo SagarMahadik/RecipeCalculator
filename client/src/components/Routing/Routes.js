@@ -14,6 +14,16 @@ const FormInput = React.lazy(() =>
   import('styles/StylesLibrary/Frames/FormInputs/DarkTheme/FormInput.js')
 );
 
+const RawMaterialCard = React.lazy(() =>
+  import(
+    'styles/StylesLibrary/Molecules/DarkTheme/RecipeMolecules/RawMaterialCardMolecule.js'
+  )
+);
+
+const PageButton = React.lazy(() =>
+  import('styles/StylesLibrary/Frames/FormInputs/DarkTheme/PageButton.js')
+);
+
 const SampleOwnerDashBoard = React.lazy(() =>
   import(
     'styles/StylesLibrary/Frames/FormInputs/DarkTheme/SampleOwnerDashBoard.js'
@@ -125,9 +135,15 @@ export default function Routes() {
             <Route exact path="/sampleLogin" component={LoginPage} />
             <Route
               exact
+              path="/sampleRecipestyles"
+              component={RawMaterialCard}
+            />
+            <Route
+              exact
               path="/sampleOwnerDashboard"
               component={SampleOwnerDashBoard}
             />
+            <Route exact path="/sampleButtons" component={PageButton} />
             <PrivateRoute exact path="/ownerDashboard" component={Navigation} />
             <Route exact="/digitalCafeMenu" component={DmenuDisplay} />
             <Route exact path="/gallery" component={ImageGallery} />

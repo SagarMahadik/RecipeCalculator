@@ -1,11 +1,6 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
-import { LogoImage } from 'styles/Singularity/ApplicationStyles/LogoStyles/';
-import PiattoLogo from 'img/piatto/piattoLogo.png';
-import { PageHeader } from 'styles/Singularity/ApplicationStyles/PageHeader';
-import {
-  PartialWidthDivider,
-  FullWidthDivider
-} from 'styles/Singularity/ApplicationStyles/PageDividerStyles';
+
+import { PartialWidthDivider } from 'styles/Singularity/ApplicationStyles/PageDividerStyles';
 import {
   InputLabel,
   IconCheckBoxRound,
@@ -16,17 +11,10 @@ import {
   HiddenRadioButton,
   IconRadioButtonRound
 } from 'styles/Singularity/ApplicationStyles/FormStyles/InputStyles';
-import {
-  ActionButton,
-  ButtonText,
-  ButtonContainer,
-  PrevoiusButton
-} from 'styles/Singularity/ApplicationStyles/ButtonStyles';
 
 import { PTSansText } from 'styles/Singularity/ApplicationStyles/TextStyles';
 
 import {
-  AddProductContainer,
   CenterAlignedColumnContainer,
   FlexRowContainer,
   FormSectionNameContainer
@@ -34,8 +22,6 @@ import {
 
 import vegIcon from 'img/piatto/icons/vegicon.svg';
 import nonVegIcon from 'img/piatto/icons/nonvegicon.svg';
-
-import Indifferent from 'components/Singularity/ApplicationView/WaitingIcons/Indifferent';
 
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
 
@@ -50,11 +36,9 @@ const AddProductPage3 = () => {
     productStatusData,
     getProductStatusData,
     handleProductStatusChange,
-    nextStep,
+
     handleChangeFor,
-    cuisine,
-    previousStep,
-    loading
+    cuisine
   } = AddProductContext;
 
   useEffect(() => {

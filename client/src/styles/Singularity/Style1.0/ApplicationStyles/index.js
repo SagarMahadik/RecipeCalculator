@@ -1,27 +1,27 @@
 import styled from 'styled-components';
 
 export const styles = {
-  dividerColor: '#FCE07D',
-  formContentColor: '#514E4E',
-  themecolor: '#FCE07D',
-  formheadingTextColor: '#FCE07D',
-  linkTextColor: '#FCE07D',
-  buttonTextColor: '#514E4E',
-  selectedBorder: '4px solid #CEA42B',
-  backgroundColor: '#272424',
+  dividerColor: 'rgba(82, 243, 234, 0.5)',
+  formContentColor: '#6E5DCC',
+  themecolor: '#B0A7E6',
+  formheadingTextColor: '#6E5DCC',
+  linkTextColor: '#6E5DCC',
+  buttonTextColor: '#000000',
+  selectedBorder: '4px solid #6E5DCC',
+  backgroundColor: '#ffffff',
   backgroundGradient:
-    'linear-gradient(181.83deg, rgba(4, 4, 4, 0) -206.42%, #FCE07D 98.45%)',
+    'linear-gradient(180deg, rgba(176, 167, 230, 0.5) 0%, #B0A7E6 100%)',
   backgroundLinearGradient:
     'radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(110, 93, 204, 0.5) 100%)',
   buttonBackgroundGradient:
-    'linear-gradient(181.83deg, rgba(4, 4, 4, 0) -206.42%, #FCE07D 98.45%)',
+    'radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(110, 93, 204, 0.5) 100%)',
   dMenuContentColor: '#CCAC00',
   errorText: '#ff6961',
-  dividerLineColor: '#FCE07D',
+  dividerLineColor: '#6E5DCC',
   inputShadowFilter: ' drop-shadow(0px 4px 4px rgba(206, 164, 43, 0.49))',
   buttonTextColor: '#514E4E',
-  selectedLabelColor: '#CEA42B',
-  selectedBorderColor: '#CEA42B'
+  selectedLabelColor: '#6E5DCC',
+  selectedBorderColor: '#6E5DCC'
 };
 
 export const Background = styled.div`

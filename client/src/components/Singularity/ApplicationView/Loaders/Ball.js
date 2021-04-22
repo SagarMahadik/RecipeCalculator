@@ -20,9 +20,7 @@ const BallLoader = props => {
     window.scrollTo(0, 0);
   }, []);
 
-  /**
-   * 
-   *   useEffect(() => {
+  useEffect(() => {
     if (props.isComplete) {
       setTimeout(() => setRedirect(true), 2000);
     }
@@ -31,8 +29,6 @@ const BallLoader = props => {
   if (redirect) {
     return window.location.reload();
   }
-
-   */
 
   return (
     <>

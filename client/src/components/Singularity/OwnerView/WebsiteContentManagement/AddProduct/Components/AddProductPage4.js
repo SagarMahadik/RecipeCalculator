@@ -1,8 +1,5 @@
 import React, { Fragment, useEffect, useContext } from 'react';
-import { LogoImage } from 'styles/Singularity/ApplicationStyles/LogoStyles/';
-import PiattoLogo from 'img/piatto/piattoLogo.png';
-import { PageHeader } from 'styles/Singularity/ApplicationStyles/PageHeader';
-import { FullWidthDivider } from 'styles/Singularity/ApplicationStyles/PageDividerStyles';
+
 import {
   InputLabel,
   IconCheckBoxRound,
@@ -11,12 +8,6 @@ import {
   IconCheckBoxRoundButton,
   HiddenCheckbox
 } from 'styles/Singularity/ApplicationStyles/FormStyles/InputStyles';
-import {
-  ActionButton,
-  ButtonText,
-  PrevoiusButton,
-  ButtonContainer
-} from 'styles/Singularity/ApplicationStyles/ButtonStyles';
 
 import { PTSansText } from 'styles/Singularity/ApplicationStyles/TextStyles';
 
@@ -26,7 +17,6 @@ import {
   FormSectionNameContainer
 } from 'styles/Singularity/ApplicationStyles/ContainerStyles';
 
-import Sleepy from 'components/Singularity/ApplicationView/WaitingIcons/Sleepy';
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
 
 const AddProductFourthPage = () => {
@@ -35,10 +25,7 @@ const AddProductFourthPage = () => {
   const {
     addOnitemData,
     getAddOnItemData,
-    handleAddOnItemChange,
-    nextStep,
-    previousStep,
-    loading
+    handleAddOnItemChange
   } = AddProductContext;
 
   useEffect(() => {

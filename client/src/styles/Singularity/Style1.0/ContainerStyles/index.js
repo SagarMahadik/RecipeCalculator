@@ -310,8 +310,12 @@ export const FormHeadingsContainer = styled.div`
   justify-content: flex-start;
   flex-wrap: nowrap;
   overflow-x: auto;
-  background: #272424;
-  box-shadow: inset -2px -2px 8px #504b3e, inset 4px 4px 8px 2px #000000;
+  background: #e7eaef;
+  border: 2px solid #e7eaef;
+  box-sizing: border-box;
+  box-shadow: 4px 4px 8px 2px rgba(0, 0, 0, 0.25), -4px -4px 16px 2px #ffffff,
+    inset -2px -2px 8px 2px #ffffff, inset 4px 4px 8px 2px rgba(81, 78, 78, 0.5);
+  //box-shadow: inset -2px -2px 8px #504b3e, inset 4px 4px 8px 2px #000000;
   border-radius: 5px;
   margin: 12px;
 `;
@@ -321,9 +325,11 @@ export const MainContentContainer = styled.div`
   width: 90%;
   flex-direction: column;
   align-items: center;
-  background: #272424;
-  box-shadow: inset -2px -2px 8px #504b3e, inset 4px 4px 8px 2px #000000;
-  border-radius: 5px;
+  background: #e7eaef;
+  border: 2px solid #e7eaef;
+  box-sizing: border-box;
+  box-shadow: 4px 4px 8px 2px rgba(0, 0, 0, 0.25), -4px -4px 16px 2px #ffffff,
+    inset -2px -2px 8px 2px #ffffff, inset 4px 4px 8px 2px rgba(81, 78, 78, 0.5);
   margin: 12px;
   padding-bottom: 40px;
 `;

@@ -26,6 +26,21 @@ export const ColumnContainer = styled.div`
   border-radius: 5px;
 `;
 
+export const LeftAlignedColumnGridContainer = styled.div`
+  display: grid;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const CenterAlignedColumnGridContainer = styled.div`
+  display: grid;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+`;
+
 export const CenterAlignedColumnContainer = styled(ColumnContainer)`
   align-items: center;
   justify-content: center;
@@ -48,6 +63,8 @@ export const PageContentContainer = styled(CenterAlignedColumnContainer)`
   box-shadow: ${({ theme: { filters } }) => filters.frameShadowEffect};
   padding-bottom: 2em;
   border: ${({ theme: { borders } }) => borders.pageContentContainerBorder};
+  background: url('https://res.cloudinary.com/antilibrary/image/upload/v1612561378/MattBackground_zcz2ma.jpg')
+    repeat;
 `;
 
 export const CenterAlignedColumnContainerWithShadowBackground = styled(

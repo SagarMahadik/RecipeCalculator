@@ -27,6 +27,7 @@ const {
       inputButtonSelectedBorderBackground,
       inputButtonSelectedLabelTextColor
     },
+    resetButton: { resetButtonLabelColor, resetButtonBackgroundColor },
     searchResults: { searchResultContainerBackgroundColor, searchResultColor },
     navigationCard: { navigationCardBorderColor }
   }
@@ -43,7 +44,12 @@ const {
     textBox: { textBoxShadowEffect },
     formShortDivider: { formShortDividerTransform },
     submitButton: { submitButtonBoxShadow },
-    inputButton: { inputButtonBoxShadow },
+    inputButton: { inputButtonBoxShadow, inputButtonSelectedBoxShadow },
+    resetButton: {
+      resetButtonLabelTextShadow,
+      resetButtonBoxShadow,
+      resetButtonDropShadow
+    },
     searchResult: { searchResultBoxShadow },
     navigationCard: { navigationCardBoxShadow, navigationCardTextShadow }
   }
@@ -52,7 +58,10 @@ const {
 const {
   dark: {
     inputTextBoxBorder,
-    formShortDivider: { formShortDividerBorder }
+    formShortDivider: { formShortDividerBorder },
+    resetButton: { resetButtonBorder },
+    inputButton: { inputButtonSelectedBorder },
+    PageContentContainer: { pageContentContainerBorder }
   }
 } = borderStyles;
 
@@ -81,7 +90,9 @@ export const darkTheme = {
     inputButtonSelectedLabelTextColor,
     searchResultContainerBackgroundColor,
     searchResultColor,
-    navigationCardBorderColor
+    navigationCardBorderColor,
+    resetButtonLabelColor,
+    resetButtonBackgroundColor
   },
   filters: {
     frameShadowEffect,
@@ -92,12 +103,19 @@ export const darkTheme = {
     formShortDividerTransform,
     submitButtonBoxShadow,
     inputButtonBoxShadow,
+    inputButtonSelectedBoxShadow,
+    resetButtonLabelTextShadow,
+    resetButtonBoxShadow,
+    resetButtonDropShadow,
     searchResultBoxShadow,
     navigationCardBoxShadow,
     navigationCardTextShadow
   },
   borders: {
     inputTextBoxBorder,
-    formShortDividerBorder
+    formShortDividerBorder,
+    resetButtonBorder,
+    inputButtonSelectedBorder,
+    pageContentContainerBorder
   }
 };

@@ -1,14 +1,13 @@
-import React, { useReducer, useContext, useState } from 'react';
+import React, { useReducer, useContext } from 'react';
 
 import {
   supplierDetailsContext,
   supplierDetailsDispatchContext
 } from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/supplierDetailsContext.js';
+
 import supplierDetailsReducer from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/supplierDetailsReducer.js';
 
-import { applicationContext } from 'Context/ApplicationContext/applicationContext.js';
-
-import useLocalStorage from 'react-use-localstorage';
+import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
 
 import { setFieldInitialValue } from 'Utils/setFieldValueInLocalStorage.js';
 
@@ -36,7 +35,7 @@ function SupplierDetailsState({ children }) {
 
   const [state, dispatch] = useReducer(supplierDetailsReducer, initialState);
 
-  const { userID } = useContext(applicationContext);
+  const { userID } = useApplicationState();
 
   const {
     supplierName,

@@ -1,18 +1,10 @@
 import React, { Fragment, useEffect, useContext } from 'react';
 
 import {
-  TextBox,
-  TextParagraph,
-  UplaodButton,
   ItemDescription,
-  IconBorderCircle,
   HiddenCheckbox,
-  CoffeeIcon,
-  ImageContainer,
-  SubmitButton,
   AddIconImage,
-  InputLabel,
-  AddOnitemIcon
+  InputLabel
 } from 'styles/Singularity/Style1.0/FormInputStyles';
 
 import {
@@ -39,11 +31,8 @@ const AddOnItems = () => {
 
   const {
     addOnitemData,
-    getData,
-    handleAddOnItemChange,
-    nextStep,
-    previousStep,
-    loading
+
+    handleAddOnItemChange
   } = AddProductContext;
 
   useEffect(() => {}, []);

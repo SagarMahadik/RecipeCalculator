@@ -32,7 +32,7 @@ export const TextBox = styled.input`
   font-size: ${inputTextBoxTextSize};
   font-weight: ${inputTextBoxTextWeight};
   color: ${({ theme: { colors } }) => colors.textBoxTextColor};
-  background-color: ${({ theme: { colors } }) => colors.textBoxBackgroundColor};
+  background: ${({ theme: { colors } }) => colors.textBoxBackgroundColor};
   box-shadow: ${({ theme: { filters } }) => filters.textBoxShadowEffect};
   border: ${({ theme: { borders } }) => borders.inputTextBoxBorder};
   margin-top: ${props => props.marginTop || '1.5em'};

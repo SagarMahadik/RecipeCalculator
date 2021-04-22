@@ -1,17 +1,12 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
+
 import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
 import AppStyleButton from 'components/Singularity/ApplicationView/FormElements/Inputs/AppStyleButton.js';
 import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';
 import { MainContentContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index.js';
 import { registrationFields } from 'components/Singularity/OwnerView/Authentication/Components/SeedData/register.js';
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
-
-import {
-  useApplicationState,
-  useApplicationDispatch
-} from 'Context/ApplicationContext/ApplicationState.js';
-
-import { Redirect } from 'react-router-dom';
 import {
   RegisterText,
   RegisterLink
@@ -19,8 +14,12 @@ import {
 
 import DisplayError from 'components/Singularity/ApplicationView/ErrorMessages/DisplayError.js';
 import DisplayDummyErrorText from 'components/Singularity/ApplicationView/ErrorMessages/DisplayDummyErrorText.js';
-
 import FormErrorSound from 'components/Singularity/ApplicationSounds/FormErrorSound.js';
+
+import {
+  useApplicationState,
+  useApplicationDispatch
+} from 'Context/ApplicationContext/ApplicationState.js';
 
 const Register = () => {
   const ApplicationContext = useApplicationState();

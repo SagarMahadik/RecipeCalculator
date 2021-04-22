@@ -1,10 +1,5 @@
 import axios from 'axios';
-import { useQuery, useQueryClient } from 'react-query';
-
-import {
-  useApplicationDispatch,
-  useApplicationState
-} from 'Context/ApplicationContext/ApplicationState.js';
+import { useQuery } from 'react-query';
 
 import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 
@@ -23,7 +18,7 @@ export default function useRecipes(userID) {
   };
 
   const {
-    data: appRecipes,
+    data: recipeData,
     isSuccess: recipeFetchSuccess,
     isError,
     error
@@ -31,13 +26,16 @@ export default function useRecipes(userID) {
     ['recipes', userID],
     () => getRecipes(userID),
     {
-      // Refetch the data every second
       onSuccess: data => {
-        sendStepStatusRequest(
-          `${userID}`,
-          `Recipes fetched successfully for ${userID}`,
-          'success'
-        );
+        if (userID === '') {
+          return true;
+        } else {
+          sendStepStatusRequest(
+            `${userID}`,
+            `Recipes fetched successfully for ${userID}`,
+            'success'
+          );
+        }
       }
     },
     {
@@ -50,5 +48,5 @@ export default function useRecipes(userID) {
     }
   );
 
-  return { appRecipes, recipeFetchSuccess, isError, error };
+  return { recipeData, recipeFetchSuccess, isError, error };
 }

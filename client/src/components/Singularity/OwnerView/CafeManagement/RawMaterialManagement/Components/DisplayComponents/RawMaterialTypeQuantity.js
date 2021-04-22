@@ -1,24 +1,22 @@
 import React from 'react';
+
 import {
   RawMMainContainer,
   RawMTypeContainer,
   RawMTypeOptionContainer
 } from 'styles/Singularity/OwnerView/CafeManagement/RawMaterialManagement';
+import StyledRadioButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledRadioButton.js';
+import FormSectionHeading from 'components/Singularity/ApplicationView/FormHeadings/FormSectionHading.js';
+import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
+import {
+  requiredBaseQuantity,
+  requiredRawMaterialName
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/ErrorMessages/index.js';
 
 import {
   useRawMaterialsState,
   useRawMaterialsDispatch
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
-
-import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
-import FormSectionHeading from 'components/Singularity/ApplicationView/FormHeadings/FormSectionHading.js';
-
-import StyledRadioButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledRadioButton.js';
-
-import {
-  requiredBaseQuantity,
-  requiredRawMaterialName
-} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/ErrorMessages/index.js';
 
 const RawMaterialTypeQuantity = () => {
   const {
@@ -49,13 +47,14 @@ const RawMaterialTypeQuantity = () => {
         requiredErrorText={requiredRawMaterialName}
       />
       <RawMTypeContainer>
-        {rawMaterialTypeDetails.map((detail, index) => {
+        {rawMaterialTypeDetails.map(({ tag, type }, index) => {
           return (
             <StyledRadioButton
-              value={detail.tag}
-              selected={rawMaterialType === `${detail.tag}`}
+              key={index}
+              value={tag}
+              selected={rawMaterialType === `${tag}`}
               onClick={handleChangeForRawMaterialType}
-              display={detail.type}
+              display={type}
             />
           );
         })}

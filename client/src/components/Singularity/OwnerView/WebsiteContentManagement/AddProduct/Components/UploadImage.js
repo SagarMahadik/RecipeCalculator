@@ -1,18 +1,14 @@
 import React, { Fragment, useContext, useEffect, useRef } from 'react';
 
 import {
-  TextBox,
-  TextParagraph,
   UploadButton,
-  UploadLabel,
   UploadIcon,
   UploadFileInput,
-  AttachmentImage,
   ImageContainer
 } from 'styles/Singularity/Style1.0/FormInputStyles';
 
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
-import { gsap, Bounce, TweenMax, Power3 } from 'gsap';
+import { TweenMax, Power3 } from 'gsap';
 
 import {
   FormHeadingText,
@@ -24,18 +20,11 @@ import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyl
 
 import attachmentIcon from 'img/piatto/icons/attachmenticon.png';
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
-import ScrollAnimation from 'react-animate-on-scroll';
 
 const UploadImage = React.forwardRef(props => {
   const AddProductContext = useContext(addProductContext);
 
-  const {
-    productFileName,
-    onFileSelect,
-    fileInputRef,
-    nextStep,
-    previousStep
-  } = AddProductContext;
+  const { productFileName, onFileSelect, fileInputRef } = AddProductContext;
 
   let uploadImageRef = useRef(null);
   useEffect(() => {

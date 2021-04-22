@@ -20,5 +20,11 @@ export const fontStyles = {
   },
   peageHeading: {
     pageHeadingTextFont: 'PT-Sans'
+  },
+  recipeModule: {
+    rawMaterialCard: {
+      rawMaterialCardHeaderFont: 'PT Sans',
+      rawMaterialCardTextFont: 'PT Sans'
+    }
   }
 };

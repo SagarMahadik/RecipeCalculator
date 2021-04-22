@@ -1,8 +1,5 @@
-import React, { Fragment, useContext, useEffect } from 'react';
-import { LogoImage } from 'styles/Singularity/ApplicationStyles/LogoStyles/';
-import PiattoLogo from 'img/piatto/piattoLogo.png';
-import { PageHeader } from 'styles/Singularity/ApplicationStyles/PageHeader';
-import { FullWidthDivider } from 'styles/Singularity/ApplicationStyles/PageDividerStyles';
+import React, { Fragment, useContext } from 'react';
+
 import { PTSansText } from 'styles/Singularity/ApplicationStyles/TextStyles';
 
 import { CenterAlignedColumnContainer } from 'styles/Singularity/ApplicationStyles/ContainerStyles';
@@ -13,28 +10,13 @@ import {
   UploadFileInput
 } from 'styles/Singularity/ApplicationStyles/FormStyles/InputStyles';
 
-import {
-  ActionButton,
-  ButtonText,
-  ButtonContainer,
-  PrevoiusButton
-} from 'styles/Singularity/ApplicationStyles/ButtonStyles';
-import DoneIcon from 'components/Singularity/ApplicationView/DoneIcon';
 import attachmentIcon from 'img/piatto/icons/attachmenticon.png';
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
 
 function AddProductPage2() {
   const AddProductContext = useContext(addProductContext);
 
-  const {
-    productFileName,
-    onFileSelect,
-    fileInputRef,
-    nextStep,
-    previousStep
-  } = AddProductContext;
-
-  useEffect(() => {}, []);
+  const { productFileName, onFileSelect, fileInputRef } = AddProductContext;
 
   return (
     <Fragment>

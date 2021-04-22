@@ -1,15 +1,6 @@
 import styled from 'styled-components';
-
-import { colorPalette } from 'styles/StylesLibrary/ElementalStyles/ColorPalette';
 import { fontStyles } from 'styles/StylesLibrary/ElementalStyles/FontStyles';
-
 const { inputButtonLabelTextFont, submitButtonLabelTextSize } = fontStyles;
-
-const {
-  submitButtonLabelTextColor,
-  submitButtonBorderColor,
-  submitColorBackgroundColor
-} = colorPalette;
 
 export const SubmitButtonStyle = styled.div`
   height: 56px;

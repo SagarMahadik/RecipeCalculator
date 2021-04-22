@@ -1,11 +1,10 @@
 import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
 
-import axios from 'axios';
-
 import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 
 import { useQueryClient, useMutation } from 'react-query';
 
+import axios from 'axios';
 export default function useCreateSupplier() {
   const { sendStepStatusRequest } = useStepStatusRequest();
   const { userID } = useApplicationState();
@@ -38,10 +37,7 @@ export default function useCreateSupplier() {
     createSupplier,
     {
       onSuccess: newSupplier => {
-        //queryClient.refetchQueries(['supplier', userID]);
-        console.log(queryClient.getQueryData(['supplier', userID]));
         if (queryClient.getQueryData(['supplier', userID])) {
-          console.log(queryClient.getQueryData(['supplier', userID]));
           queryClient.setQueryData(['supplier', userID], current => [
             ...current,
             newSupplier

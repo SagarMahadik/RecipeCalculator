@@ -1,11 +1,6 @@
 import React, { Fragment, useEffect, useContext } from 'react';
-import { LogoImage } from 'styles/Singularity/ApplicationStyles/LogoStyles/';
-import PiattoLogo from 'img/piatto/piattoLogo.png';
-import { PageHeader } from 'styles/Singularity/ApplicationStyles/PageHeader';
-import {
-  FullWidthDivider,
-  PartialWidthDivider
-} from 'styles/Singularity/ApplicationStyles/PageDividerStyles';
+
+import { PartialWidthDivider } from 'styles/Singularity/ApplicationStyles/PageDividerStyles';
 import {
   InputLabel,
   IconCheckBoxRound,
@@ -14,12 +9,6 @@ import {
   IconCheckBoxRoundButton,
   HiddenCheckbox
 } from 'styles/Singularity/ApplicationStyles/FormStyles/InputStyles';
-import {
-  ActionButton,
-  ButtonText,
-  PrevoiusButton,
-  ButtonContainer
-} from 'styles/Singularity/ApplicationStyles/ButtonStyles';
 
 import { PTSansText } from 'styles/Singularity/ApplicationStyles/TextStyles';
 
@@ -30,8 +19,6 @@ import {
 } from 'styles/Singularity/ApplicationStyles/ContainerStyles';
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
 
-import SidePain from 'components/Singularity/ApplicationView/WaitingIcons/SidePain';
-
 const AddProductFourthPage = React.forwardRef((props, ref) => {
   const AddProductContext = useContext(addProductContext);
 
@@ -41,10 +28,7 @@ const AddProductFourthPage = React.forwardRef((props, ref) => {
     getProductVariantData,
     handleAddOnFlavourChange,
     productVariantData,
-    handleProductVariantChange,
-    nextStep,
-    previousStep,
-    loading
+    handleProductVariantChange
   } = AddProductContext;
 
   useEffect(() => {

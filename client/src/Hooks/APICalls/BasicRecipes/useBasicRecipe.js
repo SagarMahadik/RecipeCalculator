@@ -1,10 +1,5 @@
 import axios from 'axios';
-import { useQuery, useQueryClient } from 'react-query';
-
-import {
-  useApplicationDispatch,
-  useApplicationState
-} from 'Context/ApplicationContext/ApplicationState.js';
+import { useQuery } from 'react-query';
 
 import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 
@@ -23,7 +18,7 @@ export default function useBasicRecipes(userID) {
   };
 
   const {
-    data: basicRecipes,
+    data: basicRecipesData,
     isSuccess: basicRecipeFetchSuccess,
     isError,
     error
@@ -31,13 +26,16 @@ export default function useBasicRecipes(userID) {
     ['basicRecipes', userID],
     () => getRawMaterialRate(userID),
     {
-      // Refetch the data every second
       onSuccess: data => {
-        sendStepStatusRequest(
-          `${userID}`,
-          `Basic Recipes fetched successfully for ${userID}`,
-          'success'
-        );
+        if (userID === '') {
+          return true;
+        } else {
+          sendStepStatusRequest(
+            `${userID}`,
+            `Basic Recipes fetched successfully for ${userID}`,
+            'success'
+          );
+        }
       }
     },
     {
@@ -50,5 +48,5 @@ export default function useBasicRecipes(userID) {
     }
   );
 
-  return { basicRecipes, basicRecipeFetchSuccess, isError, error };
+  return { basicRecipesData, basicRecipeFetchSuccess, isError, error };
 }

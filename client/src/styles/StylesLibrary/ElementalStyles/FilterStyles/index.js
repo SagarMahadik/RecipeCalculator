@@ -4,8 +4,7 @@ const { bottomInnerShadowColor } = colorPalette;
 
 export const filterStyles = {
   dark: {
-    frameShadowEffect: `inset -2px -2px 8px #504B3E, 
-  inset 4px 4px 8px 2px ${bottomInnerShadowColor}`,
+    frameShadowEffect: `inset -2px -2px 8px #504B3E, inset 4px 4px 8px 2px #000000;`,
     pageHeading: {
       pageHeadingShadowEffect: `inset -2px -2px 8px #504B3E, 
   inset 4px 4px 8px 2px ${bottomInnerShadowColor}`,
@@ -14,22 +13,29 @@ export const filterStyles = {
       pageHeadingTextFilter: 'blur(0.3px)'
     },
     textBox: {
-      textBoxShadowEffect: `6px 6px 8px rgba(0, 0, 0, 0.5), inset -4px -4px 6px #8E865D, inset 4px 5px 6px rgba(0, 0, 0, 0.75)`
+      textBoxShadowEffect: `2px -2px 4px rgba(0, 0, 0, 0.5), 4px 4px 8px #000000, inset -3px -3px 4px rgba(255, 255, 255, 0.25), inset 3px 3px 4px rgba(0, 0, 0, 0.75)`
     },
     formShortDivider: {
       formShortDividerTransform: 'rotate(-0.22deg)'
     },
     submitButton: {
       submitButtonBoxShadow:
-        ' 4px 4px 16px 5px rgba(0, 0, 0, 0.75),-3px -2px 16px 4px rgba(255, 255, 255, 0.75)'
+        ' 4px 4px 16px 5px #000000, -3px -2px 16px 4px rgba(255, 255, 255, 0.8)'
     },
     inputButton: {
-      inputButtonBoxShadow: `4px 4px 4px rgba(0, 0, 0, 0.5),
-      inset 0px 4px 4px rgba(0, 0, 0, 0.75)`
+      inputButtonBoxShadow: `inset -2px -2px 4px rgba(255, 255, 255, 0.25), inset 2px 2px 4px #000000`,
+      inputButtonSelectedBoxShadow:
+        '4px 4px 8px #000000, inset -2px -2px 2px rgba(255, 255, 255, 0.25), inset 2px 2px 3px #2F2F2F'
+    },
+    resetButton: {
+      resetButtonLabelTextShadow: ' 4px 4px 4px 0px #000000 30%',
+      resetButtonBoxShadow:
+        'inset -4px -4px 6px rgba(0, 0, 0, 0.5), inset 4px 5px 6px rgba(0, 0, 0, 0.49)',
+      resetButtonDropShadow: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))'
     },
     searchResult: {
       searchResultBoxShadow:
-        '4px 4px 8px 2px rgba(0, 0, 0, 0.75),-2px -2px 8px 2px rgba(255, 255, 255, 0.5)'
+        '-2px -2px 4px rgba(0, 0, 0, 0.25), 4px 4px 4px rgba(0, 0, 0, 0.5)'
     },
     navigationCard: {
       navigationCardBoxShadow: '4px 4px 16px 5px rgba(0, 0, 0, 0.75)',
@@ -60,6 +66,13 @@ export const filterStyles = {
       inputButtonBoxShadow: `inset -4px -4px 8px #FFFFFF, inset 4px 4px 8px rgba(0, 0, 0, 0.25)`,
       inputButtonSelectedBoxShadow:
         '-4px -4px 8px #FFFFFF, 4px 4px 8px 2px rgba(0, 0, 0, 0.25)'
+    },
+    resetButton: {
+      resetButtonLabelTextShadow: '4px 4px 4px rgba(0, 0, 0, 0.3)',
+      resetButtonBoxShadow:
+        'inset -4px -4px 6px #ffffff, inset 4px 5px 6px #c1c5d2',
+      resetButtonDropShadow:
+        'drop-shadow(-4px -4px 8px #ffffff), drop-shadow(4px 4px 8px #b9bdcb)'
     },
     searchResult: {
       searchResultBoxShadow:

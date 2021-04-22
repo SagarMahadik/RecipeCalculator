@@ -6,9 +6,6 @@ import React, {
   useRef
 } from 'react';
 import {
-  TextBox,
-  TextParagraph,
-  UplaodButton,
   ItemDescription,
   IconBorderCircle,
   RadioButtonIcon,

@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
-import { rawMaterialManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
+import React from 'react';
 
 import StyledSubmitButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledSubmitButton.js';
 
-const SubmitRawMaterial = () => {
-  const RawMaterialManagementContext = useContext(rawMaterialManagementContext);
+import { useRawMaterialsState } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
 
-  const { onSubmit } = RawMaterialManagementContext;
+const SubmitRawMaterial = () => {
+  const { onSubmit } = useRawMaterialsState();
 
   return <StyledSubmitButton onClick={onSubmit} text="Add Raw Material" />;
 };

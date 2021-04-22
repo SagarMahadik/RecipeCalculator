@@ -26,6 +26,7 @@ const {
       inputButtonSelectedBackground,
       inputButtonSelectedLabelTextColor
     },
+    resetButton: { resetButtonLabelColor, resetButtonBackgroundColor },
     searchResults: { searchResultContainerBackgroundColor, searchResultColor },
     navigationCard: { navigationCardBorderColor }
   }
@@ -43,6 +44,11 @@ const {
     formShortDivider: { formShortDividerBoxShadow },
     submitButton: { submitButtonBoxShadow },
     inputButton: { inputButtonBoxShadow, inputButtonSelectedBoxShadow },
+    resetButton: {
+      resetButtonLabelTextShadow,
+      resetButtonBoxShadow,
+      resetButtonDropShadow
+    },
     searchResult: { searchResultBoxShadow },
     navigationCard: { navigationCardBoxShadow, navigationCardTextShadow }
   }
@@ -53,7 +59,8 @@ const {
     inputTextBoxBorder,
     formShortDivider: { formShortDividerBorder },
     PageContentContainer: { pageContentContainerBorder },
-    inputButton: { inputButtonBorder }
+    inputButton: { inputButtonBorder },
+    resetButton: { resetButtonBorder }
   }
 } = borderStyles;
 
@@ -80,7 +87,9 @@ export const whiteTheme = {
     inputButtonSelectedLabelTextColor,
     searchResultContainerBackgroundColor,
     searchResultColor,
-    navigationCardBorderColor
+    navigationCardBorderColor,
+    resetButtonLabelColor,
+    resetButtonBackgroundColor
   },
   filters: {
     frameShadowEffect,
@@ -92,6 +101,9 @@ export const whiteTheme = {
     submitButtonBoxShadow,
     inputButtonBoxShadow,
     inputButtonSelectedBoxShadow,
+    resetButtonLabelTextShadow,
+    resetButtonBoxShadow,
+    resetButtonDropShadow,
     searchResultBoxShadow,
     navigationCardBoxShadow,
     navigationCardTextShadow
@@ -100,6 +112,7 @@ export const whiteTheme = {
     inputTextBoxBorder,
     formShortDividerBorder,
     pageContentContainerBorder,
-    inputButtonBorder
+    inputButtonBorder,
+    resetButtonBorder
   }
 };

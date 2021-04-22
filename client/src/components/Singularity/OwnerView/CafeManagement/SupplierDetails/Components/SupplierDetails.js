@@ -1,14 +1,15 @@
 import React from 'react';
+import {
+  useSupplierDetailsState,
+  useSupplierDetailsDispatch
+} from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/SupplierDetailsState.js';
 
 import { RawMMainContainer } from 'styles/Singularity/OwnerView/CafeManagement/RawMaterialManagement';
 import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
 import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
 import StyledTextParagraphLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextParagraph.js';
-import {
-  useSupplierDetailsState,
-  useSupplierDetailsDispatch
-} from 'components/Singularity/OwnerView/CafeManagement/SupplierDetails/State/SupplierDetailsState.js';
-const RawMaterialDetails = () => {
+
+const SupplierDetails = () => {
   const {
     supplierName,
     supplierPersonDetails,
@@ -103,4 +104,4 @@ const RawMaterialDetails = () => {
   );
 };
 
-export default RawMaterialDetails;
+export default SupplierDetails;

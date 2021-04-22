@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { navigationDetails } from './navigationSeed';
+import React, { useEffect } from 'react';
+
 import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';
 import NavigationCard from 'components/Singularity/ApplicationView/MoleculeComponent/NavigationCard';
+import { navigationDetails } from './navigationSeed';
 import { MainContentContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index.js';
-import SuccessSound from 'components/Singularity/ApplicationSounds/SuccessSound.js';
-import {
-  useApplicationState,
-  useApplicationDispatch
-} from 'Context/ApplicationContext/ApplicationState.js';
 
 import {
   StaggerAnimationParentContainer,
@@ -15,21 +11,24 @@ import {
   container,
   listItem
 } from 'styles/Singularity/Style1.0/FramerAnimations';
-
 import {
   PageAnimationContainer,
   pageTransition,
   pageVariant
 } from 'styles/Singularity/Style1.0/FramerAnimations';
 
-import { useQueryClient } from 'react-query';
+import SuccessSound from 'components/Singularity/ApplicationSounds/SuccessSound.js';
+
+import {
+  useApplicationState,
+  useApplicationDispatch
+} from 'Context/ApplicationContext/ApplicationState.js';
 
 const Navigation = () => {
   const {
     isAuthenticated,
     playWelcomTone,
-    welcomeTonePlayedCount,
-    userID
+    welcomeTonePlayedCount
   } = useApplicationState();
 
   const dispatch = useApplicationDispatch();
@@ -67,19 +66,21 @@ const Navigation = () => {
             initial="hidden"
             animate="show"
           >
-            {navigationDetails.map(detail => {
-              return (
-                <StaggerAnimationChildContainer variants={listItem}>
-                  <NavigationCard
-                    backgroundcolor={detail.backgroundGradient}
-                    component={detail.component}
-                    route={detail.route}
-                    key={detail.route}
-                    className="card"
-                  />
-                </StaggerAnimationChildContainer>
-              );
-            })}
+            {navigationDetails.map(
+              ({ backgroundGradient, component, route }) => {
+                return (
+                  <StaggerAnimationChildContainer variants={listItem}>
+                    <NavigationCard
+                      backgroundcolor={backgroundGradient}
+                      component={component}
+                      route={route}
+                      key={route}
+                      className="card"
+                    />
+                  </StaggerAnimationChildContainer>
+                );
+              }
+            )}
           </StaggerAnimationParentContainer>
         </MainContentContainer>
       </PageAnimationContainer>

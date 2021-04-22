@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+
 import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
 import AppStyleButton from 'components/Singularity/ApplicationView/FormElements/Inputs/AppStyleButton.js';
-
-import { loginFields } from 'components/Singularity/OwnerView/Authentication/Components/SeedData/login.js';
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 import {
   RegisterText,
@@ -12,16 +11,16 @@ import {
   ErrorDummyTextContainer,
   ErrorDummyText
 } from 'styles/Singularity/OwnerView/Authentication';
+import { Redirect } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 
+import FormErrorSound from 'components/Singularity/ApplicationSounds/FormErrorSound.js';
+
+import { loginFields } from 'components/Singularity/OwnerView/Authentication/Components/SeedData/login.js';
 import {
   useApplicationState,
   useApplicationDispatch
 } from 'Context/ApplicationContext/ApplicationState.js';
-import { Redirect } from 'react-router-dom';
-
-import { AnimatePresence } from 'framer-motion';
-import FormErrorSound from 'components/Singularity/ApplicationSounds/FormErrorSound.js';
-import SuccessSound from 'components/Singularity/ApplicationSounds/SuccessSound.js';
 
 const Login = props => {
   const ApplicationContext = useApplicationState();

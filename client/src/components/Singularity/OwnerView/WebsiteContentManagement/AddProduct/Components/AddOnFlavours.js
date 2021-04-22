@@ -1,15 +1,8 @@
 import React, { Fragment, useEffect, useContext } from 'react';
 
 import {
-  TextBox,
-  TextParagraph,
-  UplaodButton,
   ItemDescription,
-  IconBorderCircle,
   HiddenCheckbox,
-  CoffeeIcon,
-  ImageContainer,
-  SubmitButton,
   AddIconImage,
   InputLabel,
   AddOnitemIcon
@@ -39,9 +32,6 @@ const AddOnItems = () => {
     addOnFlavourData,
     getData,
     handleAddOnFlavourChange,
-    nextStep,
-    previousStep,
-    loading,
     Category
   } = AddProductContext;
 

@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
+import axios from 'axios';
+
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 
 import {
   useApplicationState,
   useApplicationDispatch
 } from 'Context/ApplicationContext/ApplicationState.js';
-
-import axios from 'axios';
-
-import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 
 const MakeRegisterRequest = () => {
   const {

@@ -1,15 +1,6 @@
-import React, {
-  Fragment,
-  useState,
-  useEffect,
-  useContext,
-  useRef
-} from 'react';
+import React, { Fragment, useEffect, useContext, useRef } from 'react';
 
 import {
-  TextBox,
-  TextParagraph,
-  UplaodButton,
   ItemDescription,
   IconBorderCircle,
   InputLabel,
@@ -19,7 +10,6 @@ import {
 } from 'styles/Singularity/Style1.0/FormInputStyles';
 
 import {
-  CenterAlignedColumnContainer,
   IconItemGroupContainer,
   IconItemContainer,
   ProductTypeContainer
@@ -38,8 +28,8 @@ import nonVegIcon from 'img/piatto/icons/nonvegicon.svg';
 import eggIcon from 'img/piatto/icons/candy.svg';
 
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
-import ScrollAnimation from 'react-animate-on-scroll';
-import { gsap, Bounce, TweenMax, Power2, Power3 } from 'gsap';
+
+import { Bounce, TweenMax, Power2, Power3 } from 'gsap';
 const ProductType = () => {
   const AddProductContext = useContext(addProductContext);
 

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import axios from '../../node_modules/axios/index';
+import axios from 'axios';
 
 export const useStepStatusRequest = () => {
   const [stepStatusError, setError] = useState();
@@ -11,6 +11,9 @@ export const useStepStatusRequest = () => {
       status,
       config = { headers: { 'Content-Type': 'application/JSON' } }
     ) => {
+      if (userId === '') {
+        return true;
+      }
       const body = JSON.stringify({
         userId,
         step,

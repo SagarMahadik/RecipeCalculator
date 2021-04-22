@@ -33,6 +33,8 @@ export const PageHeadingsContainer = styled.div`
   box-shadow: ${({ theme: { filters } }) => filters.frameShadowEffect};
   border: ${({ theme: { borders } }) => borders.pageContentContainerBorder};
   border-radius: 5px;
+  background: url('https://res.cloudinary.com/antilibrary/image/upload/v1612561378/MattBackground_zcz2ma.jpg')
+    repeat;
 `;
 
 export const PageHeadingText = styled.h1`

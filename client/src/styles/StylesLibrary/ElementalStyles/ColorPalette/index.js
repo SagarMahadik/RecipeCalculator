@@ -6,43 +6,48 @@ export const colorPalette = {
       pageHeadingTextColor: '#9b740f'
     },
     textBox: {
-      textBoxBackgroundColor: '#514E4E',
-      textBoxTextColor: 'CEA42B',
+      textBoxBackgroundColor:
+        'linear-gradient(98.22deg, #3A3838 5.28%, #292929 91.14%)',
+      textBoxTextColor: '#B67C7C',
       textBoxBorderColor: '#514E4E',
-      labelTextColor: '#CEA42B'
+      labelTextColor: '#B67C7C'
     },
     formSectionHeading: {
-      formSectionHeadingTextColor: '#cea42b'
+      formSectionHeadingTextColor: '#B67C7C'
     },
     formShortDivider: {
-      formShortDividerBorderColor: '#CEA42B'
+      formShortDividerBorderColor: '#B67C7C'
     },
     submitButton: {
       submitButtonBackgroundColor:
-        'linear-gradient(239.3deg, #FFBF00 7.24%, #968043 94.99%)',
+        'linear-gradient(98.09deg, #433E3E 20.1%, #281C1C 91.17%)',
       submitButtonBorderColor:
-        'linear-gradient(97.46deg,rgba(0, 0, 0, 0.2) -12.11%,rgba(0, 0, 0, 0) 69.13%)',
+        'linear-gradient(296.37deg, #8C574C -4.5%, #A96A5B 58.95%, #BE7E67 105.26%)',
       submitButtonLabelTextColor:
-        'linear-gradient(252.58deg, #000000 5.85%, #5A4405 84.36%)'
+        'linear-gradient(98.05deg, #F9F0C1 9.43%, #EAB6B6 50.94%, #49ECD8 123.29%)'
     },
     inputButton: {
       inputButtonBackground:
-        ' linear-gradient( 297.96deg,#cea42b -35.52%,rgba(81, 78, 78, 0.54) 46.28%,#514e4e 105.97%)',
-      inputButtonBorderBackground:
-        'linear-gradient(104.57deg, #cea42b 4.97%, #514e4e 66.37%)',
+        'linear-gradient(98.22deg, #3A3838 5.28%, #292929 91.14%)',
+      inputButtonBorderBackground: '',
       inputButtonLabelBackgound:
-        'linear-gradient(79.77deg, #fce07d 20.09%, #cea42b 97.67%)',
+        ' linear-gradient(275.44deg, #8C574C -3.82%, #BE7E67 87.09%)',
       inputButtonShadowColor: 'rgba(0, 0, 0, 0.75)',
       inputButtonSelectedBackground:
-        'linear-gradient(241.46deg, #FFCF40 30.65%, rgba(0, 0, 0, 1) 194.02%)',
-      inputButtonSelectedBorderBackground:
-        'linear-gradient(286.5deg, #221F1F 32.98%, #FFBD00 89.43%)',
+        'linear-gradient(288.87deg, #7E4A3F 19.07%, #D99A84 68.35%)',
+      inputButtonSelectedBorderBackground: '',
       inputButtonSelectedLabelTextColor:
-        'linear-gradient(252.0deg, #000000 5.85%, #5A4405 84.36%)'
+        'linear-gradient(74.51deg, #000000 -3.3%, #444241 129.36%)'
+    },
+    resetButton: {
+      resetButtonLabelColor:
+        'linear-gradient(278.38deg, #5A9393 30.83%, #6BD5E3 66.37%)',
+      resetButtonBackgroundColor:
+        'linear-gradient(100.43deg, #4A48AA 5.51%, rgba(74, 72, 170, 0) 142.67%)'
     },
     searchResults: {
-      searchResultContainerBackgroundColor: '#514e4e',
-      searchResultColor: '#CEA42B'
+      searchResultContainerBackgroundColor: '#443E3E',
+      searchResultColor: '#AB715F'
     },
     navigationCard: {
       navigationCardBorderColor:
@@ -85,6 +90,12 @@ export const colorPalette = {
       inputButtonSelectedBackground: '#E0E4E9',
       inputButtonSelectedLabelTextColor:
         ' linear-gradient(279.96deg, #AB7070 -16.21%, rgba(255, 0, 0, 0.37) 134.55%)'
+    },
+    resetButton: {
+      resetButtonLabelColor:
+        'linear-gradient(98.37deg,#494343 3.9%,rgba(19, 17, 17, 0.35) 103.75%)',
+      resetButtonBackgroundColor:
+        'linear-gradient(99.47deg,#c8eff1 1.24%,rgba(44, 242, 255, 0) 163.38%)'
     },
     searchResults: {
       searchResultContainerBackgroundColor: ' #E7EAEF',

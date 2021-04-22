@@ -48,7 +48,10 @@ export const InputButtonStyle = styled.div`
       ? `${filters.inputButtonSelectedBoxShadow}`
       : ` ${filters.inputButtonBoxShadow}`};
 
-  border: ${({ theme: { borders } }) => borders.inputButtonBorder};
+  border: ${({ selected, theme: { borders } }) =>
+    selected
+      ? `${borders.inputButtonSelectedBorder}`
+      : `${borders.inputButtonBorder}`};
 `;
 
 export const InputButtonLabel = styled.h1`

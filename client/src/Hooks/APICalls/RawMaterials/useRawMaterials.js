@@ -1,28 +1,15 @@
 import axios from 'axios';
-import { useQuery, useQueryClient } from 'react-query';
-
-import {
-  useApplicationDispatch,
-  useApplicationState
-} from 'Context/ApplicationContext/ApplicationState.js';
+import { useQuery } from 'react-query';
 
 import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 
 export default function useRawMaterialRate(userID) {
-  // const dispatch = useApplicationDispatch();
-
   const { sendStepStatusRequest } = useStepStatusRequest();
 
-  //const { userID } = useApplicationState();
-
-  //const userID = 9921514875;
-
   const getRawMaterialRate = async userID => {
-    console.log(userID);
     if (userID === '') {
       return true;
     } else {
-      //dispatch({ type: 'SET_RAWMATERIALS', payload: [] });
       const response = await axios.get(`/api/v1/rawMaterial/${userID}`, {
         headers: { Authorization: `Bearer ${localStorage.token}` }
       });
@@ -31,10 +18,8 @@ export default function useRawMaterialRate(userID) {
     }
   };
 
-  //console.log(queryClient.getQueryData('supplier'));
-
   const {
-    data: rawMaterials,
+    data: rawMaterialData,
     isSuccess: rawMaterialFetchSuccess,
     isError,
     error
@@ -42,13 +27,16 @@ export default function useRawMaterialRate(userID) {
     ['RawMaterials', userID],
     () => getRawMaterialRate(userID),
     {
-      // Refetch the data every second
       onSuccess: data => {
-        sendStepStatusRequest(
-          `${userID}`,
-          `Raw Materials fetched successfully for ${userID}`,
-          'success'
-        );
+        if (userID === '') {
+          return true;
+        } else {
+          sendStepStatusRequest(
+            `${userID}`,
+            `Raw Materials fetched successfully for ${userID}`,
+            'success'
+          );
+        }
       }
     },
     {
@@ -62,5 +50,5 @@ export default function useRawMaterialRate(userID) {
     { staleTime: 10000 }
   );
 
-  return { rawMaterials, rawMaterialFetchSuccess, isError, error };
+  return { rawMaterialData, rawMaterialFetchSuccess, isError, error };
 }

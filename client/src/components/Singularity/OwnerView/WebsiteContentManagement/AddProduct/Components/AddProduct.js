@@ -1,14 +1,6 @@
-import React, {
-  Fragment,
-  useState,
-  useEffect,
-  useRef,
-  useContext
-} from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 
 import { useLocation } from 'react-router-dom';
-
-import { SlideInRight } from 'styles/Singularity/Style1.0/Animations';
 
 import { Background } from 'styles/Singularity/Style1.0/ApplicationStyles';
 import Category from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/Components/Category.js';
@@ -22,17 +14,11 @@ import ProductVariant from 'components/Singularity/OwnerView/WebsiteContentManag
 import NutritionalFacts from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/Components/NutritionalFacts.js';
 import ReviewPage from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/Components/PreviewPage.js';
 
-import {
-  CenterAlignedColumnContainer,
-  CenterAlignedRowContainer,
-  CategoryContainer,
-  SubCategoryContainer
-} from 'styles/Singularity/Style1.0/ContainerStyles';
+import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles';
 import Ball from 'components/Singularity/ApplicationView/Loaders/Ball';
 
 import FormHeadings from 'components/Singularity/ApplicationView/FormHeadings';
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
-import Sleepy from 'components/Singularity/ApplicationView/WaitingIcons/Sleepy';
 import 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/styles/index.css';
 import { MainProductConatiner } from 'styles/Singularity/Style1.0/Animations';
 
@@ -76,7 +62,7 @@ function AddProduct() {
     productStatusData,
     addOnitemData,
     selectedCategory,
-    isFileUploadVisible,
+
     productPrice,
     productFileName,
     cuisine,

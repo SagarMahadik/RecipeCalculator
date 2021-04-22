@@ -37,6 +37,6 @@ export const FormShortDividerBorder = styled.div`
   width: 70%;
   border: ${({ theme: { borders } }) => borders.formShortDividerBorder};
   transform: ${({ theme: { filters } }) => filters.formShortDividerTransform};
-  filter: blur(1px);
+  filter: blur(0.8px);
   box-shadow: ${({ theme: { filters } }) => filters.formShortDividerBoxShadow};
 `;

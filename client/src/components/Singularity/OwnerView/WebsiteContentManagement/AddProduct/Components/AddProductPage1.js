@@ -1,16 +1,13 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
 
-import { LogoImage } from 'styles/Singularity/ApplicationStyles/LogoStyles/';
-
 import Logo from 'components/Singularity/ApplicationView/Logo.js';
-import PiattoLogo from 'img/piatto/piattoLogo.png';
+
 import { PageHeader } from 'styles/Singularity/ApplicationStyles/PageHeader';
 import { FullWidthDivider } from 'styles/Singularity/ApplicationStyles/PageDividerStyles';
 import {
   InputLabel,
   InputText,
   InputTextContainer,
-  UploadImageBackground,
   InputParagraph,
   InputSelect,
   InputOption
@@ -18,26 +15,9 @@ import {
 
 import { PTSansText } from 'styles/Singularity/ApplicationStyles/TextStyles';
 
-import {
-  ActionButton,
-  ButtonText,
-  ButtonContainer
-} from 'styles/Singularity/ApplicationStyles/ButtonStyles';
 import { CenterAlignedColumnContainer } from 'styles/Singularity/ApplicationStyles/ContainerStyles';
-import {
-  Background,
-  LandingPageContainer,
-  LandingPageContentContainer,
-  ContentContainer,
-  Content,
-  Button,
-  Quote,
-  AuthorName
-} from 'styles/Singularity/CustomerView/LandingPage';
 
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
-
-import CoffeeIcon from 'components/Singularity/ApplicationView/WaitingIcons/Coffee';
 
 const AddProductPage1 = React.forwardRef((props, ref) => {
   const AddProductContext = useContext(addProductContext);
@@ -50,13 +30,8 @@ const AddProductPage1 = React.forwardRef((props, ref) => {
     crossSellPitch,
     productPrice,
     categoryData,
-    loading,
-    step,
-    nextStep,
-    previousStep,
     handleChangeFor,
     isSubCategory,
-    getCategoryData,
     selectedCategory,
     handleChange
   } = AddProductContext;

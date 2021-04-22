@@ -1,29 +1,26 @@
 import React from 'react';
 
-import {
-  useRawMaterialsState,
-  useRawMaterialsDispatch
-} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
-
+import StyledRadioButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledRadioButton.js';
+import FormSectionHeading from 'components/Singularity/ApplicationView/FormHeadings/FormSectionHading.js';
+import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
+import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
+import { ErrorText } from 'styles/Singularity/OwnerView/Authentication/index.js';
 import {
   RawMMainContainer,
   GSTOptionContainer,
   PriceOptionContainer
 } from 'styles/Singularity/OwnerView/CafeManagement/RawMaterialManagement';
-import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
-
-import FormSectionHeading from 'components/Singularity/ApplicationView/FormHeadings/FormSectionHading.js';
-
-import StyledRadioButton from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledRadioButton.js';
-import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
-import { ErrorText } from 'styles/Singularity/OwnerView/Authentication/index.js';
-
 import {
   requireRawMaterialGST,
   requiredRawMaterialPrice,
   requiredRawMaterialStatePriceInfo
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/ErrorMessages/index.js';
 import { CenterAlignedColumnContainer } from 'styles/Singularity/Style1.0/ContainerStyles/index';
+
+import {
+  useRawMaterialsState,
+  useRawMaterialsDispatch
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
 
 const PriceGSTDetails = () => {
   const {

@@ -34,7 +34,6 @@ import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyl
 
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
 
-import ScrollAnimation from 'react-animate-on-scroll';
 import animation from 'styles/Singularity/GSAPAnimations';
 
 const ProductStatus = () => {

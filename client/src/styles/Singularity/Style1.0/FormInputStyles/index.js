@@ -18,7 +18,6 @@ export const TextBox = styled.input`
   box-sizing: border-box;
   transition: border-width 0.6s linear;
   text-indent: 8px;
-  filter: ${styles.inputShadowFilter};
   &:focus {
     outline: none;
     border: 2px solid ${styles.selectedBorderColor};
@@ -265,15 +264,11 @@ export const TextRadioButton = styled.button`
     props.selected
       ? `${styles.buttonBackgroundGradient}`
       : `${styles.formContentColor}`};
-  filter: ${styles.inputShadowFilter};
   border-radius: 20px;
   margin: 6px;
   outline: none;
-
   border: ${props =>
-    props.selected
-      ? `0.1px solid ${styles.themecolor}`
-      : `0.1px solid ${styles.themecolor}`};
+    props.selected ? '4px solid #6e5dcc' : '4px solid rgba(255, 0, 0, 0.0)'};
   transition: all ease-out 0.8s;
 
   &:active {

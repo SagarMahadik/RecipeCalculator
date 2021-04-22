@@ -1,15 +1,14 @@
 import React from 'react';
 
+import { RawMMainContainer } from 'styles/Singularity/OwnerView/CafeManagement/RawMaterialManagement';
+import { requiredRawMaterialName } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/ErrorMessages';
+import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
+import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
+
 import {
   useRawMaterialsState,
   useRawMaterialsDispatch
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
-
-import { RawMMainContainer } from 'styles/Singularity/OwnerView/CafeManagement/RawMaterialManagement';
-import { PartialWidthDivider } from 'styles/Singularity/Style1.0/PageDividerStyles';
-import StyledTextBoxLabel from 'components/Singularity/ApplicationView/FormElements/Inputs/StyledTextBoxLabel.js';
-
-import { requiredRawMaterialName } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/ErrorMessages';
 
 const RawMaterialDetails = () => {
   const {

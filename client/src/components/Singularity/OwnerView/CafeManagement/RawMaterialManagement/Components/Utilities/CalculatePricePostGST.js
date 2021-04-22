@@ -1,18 +1,16 @@
 import React, { useEffect } from 'react';
 
 import {
-  useRawMaterialsState,
-  useRawMaterialsDispatch
-} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
-
-import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
-
-import {
   calcualatePriceWithoutGST,
   calculatePriceWithGST
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/utils.js';
-
 import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
+
+import {
+  useRawMaterialsState,
+  useRawMaterialsDispatch
+} from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState.js';
+import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
 
 const CalculatePricePostGST = () => {
   const dispatch = useRawMaterialsDispatch();
@@ -34,7 +32,7 @@ const CalculatePricePostGST = () => {
       handlePriceGST(rawMaterialStatePrice, rawMaterialGSTPercent);
       sendStepStatusRequest(
         `${userID}`,
-        'Initiated Price calculation for POST Raw material request'
+        'Initiated Price calculation for create Raw material request'
       );
     }
   }, [validationsCompleted]);
@@ -48,7 +46,7 @@ const CalculatePricePostGST = () => {
       });
       sendStepStatusRequest(
         `${userID}`,
-        'Completed Price calculation for POST Raw material request'
+        'Completed Price calculation for create Raw material request'
       );
     }
 
@@ -63,7 +61,7 @@ const CalculatePricePostGST = () => {
       });
       sendStepStatusRequest(
         `${userID}`,
-        'Completed Price calculation for POST Raw material request'
+        'Completed Price calculation for create Raw material request'
       );
     }
     if (rawMaterialStatePriceGST === 'woGST') {
@@ -77,7 +75,7 @@ const CalculatePricePostGST = () => {
       });
       sendStepStatusRequest(
         `${userID}`,
-        'Completed Price calculation for POST Raw material request'
+        'Completed Price calculation for create Raw material request'
       );
     }
   };
@@ -90,14 +88,14 @@ const CalculatePricePostGST = () => {
         });
         sendStepStatusRequest(
           `${userID}`,
-          'Initiate POST Raw material request'
+          'Initiate create Raw material request'
         );
       }
       if (supplierID === '') {
         dispatch({
           type: 'INITIATE_SUPPLIERPOST'
         });
-        sendStepStatusRequest(`${userID}`, 'Initiate POST Supplier request');
+        sendStepStatusRequest(`${userID}`, 'Initiate create Supplier request');
       }
     }
   }, [priceUpdated]);

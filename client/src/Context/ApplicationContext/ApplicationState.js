@@ -1,4 +1,7 @@
 import React, { useReducer, useEffect, useContext } from 'react';
+import axios from 'axios';
+import { ThemeProvider } from 'styled-components';
+
 import {
   applicationContext,
   applicationDispatchContext
@@ -12,19 +15,10 @@ import {
 } from 'Context/ApplicationContext/types.js';
 
 import { useHttpClient } from 'Hooks/httpsHooks';
-
 import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
-
-import axios from 'axios';
-
 import { submitVibrations } from 'Utils/vibrations';
-
-import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
-
 import { whiteTheme } from 'styles/StylesLibrary/Themes/whiteTheme.js';
-
 import { darkTheme } from 'styles/StylesLibrary/Themes/darkTheme.js';
-
 import setAuthToken from 'Utils/setAuthToken.js';
 
 import useRawMaterialRate from 'Hooks/APICalls/RawMaterials/useRawMaterialRate.js';
@@ -158,84 +152,31 @@ function ApplicationState(props) {
 
   const { data: rawMaterialRate } = useRawMaterialRate(userID);
 
-  const { rawMaterials, rawMaterialFetchSuccess } = useRawMaterials(userID);
+  const { rawMaterialData, rawMaterialFetchSuccess } = useRawMaterials(userID);
 
-  const { basicRecipes: data, basicRecipeFetchSuccess } = useBasicRecipes(
-    userID
-  );
+  const { basicRecipesData, basicRecipeFetchSuccess } = useBasicRecipes(userID);
 
-  const { appRecipes, recipeFetchSuccess, isError, error } = useRecipes(userID);
+  const { recipeData, recipeFetchSuccess, isError, error } = useRecipes(userID);
 
   useEffect(() => {
-    if (rawMaterialFetchSuccess && rawMaterials.length > 0) {
-      dispatch({ type: 'SET_RAWMATERIALS', payload: rawMaterials });
+    if (rawMaterialFetchSuccess && rawMaterialData.length > 0) {
+      dispatch({ type: 'SET_RAWMATERIALS', payload: rawMaterialData });
     }
-  }, [rawMaterialFetchSuccess, rawMaterials]);
+  }, [rawMaterialFetchSuccess, rawMaterialData]);
 
   useEffect(() => {
-    if (basicRecipeFetchSuccess && data.length > 0) {
-      dispatch({ type: 'SET_BASICRECIPES', payload: data });
+    if (basicRecipeFetchSuccess && basicRecipesData.length > 0) {
+      dispatch({ type: 'SET_BASICRECIPES', payload: basicRecipesData });
     }
-  }, [basicRecipeFetchSuccess, data]);
+  }, [basicRecipeFetchSuccess, basicRecipesData]);
   useEffect(() => {
-    if (recipeFetchSuccess && appRecipes.length > 0) {
-      dispatch({ type: 'SET_RECIPES', payload: appRecipes });
+    if (recipeFetchSuccess && recipeData.length > 0) {
+      dispatch({ type: 'SET_RECIPES', payload: recipeData });
     }
-  }, [recipeFetchSuccess, appRecipes]);
-
-  useEffect(() => {
-    if (fetchAppData) {
-      //getData(`/api/v1/supplier/${userID}`, 'SET_SUPPLIERDETAILS', 'supplier');
-      /**
-      *       getData(
-        `/api/v1/rawMaterial/${userID}`,
-        'SET_RAWMATERIALS',
-        'raw Material'
-      );
-      */
-      /**
-       *       getData(
-        `/api/v1/basicRecipe/${userID}`,
-        'SET_BASICRECIPES',
-        'basic recipe'
-      );
-       */
-      //getData(`/api/v1/recipe/${userID}`, 'SET_RECIPES', 'recipe');
-      /**
-       *       getData(
-        `/api/v1/rawMaterial/9921514875/rate`,
-        'SET_RAWMATERIALRATE',
-        'raw Material rates'
-      );
-       */
-    }
-  }, [fetchAppData]);
+  }, [recipeFetchSuccess, recipeData]);
 
   const { sendRequest } = useHttpClient();
   const { sendStepStatusRequest } = useStepStatusRequest();
-
-  const getData = async (url, typeString, module) => {
-    try {
-      let res = await sendRequest(url);
-
-      dispatch({
-        type: `${typeString}`,
-        payload: res
-      });
-
-      sendStepStatusRequest(
-        `${userID}`,
-        `Successfully fecthed ${module} data for ${userID}`,
-        'success'
-      );
-    } catch (err) {
-      sendStepStatusRequest(
-        `${userID}`,
-        `Fetching ${module} data failed for ${userID}`,
-        'failure'
-      );
-    }
-  };
 
   const setLoading = () => dispatch({ type: SET_LOADING });
 
@@ -367,7 +308,9 @@ function useApplicationState() {
   const context = useContext(applicationContext);
 
   if (context === undefined) {
-    throw new Error('useApplicationState must be used within a CountProvider');
+    throw new Error(
+      'useApplicationState must be used within a ApplicationContext Provider'
+    );
   }
   return context;
 }
@@ -376,7 +319,7 @@ function useApplicationDispatch() {
   const context = useContext(applicationDispatchContext);
   if (context === undefined) {
     throw new Error(
-      'useApplicationDispatch must be used within a CountProvider'
+      'useApplicationDispatch must be used within a applicationDispatchContext'
     );
   }
   return context;

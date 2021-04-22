@@ -1,36 +1,16 @@
-import React, { Fragment, useEffect, useContext } from 'react';
-import { LogoImage } from 'styles/Singularity/ApplicationStyles/LogoStyles/';
-import PiattoLogo from 'img/piatto/piattoLogo.png';
-import { PageHeader } from 'styles/Singularity/ApplicationStyles/PageHeader';
+import React, { Fragment, useContext } from 'react';
+
 import {
-  FullWidthDivider,
-  PartialWidthDivider
-} from 'styles/Singularity/ApplicationStyles/PageDividerStyles';
-import {
-  InputLabel,
-  IconCheckBoxRound,
-  CheckBoxIcon,
-  CheckBoxIconName,
-  IconCheckBoxRoundButton,
-  HiddenCheckbox,
-  InputTextContainer,
   TextInputRoundLabel,
   TextInputRoundLabelName,
   TextInputRound,
   RoundInputTextContainer
 } from 'styles/Singularity/ApplicationStyles/FormStyles/InputStyles';
-import {
-  ActionButton,
-  ButtonText,
-  PrevoiusButton,
-  ButtonContainer
-} from 'styles/Singularity/ApplicationStyles/ButtonStyles';
 
 import { PTSansText } from 'styles/Singularity/ApplicationStyles/TextStyles';
 
 import {
   CenterAlignedColumnContainer,
-  FlexRowContainer,
   FormSectionNameContainer
 } from 'styles/Singularity/ApplicationStyles/ContainerStyles';
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
@@ -39,21 +19,11 @@ const AddProductPage6 = () => {
   const AddProductContext = useContext(addProductContext);
 
   const {
-    addOnFlavourData,
-    getAddOnFlavourData,
-    getProductVariantData,
-    handleAddOnFlavourChange,
-    productVariantData,
-    handleProductVariantChange,
     protiens,
     calories,
     fats,
     carbohydrates,
-    handleChangeFor,
-    handleNutritionData,
-    setNutrientData,
-    previousStep,
-    nextStep
+    handleChangeFor
   } = AddProductContext;
 
   return (

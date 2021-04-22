@@ -1,17 +1,13 @@
 import React, { useContext, useEffect } from 'react';
+import { isEmpty } from 'Utils/validations.js';
 
+import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 import { rawMaterialManagementContext } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/rawMaterialManagementContext.js';
-
 import { useApplicationState } from 'Context/ApplicationContext/ApplicationState.js';
-
 import {
   useRawMaterialsState,
   useRawMaterialsDispatch
 } from 'components/Singularity/OwnerView/CafeManagement/RawMaterialManagement/State/RawMaterialManagementState';
-
-import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
-
-import { isEmpty } from 'Utils/validations.js';
 
 const RawMaterialValidations = () => {
   const {
@@ -121,7 +117,7 @@ const RawMaterialValidations = () => {
         });
         sendStepStatusRequest(
           `${userID}`,
-          'Completed validation for POST Raw material request'
+          'Completed validation for create Raw material request'
         );
       }
     } else {
@@ -137,7 +133,7 @@ const RawMaterialValidations = () => {
         });
         sendStepStatusRequest(
           `${userID}`,
-          'Completed validation for POST Raw material request'
+          'Completed validation for create Raw material request'
         );
       }
     }

@@ -1,11 +1,6 @@
 import React, { useEffect } from 'react';
 
 import {
-  useApplicationState,
-  useApplicationDispatch
-} from 'Context/ApplicationContext/ApplicationState.js';
-
-import {
   isEmpty,
   isInValidEmail,
   isInValidIndianMobileNumber,
@@ -14,6 +9,10 @@ import {
 } from 'Utils/validations.js';
 
 import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
+import {
+  useApplicationState,
+  useApplicationDispatch
+} from 'Context/ApplicationContext/ApplicationState.js';
 
 const RegisterValidations = () => {
   const { sendStepStatusRequest } = useStepStatusRequest();

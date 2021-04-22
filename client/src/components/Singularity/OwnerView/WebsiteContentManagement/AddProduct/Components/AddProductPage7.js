@@ -1,18 +1,12 @@
 import React, { Fragment, useEffect, useContext } from 'react';
-import { LogoImage } from 'styles/Singularity/ApplicationStyles/LogoStyles/';
-import PiattoLogo from 'img/piatto/piattoLogo.png';
-import { PageHeader } from 'styles/Singularity/ApplicationStyles/PageHeader';
-import {
-  FullWidthDivider,
-  PartialWidthDivider
-} from 'styles/Singularity/ApplicationStyles/PageDividerStyles';
+
+import { FullWidthDivider } from 'styles/Singularity/ApplicationStyles/PageDividerStyles';
 import {
   InputLabel,
   IconCheckBoxRound,
   CheckBoxIcon,
   CheckBoxIconName,
-  IconCheckBoxRoundButton,
-  HiddenCheckbox
+  IconCheckBoxRoundButton
 } from 'styles/Singularity/ApplicationStyles/FormStyles/InputStyles';
 import {
   ActionButton,
@@ -26,8 +20,7 @@ import { PTSansText } from 'styles/Singularity/ApplicationStyles/TextStyles';
 import {
   CenterAlignedColumnContainer,
   FlexRowContainer,
-  FlexColumnContainer,
-  FormSectionNameContainer
+  FlexColumnContainer
 } from 'styles/Singularity/ApplicationStyles/ContainerStyles';
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
 
@@ -52,7 +45,7 @@ const AddProductPage7 = () => {
 
   const {
     filesrc,
-    setNutrientData,
+
     productName,
     productDescription,
     additionalInformation,

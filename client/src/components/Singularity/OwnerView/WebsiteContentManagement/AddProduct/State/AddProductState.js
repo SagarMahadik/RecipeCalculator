@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, useEffect, useRef } from 'react';
+import React, { useReducer, useEffect, useRef } from 'react';
 import addProductReducer from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductReducer.js';
 import addProductContext from 'components/Singularity/OwnerView/WebsiteContentManagement/AddProduct/State/addProductContext.js';
 import {
@@ -8,17 +8,11 @@ import {
   UPDATE_FIELD,
   SET_PRODUCTFILEDETAILS,
   SET_FILEURL,
-  POST_ADDON,
   COMPLETE_FORM,
-  SET_CATEGORYDATA,
   SET_SLECTEDCATEGORY,
-  SET_PRODUCTSTATUSDATA,
   UPDATE_PRODUCTSTATUSDATA,
-  SET_ADDONITEMDATA,
   UPDATE_ADDONITEMDATA,
-  SET_ADDONFLAVOURDATA,
   UPDATE_ADDONFLAVOURDATA,
-  SET_PRODUCTVARIANTDATA,
   UPDATE_PRODUCTVARIANTDATA,
   UPDATE_NUTRITIONDATA,
   SET_SUBCATEGORY,

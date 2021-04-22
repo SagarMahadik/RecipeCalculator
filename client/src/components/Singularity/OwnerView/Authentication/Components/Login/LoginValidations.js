@@ -5,8 +5,6 @@ import {
   useApplicationDispatch
 } from 'Context/ApplicationContext/ApplicationState.js';
 
-import { loginFields } from 'components/Singularity/OwnerView/Authentication/Components/SeedData/login.js';
-
 import { useStepStatusRequest } from 'Hooks/setpLogHooks.js';
 
 import { isEmpty, isInValidEmail } from 'Utils/validations';
